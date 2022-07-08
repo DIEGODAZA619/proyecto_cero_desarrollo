@@ -27,7 +27,7 @@ $config['security_key_system'] = '@Beto2020';
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/proyecto_cero';
+$config['base_url'] = 'http://localhost/proyecto_cero_desarrollo';
 //$config['base_url'] = 'http://localhost/mmn_frontend/5/';
 
 

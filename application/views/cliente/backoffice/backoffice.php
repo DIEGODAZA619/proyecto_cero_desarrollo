@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center text-center">
 			
-			<!--== Notificaciones ==-->
+			<!--== Notifications ==-->
 			<?php
             if($this->UsuarioModel->MinhasNotificacoes() !== false){
 				$contNoti = 0;
@@ -16,7 +16,7 @@
                     <div class="detalle position-relative w-100">
 
                         <div class="text-end">
-                            <h2>Metabiz Notifications <span id="closeNoti"><i class="fas fa-times-circle"></i></span></h2>
+                            <h2>Metabiz <?php echo lang('title_dialog1')?> <span id="closeNoti"><i class="fas fa-times-circle"></i></span></h2>
                             <div class="linea"></div>
                         </div>
                         
@@ -37,7 +37,8 @@
 							<img src="<?php echo base_url();?>assets/imgs/plan/<?php echo $imgNotiIcon;?>"
 								 class="imgNotificaciones">
 						
-							<p><?php echo $notificacao->mensagem;?></p>
+							<!--<p><?php //echo $notificacao->mensagem;?></p>-->
+                            <p><?php echo lang('welcome_dialog1')?></p>
 							<small><?php echo TempoAtras(strtotime($notificacao->data));?></small>
 						
 						</div>
@@ -66,20 +67,20 @@
 
             
             ?>
-			<!--== Notificaciones ==-->
+			<!--== Notifications ==-->
 			
 			<!--== points ==--> 
 			
 			<div class="col-12 col-md-4 col-xl-4 p-3">
-                <h5 class="fw-normal">Today's Points</h5>
+                <h5 class="fw-normal"><?php echo lang('title_dialog2')?></h5>
                 <div class="content py-4 px-4 position-relative">
                     <div class="detalle w-100 position-relative table-responsive">
                         <table class="table table-sm table-borderless">
                             <thead class="">
                                 <tr>
                                     <!--<th>#</th>-->
-                                    <th class="text-nowrap">Left</th>
-                                    <th>Right</th>
+                                    <th class="text-nowrap"><?php echo lang('htleft_table')?></th>
+                                    <th><?php echo lang('htright_table')?></th>
                                     <!-- <th>Total</th> -->
                                 </tr>
                             </thead>
@@ -103,19 +104,24 @@
                 </div>
 
             </div>
+			
+								
 
             <div class=" col-12 col-md-4 col-xl-4 p-3">
-                <h5 class="fw-normal">Total Points</h5>
+                <h5 class="fw-normal"><?php echo lang('title_dialog3')?></h5>
                 <div class="content py-4 px-4 position-relative">
+					
+					
+								
 
                     <div class="detalle w-100 position-relative table-responsive">
                         <table class="table table-sm table-borderless">
                             <thead class="">
                                 <tr>
                                     <!--<th>#</th>-->
-                                    <th class="text-nowrap">Left</th>
-                                    <th>Right</th>
-                                    <th>Total</th>
+                                    <th class="text-nowrap"><?php echo lang('htleft_table')?></th>
+                                    <th><?php echo lang('htright_table')?></th>
+                                    <th><?php echo lang('httotal_table')?></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -140,7 +146,7 @@
             </div>
 		
 			<div class="col-12 col-md-4 col-xl-4 p-3">
-                <h5 class="fw-normal">Points to Transfer</h5>
+                <h5 class="fw-normal"><?php echo lang('title_dialog4')?></h5>
                 <div class="content py-4 px-4 position-relative">
 
                     <div class="detalle w-100 position-relative table-responsive">
@@ -148,9 +154,9 @@
                             <thead class="">
                                 <tr>
                                     <!--<th>#</th>-->
-                                    <th class="text-nowrap">Left</th>
-                                    <th>Right</th>
-                                    <th>Total</th>
+                                    <th class="text-nowrap"><?php echo lang('htleft_table')?></th>
+                                    <th><?php echo lang('htright_table')?></th>
+                                    <th><?php echo lang('httotal_table')?></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -179,8 +185,26 @@
                                             }elseif ( $suma_points_transfer > $suma_total_points ) {
                                                 $acumulado = $suma_points_transfer - $suma_total_points;
                                             }
+										
+									 
+										//echo '<pre>';
 
-                                            echo "Total points : " . number_format( $acumulado , 0, ".", "."); ?>
+										$idUsuarioPlan = $this->session->userdata('uid'); 
+										//echo "<pre>";                              
+										$planActivoUser =  verDirectosID($idUsuarioPlan);
+										//print_r($planActivoUser);
+										$dosLados = sizeof($planActivoUser);
+										//echo "</pre>";
+										
+										
+										if($dosLados>=2){                                    
+											echo lang('title_dialog3')." : " . number_format( $acumulado , 0, ".", ".");  
+										}else{
+											echo "Binary: not activated";
+										}
+									 
+
+                                            ?>
                                     </td>
                                 </tr>
 
@@ -193,7 +217,7 @@
 			
 			<!--== points ==-->
 			
-			<!--== cuadros de ganancias ==-->
+			<!--== earnings charts ==-->
 			
             <div class="col-md-6 col-xl-4 p-3">
                 <div class="content style-content py-4 px-4 position-relative">
@@ -202,7 +226,7 @@
 
                         <div class="text-end">
                             <h2><?php echo number_format(InformacoesUsuario('saldo_rendimentos'), 2, ",", "."); ?> USD</h2>
-                            <p class="fw-bold fst-italic mb-0">Profits</p>
+                            <p class="fw-bold fst-italic mb-0"><?php echo lang('profits')?></p>
                             <div class="linea"></div>
                         </div>
                         <div class="d-flex align-items-end pt-4 pb-0 justify-content-between">
@@ -212,7 +236,7 @@
 
                             <span class="way-icon verIcon"><i class="mdi mdi-cash"></i></span>
 
-                            <!--<button class="btn badge btn-secundario">Ver todo</button>-->
+                            <!--<button class="btn badge btn-secundario">View All</button>-->
                         </div>
 
 
@@ -227,7 +251,7 @@
 
                         <div class="text-end">
                             <h2> <?php echo number_format(InformacoesUsuario('saldo_indicacoes'), 2, ",", "."); ?> USD</h2>
-                            <p class="fw-bold fst-italic mb-0">Referral Bonus</p>
+                            <p class="fw-bold fst-italic mb-0"><?php echo lang('referral_bonus')?></p>
                             <div class="linea"></div>
                         </div>
                         <div class="d-flex align-items-end pt-4 pb-0 justify-content-between">
@@ -237,7 +261,7 @@
 
                             <span class="way-icon verIcon"><i class="mdi mdi-account-plus"></i></span>
 
-                            <!--<button class="btn badge btn-secundario">Ver todo</button>-->
+                            <!--<button class="btn badge btn-secundario">View All</button>-->
                         </div>
 
 
@@ -251,7 +275,7 @@
 
                         <div class="text-end">
                             <h2><?php echo PlanoCarreira(InformacoesUsuario('plano_carreira'), 'nome'); ?></h2>
-                            <p class="fw-bold fst-italic mb-0">Rank</p>
+                            <p class="fw-bold fst-italic mb-0"><?php echo lang('rank')?></p>
                             <div class="linea"></div>
                         </div>
                         <div class="d-flex align-items-end pt-4 pb-0 justify-content-between">
@@ -261,7 +285,7 @@
 
                             <span class="way-icon verIcon"><i class="mdi mdi-laptop"></i></span>
 
-                            <!--<button class="btn badge btn-secundario">Ver todo</button>-->
+                            <!--<button class="btn badge btn-secundario">View All</button>-->
                         </div>
 
 
@@ -274,9 +298,9 @@
                     <div class="detalle position-relative w-100">
 
                         <div class="text-end">
-                            <h2>Business plan</h2>
-                            <p class="fw-bold fst-italic mb-0">
-							   <?php
+                            
+							<h2>
+							<?php
                                 //echo '<pre>';
 
                                 $idUsuario = $this->session->userdata('uid'); 
@@ -291,6 +315,11 @@
                                 }
                                 ?>
 							
+							</h2>
+							
+                            <p class="fw-bold fst-italic mb-0">
+							   Business plan
+							
 							</p>
                             <div class="linea"></div>
                         </div>
@@ -299,7 +328,7 @@
 
                             <span class="way-icon verIcon"><i class="mdi mdi-align-vertical-top"></i></span>
 
-                            <!--<button class="btn badge btn-secundario">Ver todo</button>-->
+                            <!--<button class="btn badge btn-secundario">View All</button>-->
                         </div>
 
 
@@ -313,7 +342,7 @@
 
                         <div class="text-end">
                             <h2><?php echo $rede; ?></h2>
-                            <p class="fw-bold fst-italic mb-0">My Network</p>
+                            <p class="fw-bold fst-italic mb-0"><?php echo lang('my_network')?></p>
                             <div class="linea"></div>
                         </div>
                         <div class="d-flex align-items-end pt-4 pb-0 justify-content-between">
@@ -323,7 +352,7 @@
  
                             <span class="way-icon verIcon"><i class="mdi mdi-account-multiple-plus"></i></span>
 
-                            <!--<button class="btn badge btn-secundario">Ver todo</button>-->
+                            <!--<button class="btn badge btn-secundario">View All</button>-->
                         </div>
 
 
@@ -337,7 +366,7 @@
 
                         <div class="text-end">
                             <h2><?php echo consultaPatrocinador(InformacoesUsuario('id')); ?></h2>
-                            <p class="fw-bold fst-italic mb-0">Sponsor</p>
+                            <p class="fw-bold fst-italic mb-0"><?php echo lang('sponsor')?></p>
                             <div class="linea"></div>
                         </div>
                         <div class="d-flex align-items-end pt-4 pb-0 justify-content-between">
@@ -347,7 +376,7 @@
  
                             <span class="way-icon verIcon"><i class="mdi mdi-account-multiple-plus"></i></span>
 
-                            <!--<button class="btn badge btn-secundario">Ver todo</button>-->
+                            <!--<button class="btn badge btn-secundario">View All</button>-->
                         </div>
 
 
@@ -355,9 +384,9 @@
                 </div>
             </div>
 			
-			<!--== cuadros de ganancias ==-->
+			<!--== earnings charts ==-->
 			
-			<!--== tiempo plan ==-->
+			<!--== Plan time ==-->
 			<?php
             if($this->DashboardModel->PlanoAtivo() !== false){
             ?>
@@ -367,7 +396,7 @@
 
                         <div class="detalle row position-relative w-100">
                             <div class="text-end">
-                                <h2>Total Profit</h2>
+                                <h2><?php echo lang('title_dialog5')?></h2>
                                 <p class="fw-bold fst-italic mb-0">
 
                                     <?php
@@ -377,7 +406,7 @@
                                 </p>
                                 <div class="linea"></div>
                                 <?php
-                                   $porcentaje = $usrpln['ganancias'] * 100 / $usrpln['ganhos_maximo'];
+                                   $porcentaje = InformacoesUsuario('ganancias') * 100 / consultaPlanGanancias(InformacoesUsuario('id'));
                                 ?>
                             </div>
                             <div class="col-sm-3  d-flex align-items-center justify-content-center">
@@ -386,11 +415,17 @@
 
 
                                 <div>
-                                    <span style="color: white; font-size: 20px; font-weight: bold;"><?php echo ( is_nan($porcentaje) ) ? 0 : round($porcentaje); ?>%
+                                    <span style="color: white; font-size: 20px; font-weight: bold;">
+										<?php 
+				
+										$progress =  round($porcentaje); 
+										echo empty($progress)?"0": $progress;
+										
+										?>%
 
                                     </span>
                                     <span style="color: #15e0b2; font-weight: bold;">
-                                        PROGRESS
+                                        <?php echo lang('progress')?>
                                     </span>
                                 </div>
                             </div>
@@ -399,7 +434,7 @@
 
 
                                 <div class="chartPro  d-flex align-items-center justify-content-center " data-percent="<?php echo round($porcentaje) ?>">
-                                    <span><?php  echo ( is_nan($porcentaje) ) ? 0 : round($porcentaje) ; //echo round($porcentaje) ?></span>%
+                                    <span><?php  echo round($porcentaje) ; //echo round($porcentaje) ?></span>%
                                 </div>
 
 
@@ -412,7 +447,7 @@
                                 <div>
                                     <span style="color: white; font-size: 20px; font-weight: bold;">275%
                                     </span>
-                                    <span style="color: #15e0b2; font-weight: bold;">GOAL
+                                    <span style="color: #15e0b2; font-weight: bold;"><?php echo lang('goal')?>
                                     </span>
                                 </div>
 
@@ -435,13 +470,13 @@
                         <div class="detalle position-relative w-100">
 
                             <div class="text-end">
-                                <h2>Plan Time</h2>
+                                <h2><?php echo lang('title_dialog6')?></h2>
                                 <div class="linea"></div>
                             </div>
 
                             <div class="col-12 mt-3">
                                 <h1 class="light-txt" id="fim_plano"></h1>
-                                <strong class="text-uppercase">Time to expire your plan</strong>
+                                <strong class="text-uppercase"><?php echo lang('expire')?></strong>
 
                             </div>
                         </div>
@@ -450,17 +485,18 @@
             <?php
             }
             ?>
-			<!--== tiempo plan ==-->
+			<!--== Plan time ==-->
 			
 			
-			<!--== referidos directos ==-->
+			<!--== direct referrals ==-->
+			
 			<div class="col-12 col-md-12 col-lg-12 p-3" id="notiSystem">
                 <div class="content style-content py-4 px-4 position-relative">
 
                     <div class="detalle position-relative w-100">
 
                         <div class="text-end">
-                            <h2>Direct Referrals</h2>
+                            <h2><?php echo lang('title_dialog7')?></h2>
                             <div class="linea"></div>
                         </div>
                         
@@ -471,12 +507,11 @@
 									<tr>
 
 										<th class="text-nowrap">#</th>
-										<th>Name</th>
-										<th>Email</th>
-										<th>Plan</th>
-										
-										<th>Phone</th>
-										<th>Register Date</th>
+										<th><?php echo lang('ht_name')?><!--Name--></th>
+										<th><?php echo lang('ht_email')?><!--Email--></th>
+										<th><?php echo lang('ht_plan')?><!--Plan--></th>										
+										<th><?php echo lang('ht_phone')?><!--Phone--></th>
+										<th><?php echo lang('ht_date')?><!--Date--></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -542,7 +577,7 @@
             </div>
 			
 			
-			<!--== referidos directos ==-->
+			<!--== direct referrals ==-->
 			
 			
 			<!--== Recommendation Link ==-->
@@ -552,7 +587,7 @@
                     <div class="detalle position-relative w-100">
 
                         <div class="text-start">
-                            <h2 class="mb-5">Recommendation Link</h2>
+                            <h2 class="mb-5"><?php echo lang('title_dialog8')?></h2>
                             <div class="row">
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" id="textArea" value="<?php echo base_url('register/' . InformacoesUsuario('login')); ?>" />
@@ -560,7 +595,7 @@
                                 </div>
                                 <div class="col-md-4 copyLinkHome">
                                     <button onclick="copyToClipBoard()" class="btn btn-primario clipboard" data-clipboard-target="#linkIndicacao">
-                                        Copy Link
+                                        <?php echo lang('button1')?>
                                     </button>
                                 </div>
                             </div>
@@ -582,20 +617,20 @@
 
                     <div class="detalle w-100 position-relative">
                         <p class="alerta p-2 text-white text-center text-small">
-                        Change the binary key and control every user on your network.
+                        <?php echo lang('button2')?>
                         </p>
                         <div class="opciones pt-2 d-md-flex justify-content-evenly align-items-md-center">
 
-                            <h6 class="m-md-0 fw-bolder">BINARY KEY</h6>
+                            <h6 class="m-md-0 fw-bolder"><?php echo lang('binary_key')?></h6>
 
                             <div class="form-check">
                                 <label class="radio-inline i-checks m-4">
                                     <input name="chave_binaria" id="chave_binaria" value="1" type="radio" <?php echo (InformacoesUsuario('chave_binaria') == 1) ? 'checked' : ''; ?>>
-                                    <i></i> Left
+                                    <i></i> <?php echo lang('htleft_table')?>
                                 </label>
                                 <label class="radio-inline i-checks m-4">
                                     <input name="chave_binaria" id="chave_binaria" value="2" type="radio" <?php echo (InformacoesUsuario('chave_binaria') == 2) ? 'checked' : ''; ?>>
-                                    <i></i> Right
+                                    <i></i> <?php echo lang('htright_table')?>
                                 </label>
 
                             </div>
@@ -618,11 +653,11 @@
                         <div class="text-end table-responsive">
                             <table class="marketTable table table-responsive w-100">
                                 <tr class="text-center">
-                                    <th>MARKET</th>
-                                    <th>BULL/SELL</th>
-                                    <th>ID</td>
-                                    <th>ETH QUANTITY</th>
-                                    <th>USD QUANTITY</th>
+                                    <th><?php echo lang('ht_market')?><!--MARKET--></th>
+                                    <th><?php echo lang('ht_sell')?><!--BULL/SELL--></th>
+                                    <th><?php echo lang('ht_id')?><!--ID--></td>
+                                    <th><?php echo lang('ht_eth_quantity')?><!--ETH QUANTITY--></th>
+                                    <th><?php echo lang('ht_total_quantity')?><!--USD QUANTITY--></th>
                                 </tr>
                                 <tr>
                                     <td id='td0'></td>
@@ -998,35 +1033,35 @@ $salidas = json_decode($output, true);
 
     }
     onload =
-        mostrarDate('td0', 0, 0),//titulo 
+        mostrarDate('td0', 0, 0),//Title 
 		mostrarDate('td1', 0, 1), 
 		mostrarDate('td2', 0, 2), 
 		mostrarDate('td3', 0, 3), 
-		mostrarDate('td4', 0, 4),//cantidad usd
+		mostrarDate('td4', 0, 4),//usd amount
 		
     	mostrarDate('td5', 0, 0),//titulo 
 		mostrarDate('td6', 0, 1), 
 		mostrarDate('td7', 0, 2), 
 		mostrarDate('td8', 0, 3), 
-		mostrarDate('td9', 0, 4),//cantidad usd
+		mostrarDate('td9', 0, 4),//usd amount
 		
-        mostrarDate('td10', 0, 0),//titulo 
+        mostrarDate('td10', 0, 0),//Title 
 		mostrarDate('td11', 0, 1), 
 		mostrarDate('td12', 0, 2), 
 		mostrarDate('td13', 0, 3), 
 		mostrarDate('td14', 0, 4),
 		
-        mostrarDate('td15', 0, 0),//titulo 
+        mostrarDate('td15', 0, 0),//Title 
 		mostrarDate('td16', 0, 1), 
 		mostrarDate('td17', 0, 2), 
 		mostrarDate('td18', 0, 3), 
-		mostrarDate('td19', 0, 4),//cantidad usd
+		mostrarDate('td19', 0, 4),//usd amount
 	
-    	mostrarDate('td20', 0, 0),//titulo 
+    	mostrarDate('td20', 0, 0),//Title 
 		mostrarDate('td21', 0, 1), 
 		mostrarDate('td22', 0, 2), 
 		mostrarDate('td23', 0, 3), 
-		mostrarDate('td24', 0, 4);//cantidad usd
+		mostrarDate('td24', 0, 4);//usd amount
     // mostrarDate('td5', 0, 0), mostrarDate('td6', 0, 1), mostrarDate('td7', 0, 2), mostrarDate('td8', 0, 3), mostrarDate('td9', 0, 4)
 </script>
 

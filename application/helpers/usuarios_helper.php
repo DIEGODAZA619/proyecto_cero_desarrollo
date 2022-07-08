@@ -163,9 +163,9 @@ function verDirectosID($id_usuario = false){
 	$directoID = $_this->db->get();
 
     if($directoID->num_rows() > 0){
-		//$directoIDok =  $directoID->result();
-        return true;
-		//return $planuser->row();
+		$directoIDok =  $directoID->result();
+        //return true;
+		return $directoIDok;
 	}
 
     return false;
@@ -174,18 +174,55 @@ function verDirectosID($id_usuario = false){
 
 /*edward*/
 
-
 function consultaPlanGanancias($id_usuario)
 {
   $_this = &get_instance();
   $_this->db->from('faturas AS f');
   $_this->db->join('planos AS p', 'p.id = f.id_plano', 'inner');
   $_this->db->where('f.id_usuario', $id_usuario);
+  $_this->db->order_by('f.id', 'desc');
+  $_this->db->limit(1);
 
   $planuser = $_this->db->get();
   $plan =  $planuser->result();
   return $plan[0]->ganhos_maximo;
 }//beto
+
+
+function verificarLadosBinarios($id_usuario)
+{
+
+  $_this = &get_instance();
+
+
+
+  $_this->db->where('id_patrocinador_direto', $id_usuario);
+  $_this->db->where('chave_binaria', '1');
+
+  $izq = $_this->db->get('rede');
+
+
+
+
+  if ($izq->num_rows() > 0) {
+    $_this->db->where('id_patrocinador_direto', $id_usuario);
+    $_this->db->where('chave_binaria', '2');
+    $der = $_this->db->get('rede');
+
+
+    if ($der->num_rows() > 0) {
+      return 'true';
+    } else {
+      return 'false';
+    }
+  } else {
+    return 'false';
+  }
+} //beto
+
+
+
+
 
 function GravaExtrato($id_usuario, $valor, $mensagem, $tipo, $data = false)
 {
@@ -206,30 +243,31 @@ function GravaExtrato($id_usuario, $valor, $mensagem, $tipo, $data = false)
 
   $_this->db->insert('extrato', $dados);
 	
-	if ($valor >= consultaPlanGanancias($id_usuario)) {
-   $gan = array(
+	//if ($valor >= consultaPlanGanancias($id_usuario)) {
+  // $gan = array(
 
-      'ganancias' => consultaPlanGanancias($id_usuario)
-    );
+   //   'ganancias' => consultaPlanGanancias($id_usuario)
+  //  );
 
-    $_this->db->where('id', $id_usuario);
-    $_this->db->update('usuarios', $gan);
+ //   $_this->db->where('id', $id_usuario);
+ //   $_this->db->update('usuarios', $gan);
 
-  } else{
- $datos = array(
+//  } else{
 
-    'ganancias' => $valor
-  );
+// $adicionar = $valor + InformacoesUsuario('ganancias');   
+// $datos = array(
 
-    $_this->db->where('id', $id_usuario);
-    $_this->db->update('usuarios', $datos);
+ //   'ganancias' => $adicionar
+ // );
+
+   // $_this->db->where('id', $id_usuario);
+   // $_this->db->update('usuarios', $datos);
       
   
-  }
+ // }
 		
 	
-}
-
+}//beto
 
 
 

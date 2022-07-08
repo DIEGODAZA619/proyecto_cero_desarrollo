@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-md-12">
                   <div class="mb-4 inputsito">
-                    <input class="form-control "  name="cpf" type="text" value="<?php echo InformacoesUsuario('cpf'); ?>" required>
+                    <input class="form-control "  name="cpf" type="text" value="<?php echo InformacoesUsuario('cpf'); ?>">
                     <label for="cartera" class="form-label">Wallet</label>
                   </div>
                 </div>
@@ -42,7 +42,14 @@
                     <label for="celula" class="form-label">Phone</label>
                   </div>
                 </div>
-
+				
+				  <?php
+				  $recoverPassF= 1;
+				  
+				  if($recoverPassF==2){
+				  
+				  ?>
+				  
                 <div class="col-md-6">
                   <div class="mb-4 inputsito">
                     <input class="form-control u-rounded" name="nova_senha" type="password" autocomplete="off">
@@ -50,6 +57,19 @@
 
                   </div>
                 </div>
+				  <?php
+				  }
+				  
+				  ?>
+				  
+				<div class="col-md-6">
+                  <div class="mb-4 inputsito">
+                    <a href="<?php echo base_url('recover')?>" class="btn btn-primario w-100" >Reset Password</a>
+
+                  </div>
+                </div>
+				  
+				<input class="form-control u-rounded" name="nova_senha" type="hidden" autocomplete="off">  
 
 
                 <div class="form-group mt-5">

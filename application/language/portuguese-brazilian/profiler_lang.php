@@ -7,7 +7,6 @@
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  */
-
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $lang['profiler_database'] = 'DATABASE';

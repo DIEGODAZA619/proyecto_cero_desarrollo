@@ -1,6 +1,8 @@
 <!--main content start-->
 
-
+<?php
+redirect('plans');
+?>
 
 <section id="saque" class="d-flex justify-content-center align-items-center py-5 mt-3 my-auto">
   <div class="container">

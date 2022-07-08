@@ -4,12 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
 
-<h4>Um erro com PHP foi encontrado</h4>
+<h4>An error with PHP was encountered</h4>
 
-<p>Gravidade: <?php echo $severity; ?></p>
-<p>Mensagem:  <?php echo $message; ?></p>
-<p>Arquivo: <?php echo $filepath; ?></p>
-<p>Linha: <?php echo $line; ?></p>
+<p>Gravity: <?php echo $severity; ?></p>
+<p>Message:  <?php echo $message; ?></p>
+<p>File: <?php echo $filepath; ?></p>
+<p>Line: <?php echo $line; ?></p>
 
 <?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE): ?>
 
@@ -19,9 +19,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php if (isset($error['file']) && strpos($error['file'], realpath(BASEPATH)) !== 0): ?>
 
 			<p style="margin-left:10px">
-			Arquivo: <?php echo $error['file'] ?><br />
-			Linha: <?php echo $error['line'] ?><br />
-			Função: <?php echo $error['function'] ?>
+			File: <?php echo $error['file'] ?><br />
+			Line: <?php echo $error['line'] ?><br />
+			function: <?php echo $error['function'] ?>
 			</p>
 
 		<?php endif ?>

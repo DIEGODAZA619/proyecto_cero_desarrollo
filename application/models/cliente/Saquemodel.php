@@ -161,7 +161,7 @@ class Saquemodel extends CI_Model{
 
     if ($insere) {
 
-      $mensagem = 'Hello <b>' . InformacoesUsuario('nome') . '</b>, a request to withdraw <b> ' . number_format($valor_desconto, 2, ",", ".") . ' USD</b> has been made to your account.This amount will soon be available in  ' . (($local_recebimento == 1) ? 'Your Metamask wallet.' : 'Your Metamask wallet.');
+      $mensagem = 'Hello <b>' . InformacoesUsuario('nome') . '</b>, a request to withdraw <b> ' . number_format($valor_desconto, 2, ",", ".") . ' USD</b> has been made to your account.This amount will soon be available in  ' . (($local_recebimento == 1) ? 'Your wallet.' : 'Your wallet.');
 
       $novo_saldo = InformacoesUsuario($retirar_de) - $valor;
 

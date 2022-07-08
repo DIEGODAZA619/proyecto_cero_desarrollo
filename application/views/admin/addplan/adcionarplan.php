@@ -40,15 +40,18 @@
                           <div class="form-group">
                               <label class="col-sm-3 control-label">Select Plan</label>
                               <div class="col-sm-6">                                    
-                                    <select class="form-control" name="opcionPlan">
+                                    <select class="form-control" name="opcionPlan" class="opcionPlanAdmin">
                                         <option value="0">Select an option</option>
                                         <?php foreach($datoPlanes as $fila)
                                         {?>
-                                            <option value="<?php echo $fila->id; ?>"><?php echo $fila->nome;?></option>
+                                            <option data-name="<?php echo $fila->nome; ?>" value="<?php echo $fila->id; ?>"><?php echo $fila->nome;?></option>
                                         <?php
                                         }
                                         ?>
                                     </select>
+								  
+								  
+								  	<input type="hidden" id="nombrePlan" value="">
                               </div>
                           </div>                          
 

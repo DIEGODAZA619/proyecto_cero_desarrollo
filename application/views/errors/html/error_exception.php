@@ -4,12 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
 
-<h4>Uma excessão foi encontrada</h4>
+<h4>An exception was found</h4>
 
-<p>Tipo: <?php echo get_class($exception); ?></p>
-<p>Mensagem: <?php echo $message; ?></p>
-<p>Arquivo: <?php echo $exception->getFile(); ?></p>
-<p>Linha: <?php echo $exception->getLine(); ?></p>
+<p>Type: <?php echo get_class($exception); ?></p>
+<p>Message: <?php echo $message; ?></p>
+<p>File: <?php echo $exception->getFile(); ?></p>
+<p>Line: <?php echo $exception->getLine(); ?></p>
 
 <?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE): ?>
 
@@ -19,9 +19,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php if (isset($error['file']) && strpos($error['file'], realpath(BASEPATH)) !== 0): ?>
 
 			<p style="margin-left:10px">
-			Arquivo: <?php echo $error['file']; ?><br />
-			Linha: <?php echo $error['line']; ?><br />
-			Função: <?php echo $error['function']; ?>
+			File: <?php echo $error['file']; ?><br />
+			Line: <?php echo $error['line']; ?><br />
+			Function: <?php echo $error['function']; ?>
 			</p>
 		<?php endif ?>
 

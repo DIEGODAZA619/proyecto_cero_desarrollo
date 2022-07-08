@@ -85,7 +85,7 @@
                                     <button type="submit" name="submit" value="submit" class="btn btn-primario w-100 mx-auto">Login</button>
                                 </form>
                                 <p class="pt-2 pb-0 m-0">
-                                    <a href="<?php echo base_url('recuperar'); ?>" class="text-decoration-none text-warning">
+                                    <a href="<?php echo base_url('recover'); ?>" class="text-decoration-none text-warning">
                                         Lost your password?
                                     </a>
                                 </p>

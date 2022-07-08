@@ -98,7 +98,20 @@
                                 $href = base_url('plans/comprar/' . $plano->id);
 
                                 ?>
+								
+								<?php
+								$redirPlan=1;
+								if($redirPlan==2){
+								?>
+								
                                 <a href="javascript:void(0);" <?php echo $disabled; ?> class="btn btn-primario my-4 w-100 fw-bold <?php echo ($plano->recomendado == 1) ? 'btn-success' : 'btn-info'; ?> <?php echo $disabled; ?>" onclick="window.location.href='<?php echo $href; ?>'"><h5>PURCHASE</h5></a>
+								
+								<?php
+								}
+								?>
+								
+								
+								
                             </div>
                         </div>
                     </div>

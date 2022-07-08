@@ -49,6 +49,7 @@ class Conta extends CI_Controller {
           $this->form_validation->set_rules('celular', 'Celular', 'trim|required', array('required' => '<div class="alert alert-danger text-center">Informe seu %s.</div>'));
           $this->form_validation->set_rules('login', 'Login', 'trim|required', array('required' => '<div class="alert alert-danger text-center">Informe seu %s.</div>'));
           $this->form_validation->set_rules('senha', 'Senha', 'trim|required', array('required' => '<div class="alert alert-danger text-center">Informe seu %s.</div>'));
+			          $this->form_validation->set_rules('country', 'Country', 'trim|required', array('required' => '<div class="alert alert-danger text-center">Informe seu %s.</div>'));
           
           if ($this->form_validation->run() !== FALSE) {
 

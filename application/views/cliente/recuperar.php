@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- <link rel="shortcut icon" type="image/png" href="/imgs/favicon.png" /> -->
 
-        <title><?php echo ConfiguracoesSistema('nome_site');?> - Recuperar minha senha</title>
+        <title><?php echo ConfiguracoesSistema('nome_site');?> - Reset my password</title>
         
         <link rel="apple-touch-icon" sizes="57x57" href="<?php echo base_url();?>uploads/<?php ConfiguracoesSistema('favicon');?>">
         <link rel="apple-touch-icon" sizes="60x60" href="<?php echo base_url();?>uploads/<?php ConfiguracoesSistema('favicon');?>">
@@ -44,7 +44,7 @@
                     <div class="content py-4 px-4 position-relative">
 
                         <div class="detalle position-relative w-100">
-                            <h1 class="h2 py-3 text-white fw-bold">Recuperar Pass</h1>
+                            <h1 class="h2 py-3 text-white fw-bold">Reset my password</h1>
 
                             <div class="row px-3">
 
@@ -68,7 +68,7 @@
                                     <div class="col-12">
                                         <div class="col-md-8 col-lg-6 mx-auto">
 											<button class="btn btn-primario" type="submit" name="submit">
-												Recover Pass
+												Reset Password
 											</button>
                                         </div>
                                     </div>
@@ -79,7 +79,7 @@
 									
 									<div class="col-12">
 									
-										<small>No recibiste el Código? <a href="<?php echo base_url('recuperar');?>">Ingresa un nuevo Código aqui</a></small>
+										<small>Didn't you receive the Code? <a href="<?php echo base_url('recover');?>">Enter a new code here</a></small>
 									</div>
 									
 									<div class="col-12">

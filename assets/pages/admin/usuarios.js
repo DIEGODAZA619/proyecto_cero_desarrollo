@@ -8,32 +8,36 @@ $(document).ready(function(){
             responsive: true,
             dom: '<"tbl-top clearfix"lfr>,t,<"tbl-footer clearfix"<"tbl-info pull-left"i><"tbl-pagin pull-right"p>>',
             "language": {
-                "lengthMenu": "Showing _MENU_ records per page",
-                "zeroRecords": "Sorry, nothing was found.",
+                "lengthMenu": "Mostrando _MENU_ registros por página",
+                "zeroRecords": "Lo siento, no se encontró nada.",
                 "info": "Mostrando _PAGE_ de _PAGES_",
-                "infoEmpty": "No records found",
+                "infoEmpty": "No se encontraron registros",
                 "infoFiltered": "(filtrado de _MAX_ registros)",
-                "search": "Search:",
-                "loadingRecords": "Uploads...",
+                "search": "Buscar:",
+                "loadingRecords": "Carregando...",
                 "processing": "Procesando...",
-                "emptyTable": "There are no records to display on this page",
+                "emptyTable": "No hay registros para mostrar en esta página",
                 "paginate": {
-                    "first":      "First",
-                    "last":       "Last",
-                    "next":       "Next",
-                    "previous":   "Previous"
+                    "first":      "Primera",
+                    "last":       "Última",
+                    "next":       "Próxima",
+                    "previous":   "Anterior"
                 },
                 "aria": {
-                    "sortAscending":  ": Enabled to sort columns ascending",
-                    "sortDescending": ": Enabled to sort columns descending"
+                    "sortAscending":  ": Habilitado para ordenar columnas ascendentes",
+                    "sortDescending": ": Habilitado para ordenar columnas decrescente"
                 }
             }
         });
 
+        if($('.tableExtrato')[0]){
+            $('.tableExtrato').css('width', '100%');
+        }
     }
+
     jQuery(function($){
        $("#celular").mask("(99) 99999-999?9");
        $("#cpf").mask("999.999.999-99");
     });
-
+ 
 }); /* ready */

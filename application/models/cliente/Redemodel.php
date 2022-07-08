@@ -137,7 +137,7 @@ class Redemodel extends CI_Model{
 
                         $plano_user = $this->PlanoActualUsuario($rowEsquerdo->id_usuario);
 
-                        $patro = InformacoesUsuario('nome', $rowEsquerdo->id_patrocinador_direto);
+                        $patro = InformacoesUsuario('login', $rowEsquerdo->id_patrocinador_direto);
 						
 						/*edward*/
 						$this->contagem = 0;
@@ -155,8 +155,8 @@ class Redemodel extends CI_Model{
 
                         $this->matrizHTML .= '<li>';
 
-                        $this->matrizHTML .= '<a href="?network_id='.$rowEsquerdo->id_usuario.'"><img src="https://app.themetabiz.io/assets/imgs/redesIcon.png" border="0" class="tooltipster" title="User: '.InformacoesUsuario('nome', $rowEsquerdo->id_usuario).' <br /> Phone: '.InformacoesUsuario('celular', $rowEsquerdo->id_usuario).' <br /> Sponsor: '. $patro .' <br /> Plans: '. $plano_user .' '.$ladosTodo.'" width="50" style="opacity: 1"/>
-                        </a> <br /> <font class="color-red">'.InformacoesUsuario('nome', $rowEsquerdo->id_usuario).'</font><br />';
+                        $this->matrizHTML .= '<a href="?network_id='.$rowEsquerdo->id_usuario.'"><img src="https://app.themetabiz.io/assets/imgs/redesIcon.png" border="0" class="tooltipster" title="User: '.InformacoesUsuario('login', $rowEsquerdo->id_usuario).'  <br /> Sponsor: '. $patro .' <br /> Plans: '. $plano_user .' '.$ladosTodo.'" width="50" style="opacity: 1"/>
+                        </a> <br /> <font class="color-red">'.InformacoesUsuario('login', $rowEsquerdo->id_usuario).'</font><br />';
 
                         $this->CriaDesenhaMatriz($rowEsquerdo->id_usuario, $niveis-1);
 
@@ -181,7 +181,7 @@ class Redemodel extends CI_Model{
 
                         $plano_user = $this->PlanoActualUsuario($rowDireito->id_usuario);
 
-                        $patro = InformacoesUsuario('nome', $rowDireito->id_patrocinador_direto);
+                        $patro = InformacoesUsuario('login', $rowDireito->id_patrocinador_direto);
 						
 						/*edward*/
 						$this->contagem = 0;
@@ -196,7 +196,7 @@ class Redemodel extends CI_Model{
 
                         $this->matrizHTML .= '<li>';
 
-                        $this->matrizHTML .= '<a href="?network_id='.$rowDireito->id_usuario.'"><img src="https://app.themetabiz.io/assets/imgs/redesIcon.png" border="0" class="tooltipster" title="User: '.InformacoesUsuario('nome', $rowDireito->id_usuario).' <br /> Phone: '.InformacoesUsuario('celular', $rowDireito->id_usuario).' <br /> Sponsor: '. $patro .' <br /> Plans: '. $plano_user .''.$ladosTodo_.'" width="50" style="opacity: 1"/></a> <br /><font class="color-red">'.InformacoesUsuario('nome', $rowDireito->id_usuario).'</font>';
+                        $this->matrizHTML .= '<a href="?network_id='.$rowDireito->id_usuario.'"><img src="https://app.themetabiz.io/assets/imgs/redesIcon.png" border="0" class="tooltipster" title="User: '.InformacoesUsuario('login', $rowDireito->id_usuario).' <br /> Sponsor: '. $patro .' <br /> Plans: '. $plano_user .''.$ladosTodo_.'" width="50" style="opacity: 1"/></a> <br /><font class="color-red">'.InformacoesUsuario('login', $rowDireito->id_usuario).'</font>';
 
                         $this->CriaDesenhaMatriz($rowDireito->id_usuario, $niveis-1);
 
@@ -236,9 +236,21 @@ class Redemodel extends CI_Model{
                 $this->contagem = 0;
 
                 $LadoDireito = $this->QuantidadeRede($id, 2);
+				
+				/*patrocinador directo*/
+				$this->db->where('id_usuario', $id);
+            	$patrocinardorDirectoC = $this->db->get('rede');
+				
+				$patroD = $patrocinardorDirectoC->row();
+				$nom_patro = InformacoesUsuario('login', $patroD->id_patrocinador_direto);
+				/*patrocinador directo*/
+				
+				/*plan*/
+				$planUserTop = $this->PlanoActualUsuario($id);
+				/*plan*/
 
                 $this->matrizHTML .= '<li>';
-                $this->matrizHTML .= '<a href="#"><img src="https://app.themetabiz.io/assets/imgs/redesIcon.png" class="tooltipster" title="Left side: '.$LadoEsquerdo.'<br />Right side: '.$LadoDireito.'" border="0" width="50" /></a> <br /> <font class="color-red">'.InformacoesUsuario('nome', $id).'</font>';
+                $this->matrizHTML .= '<a href="#"><img src="https://app.themetabiz.io/assets/imgs/redesIcon.png" class="tooltipster" title="User: '.InformacoesUsuario('login', $id).' <br />Sponsor: '.$nom_patro.' <br />Plan: '.$planUserTop.'<br/> Left side: '.$LadoEsquerdo.'<br />Right side: '.$LadoDireito.'" border="0" width="50" /></a> <br /> <font class="color-red">'.InformacoesUsuario('login', $id).'</font>';
                 $this->matrizHTML .= $this->CriaDesenhaMatriz($id, 4);
                 $this->matrizHTML .= '</li>';
 

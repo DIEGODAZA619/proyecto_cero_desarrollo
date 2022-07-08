@@ -43,10 +43,7 @@ function opcionesRoles($idRol,$roles)
       $con++;
     }
   }
+
   return $datos;
 }
-
-
-
-
 ?>

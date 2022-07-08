@@ -271,12 +271,12 @@ class Faturasmodel extends CI_Model{
                                     $bonusIndicacao = ($this->todos_niveis[$nivel+1]/100) * $row->valor;
 
                                     $novoSaldoIndicacao = InformacoesUsuario('saldo_indicacoes', $patrocinador) + $bonusIndicacao;
-									//$ganancias          = InformacoesUsuario('ganancias', $patrocinador)  +  $bonusIndicacao;//beto
+	
 
 
                                     $this->db->where('id', $patrocinador);
                                     $this->db->update('usuarios', array('saldo_indicacoes'=>$novoSaldoIndicacao));
-//AgregarSaldo($patrocinador, $ganancias);//beto
+
                                     GravaExtrato($patrocinador, $bonusIndicacao, 'User Referral Bonus '.InformacoesUsuario('login', $row->id_usuario), 1);
 
                                 }
@@ -364,7 +364,7 @@ class Faturasmodel extends CI_Model{
                 EnviaNotificacao($row->id_usuario, 'Plan activated successfully!');
 
                 $this->VerificaBinarioAtivo($id);
-
+redirect('admin/faturas/liberar');
                 return '<div class="alert alert-success text-center">Invoice released successfully!</div>';
             }else{
 

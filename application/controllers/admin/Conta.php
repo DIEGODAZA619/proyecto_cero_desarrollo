@@ -27,12 +27,12 @@ class Conta extends CI_Controller {
           
           if ($this->form_validation->run() !== FALSE) 
           {
-            /*$ip = $_SERVER["REMOTE_ADDR"];
+            $ip = $_SERVER["REMOTE_ADDR"];
 
             $recaptchaResponse = $this->input->post('g-recaptcha-response');            
             
             //$secretKey = '6LeFAr8gAAAAAF5gsOyv_lDgOoAwQrHaiRnKJ55Q'; //KEY SECRET  THE RECAPTCHAT LOCAL
-            $secretKey = '6LfEiL8gAAAAAAh4r0uvJ-6ewyWXUFrC-Er1MALn'; //KEY SECRET  THE RECAPTCHAT PRODUCCION
+            $secretKey = '6LeFAr8gAAAAAF5gsOyv_lDgOoAwQrHaiRnKJ55Q'; //KEY SECRET  THE RECAPTCHAT PRODUCCION
             $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaResponse}&remoteip={$ip}");
 
             $atributos = json_decode($response, TRUE);
@@ -42,9 +42,9 @@ class Conta extends CI_Controller {
             }
             else
             {              
-              
-            }*/
-            $data['message'] = $this->ContaModel->FazerLogin();  
+              $data['message'] = $this->ContaModel->FazerLogin();  
+            }
+            
             
 
           }else{
