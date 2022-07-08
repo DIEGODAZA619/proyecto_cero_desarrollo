@@ -59,8 +59,8 @@ function calcularPorcentajesGanancias($fila_m,$idUsuario,$bono,$datos)
       $idFactura       = $puntos->id;
       $datosPaquete    = $fila_m->Rangomodel->datosPaqueteUsuario($idPaquete);
       $valorPaquete    = $datosPaquete[0]->valor;
-      $porcentaje      = $datosPaquete[0]->ganhos_diarios;
-      $gananciaDiaria = ($valorPaquete * $porcentaje ) / 100;
+      //$porcentaje      = $datosPaquete[0]->ganhos_diarios;
+      $gananciaDiaria  = $datosPaquete[0]->ganhos_diarios; //$valorPaquete * $porcentaje ) / 100;
       $sumaGanancias   = $sumaGanancias + $gananciaDiaria;     
       if($gananciaDiaria > 0)
       {

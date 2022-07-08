@@ -7,10 +7,18 @@ class Scriptmodel extends CI_Model{
         parent::__construct();
     }
 
-    function ejecutar()
+    function datosTabla($tabla)
     {
-        $query = $this->db->query(" ALTER TABLE plano_carreira ADD COLUMN bono int;" ); 
+        $query = $this->db->query(" select *
+                                      from ".$tabla."
+                                     order by 1  asc" ); 
         return $query->result();
+    }
+
+    function datosUsuarios($tabla,$data)
+    {
+        //$this->db->where('id',$id_registro);
+        return $this->db->update($tabla,$data);
     }
 }
 ?>
