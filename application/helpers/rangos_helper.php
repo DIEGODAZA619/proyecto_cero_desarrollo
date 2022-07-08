@@ -12,6 +12,7 @@ function calcularRangos($idUsuario)
   if($datos)
   {
     echo $idUsuario." ---  ".json_encode($datos)."<br><br>";
+    $calulos = calcularPorcentajesGanancias($fila_m,$idUsuario,$bono,$datos);
     if($bono > 0)
     {
       $calculoPorcentajes = calcularPorcentajesGanancias($fila_m,$idUsuario,$bono,$datos);

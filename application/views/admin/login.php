@@ -43,7 +43,7 @@
                     <div class="form-group">
                             <!--<div class="g-recaptcha" id="recaptcha" name="recaptcha" data-sitekey="6LeFAr8gAAAAAA2iOGC_fkzkkRxIS47ety0mKnY_"></div>--> <!--AGREGAR KEY SITIO WEB RECAPTCHAT LOCAL -->
 
-                            <div class="g-recaptcha" id="recaptcha" name="recaptcha" data-sitekey="6LeFAr8gAAAAAA2iOGC_fkzkkRxIS47ety0mKnY_"></div> <!--AGREGAR KEY SITIO WEB RECAPTCHAT PRODUCCION -->
+                            <div class="g-recaptcha" id="recaptcha" name="recaptcha" data-sitekey="<?php echo $this->config->item('google_key') ?>"></div> <!--AGREGAR KEY SITIO WEB RECAPTCHAT PRODUCCION -->
 
                         </div>
                     <button type="submit" name="submit" value="submit" class="btn btn-info btn-block">Login</button>
