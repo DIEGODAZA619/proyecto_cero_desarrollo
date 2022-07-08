@@ -1,0 +1,4 @@
+function cargaFunciones()
+{
+	alert('hola');
+}

@@ -1,0 +1,10 @@
+{
+	"description": "Marketing Multi Nível",
+	"name": "alissonacioli/mmn",
+	"type": "project",
+	"license": "MIT",
+	"require": {
+		"php": ">=5.3.7",
+		"needim/noty": "^3.1"
+	}
+}
