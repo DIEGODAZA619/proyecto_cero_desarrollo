@@ -29,7 +29,7 @@
             <th scope="row"><?php echo $n++;?></th>
             <td><?php echo $query?></td>            
           </tr>
-          <?
+          <?php
           $result = $conn->query($query);
           echo $result;
         }?>

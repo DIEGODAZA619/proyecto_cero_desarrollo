@@ -12,7 +12,7 @@ class Rangos extends CI_Controller {
     public function rangos()
     {
         $idUsuario = $this->session->userdata('uid_admin');
-        $idUsuario = 10;
+        $idUsuario = 46;
         $valor = calcularRangos($idUsuario);
         echo $valor;
     }

@@ -20,6 +20,7 @@
             <!--page title and breadcrumb end -->
             
             <!-- page start-->
+
             <div class="row">
                 <div class="col-sm-12">
                     <section class="panel">
@@ -38,8 +39,15 @@
                             </li>
                             <li><a href="#financeiro" data-toggle="tab">Financeiro</a>
                             </li>
+                            <?php
+                              if($isAdmin==1)
+                              {
+                            ?>
                             <li><a href="#binario" data-toggle="tab">Binário</a>
                             </li>
+                            <?php
+                            }
+                            ?>
                             </ul>
 
                             <?php if(isset($message)) echo '<br />'.$message;?>

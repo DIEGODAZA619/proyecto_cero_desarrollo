@@ -3546,7 +3546,7 @@ CREATE TABLE `usuarios_opciones` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `id_opcion` int(11) DEFAULT NULL,
   `id_usuario` int(11) DEFAULT NULL,
-  `permisos` varchar (30) DEFAULT '|1|2|3|4|5|',
+  `permisos` text DEFAULT '|1|2|3|4|5|',
   `fecha_alta` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_cambio` timestamp NULL DEFAULT NULL,
   `estado` varchar(2) DEFAULT 'AC'

@@ -1,26 +1,43 @@
 <?php
-function calcularRangos($idUsuario)
+function calcularRangos($idUsuario,$nivel = 0,$nivelLimite = 0,$idUsarioPrincipal=0,$bonoUsarioPrincipal=0)
 {
   $fila_m = & get_instance();
   $fila_m->load->model('admin/Rangomodel');
   
   $puntos = $fila_m->Rangomodel->puntosUsuario($idUsuario);
   $totalPuntos = $puntos[0]->puntos;
-  $bono = valorPuntosRangosUsuario($fila_m,$totalPuntos);       
-
-  $datos = $fila_m->Rangomodel->usuarioPatrocinador($idUsuario); 
-  if($datos)
+  $bono = valorPuntosRangosUsuario($fila_m,$totalPuntos);
+  //echo "nivel ".$nivel." - ".$idUsuario." - ".$nivelLimite." - ".$idUsarioPrincipal."<br>";
+  if ($nivel == 0) ///ENTRA POR PRIMERA VEZ PARA OBTENER LOS VALORES DEL USUARIO INICIAL
   {
-    echo $idUsuario." ---  ".json_encode($datos)."<br><br>";
-    $calulos = calcularPorcentajesGanancias($fila_m,$idUsuario,$bono,$datos);
-    if($bono > 0)
+    echo "PUNTO ".$totalPuntos."<br>";
+    $nivel = 1;
+    $nivelLimite = $bono;
+    $idUsarioPrincipal = $idUsuario;
+    $bonoUsarioPrincipal = $bono;
+  }
+  else
+  {
+    $nivel++;
+  }
+  echo "BONO ".$bono." - nivel - ".$nivel." - nivel limite ".$nivelLimite." - idusuario ".$idUsuario." - usuario principal ".$idUsarioPrincipal."<br>";
+  if($bono > 0)
+  {
+    $datos = $fila_m->Rangomodel->usuarioPatrocinador($idUsuario); 
+    if($datos)
     {
-      $calculoPorcentajes = calcularPorcentajesGanancias($fila_m,$idUsuario,$bono,$datos);
-    }
-    foreach($datos as $fila)
-    {  
-      calcularRangos($fila->id_usuario);    
-    }
+      //echo "nivel **** ".$nivel." - ".$nivelLimite."<br>";
+      if($nivel <= $nivelLimite)
+      { 
+        echo $nivel." - ".$idUsuario." ---  ".json_encode($datos)."<br><br>";    
+        $calculoPorcentajes = calcularPorcentajesGanancias($fila_m,$idUsuario,$bono,$datos,$idUsarioPrincipal,$bonoUsarioPrincipal);  
+      }
+          
+      foreach($datos as $fila)
+      {  
+        calcularRangos($fila->id_usuario,$nivel,$nivelLimite,$idUsarioPrincipal,$bonoUsarioPrincipal);    
+      }
+    }    
   } 
 }
 
@@ -38,7 +55,7 @@ function valorPuntosRangosUsuario($fila_m,$totalPuntos)
   }
   return $bono;
 }
-function calcularPorcentajesGanancias($fila_m,$idUsuario,$bono,$datos)
+function calcularPorcentajesGanancias($fila_m,$idUsuario,$bono,$datos,$idUsarioPrincipal,$bonoUsarioPrincipal)
 {
   $sumaGanancias = 0;
   $gananciaBono  = 0;
@@ -146,6 +163,43 @@ function calcularPorcentajesGanancias($fila_m,$idUsuario,$bono,$datos)
           'fecha_recalculo'       => $fechaRegistro
       );
       $editarGanancia = $fila_m->Rangomodel->editarGananciaRango($idRegistro,$data);
+    }
+    if($idUsuario != $idUsarioPrincipal)
+    {      
+      $tipo_ganancia = 3;
+      $gananciaBono = ($sumaGanancias * $bonoUsarioPrincipal ) / 100;
+      $verificar = $fila_m->Rangomodel->checkGananciasRangosDirecto($idUsarioPrincipal,$fechaCalculo,$tipo_ganancia);
+      if(!$verificar)
+      {
+        $data = array(
+            'id_usuario'            => $idUsarioPrincipal,              
+            'porcentaje'            => $bonoUsarioPrincipal,
+            'valor_plan'            => $sumaGanancias,
+            'ganancia_diaria'       => $gananciaBono,
+            'tipo_ganancia'         => $tipo_ganancia,
+            'correlativo_ganancia'  => $correlativo,
+            'id_rangos'             => $id_rango_guardados,
+            'fecha_calculo'         => $fechaCalculo,
+            'fecha_registro'        => $fechaRegistro
+        );
+        $guardarGanancia = $fila_m->Rangomodel->guardarGananciaRango($data);      
+      }
+      else
+      {
+        $idRegistro = $verificar[0]->id;
+        $data = array(
+            'id_usuario'            => $idUsarioPrincipal,              
+            'porcentaje'            => $bonoUsarioPrincipal,
+            'valor_plan'            => $sumaGanancias,
+            'ganancia_diaria'       => $gananciaBono,
+            'tipo_ganancia'         => $tipo_ganancia,
+            'correlativo_ganancia'  => $correlativo,
+            'id_rangos'             => $id_rango_guardados,
+            'fecha_calculo'         => $fechaCalculo,
+            'fecha_recalculo'       => $fechaRegistro
+        );
+        $editarGanancia = $fila_m->Rangomodel->editarGananciaRango($idRegistro,$data);
+      }
     }
   }  
   return 1;
