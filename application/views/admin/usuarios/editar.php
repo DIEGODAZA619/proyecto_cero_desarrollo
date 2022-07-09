@@ -37,12 +37,13 @@
                             </li>
                             <li><a href="#acesso" data-toggle="tab">Acesso</a>
                             </li>
-                            <li><a href="#financeiro" data-toggle="tab">Financeiro</a>
-                            </li>
                             <?php
                               if($isAdmin==1)
                               {
                             ?>
+                            <li><a href="#financeiro" data-toggle="tab">Financeiro</a>
+                            </li>
+                            
                             <li><a href="#binario" data-toggle="tab">Binário</a>
                             </li>
                             <?php
