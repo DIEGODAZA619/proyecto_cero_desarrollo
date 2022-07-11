@@ -56,7 +56,7 @@ class Addplanmodel extends CI_Model{
                            'id_usuario'     =>$iduser,
                            'id_plano'       =>$opcionPlan,                      
                            'comprovante'    =>$nomePlan,                                                 
-                           'status'         =>1,
+                           'status'         =>0,
                            'data_pagamento' =>date('Y-m-d H:i:s'),                      
                         );
             $insert = $this->db->insert('faturas', $data);
