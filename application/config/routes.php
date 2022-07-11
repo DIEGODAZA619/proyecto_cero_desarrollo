@@ -137,3 +137,6 @@ $route['admin/uploadqr/excluir/(:num)'] = 'admin/uploadqr/excluir/$1';//diego
 $route['admin/addplan'] = 'admin/addplan';//diego
 $route['admin/addplan/adicionarPlan/(:num)'] = 'admin/addplan/adicionarPlan/$1';//diego
 
+
+$route['admin/rangos/calcular'] = 'admin/rangos/calcular';//diego
+
