@@ -257,7 +257,7 @@ class Faturasmodel extends CI_Model{
                 $novo_saldo = $saldo-$fatura->valor_fatura;
 
                 $this->db->where('id', $this->userid);
-                $updateCash = $this->db->update('usuarios', array('saldo_rendimentos'=>$novo_saldo));
+                $updateCash = $this->db->update('usuarios', array('saldo_rendimentos'=>$novo_saldo)); //DIEGO
 
             }else{
 
@@ -270,7 +270,7 @@ class Faturasmodel extends CI_Model{
                 $novo_saldo = $saldo-$fatura->valor_fatura;
 
                 $this->db->where('id', $this->userid);
-                $updateCash = $this->db->update('usuarios', array('saldo_indicacoes'=>$novo_saldo));
+                $updateCash = $this->db->update('usuarios', array('saldo_indicacoes'=>$novo_saldo));//DIEGO
             }
 
             $this->db->select('p.plano_carreira, p.valor, p.binario, f.id_usuario');
@@ -310,7 +310,7 @@ class Faturasmodel extends CI_Model{
 
 
                                     $this->db->where('id', $patrocinador);
-                                    $this->db->update('usuarios', array('saldo_indicacoes'=>$novoSaldoIndicacao));
+                                    $this->db->update('usuarios', array('saldo_indicacoes'=>$novoSaldoIndicacao)); //DIEGO
 
 									GravaExtrato($patrocinador, $bonusIndicacao, 'User Referral Bonus '.InformacoesUsuario('login',$rowFatura->id_usuario), 1);
 									 

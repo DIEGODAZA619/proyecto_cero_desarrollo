@@ -160,15 +160,20 @@ function verDirectosID($id_usuario = false){
 	
     $_this->db->from('rede');
     $_this->db->where("id_patrocinador = $id_usuario and (chave_binaria=1 or chave_binaria = 2)" );
-	$directoID = $_this->db->get();
+	   $directoID = $_this->db->get();
 
-    if($directoID->num_rows() > 0){
-		$directoIDok =  $directoID->result();
+    if($directoID->num_rows() > 0)
+    {
+		  $directoIDok =  $directoID->result();
         //return true;
-		return $directoIDok;
-	}
+	   	return $directoIDok;
+	  }
+    else
+    {
+      return false;  
+    }
 
-    return false;
+    
 	
 }
 
@@ -185,7 +190,15 @@ function consultaPlanGanancias($id_usuario)
 
   $planuser = $_this->db->get();
   $plan =  $planuser->result();
-  return $plan[0]->ganhos_maximo;
+  if($plan)
+  {
+    return $plan[0]->ganhos_maximo;  
+  }
+  else
+  {
+    return 1;  
+  }
+  
 }//beto
 
 
@@ -250,6 +263,7 @@ function GravaExtrato($id_usuario, $valor, $mensagem, $tipo, $data = false)
   //  );
 
  //   $_this->db->where('id', $id_usuario);
+
  //   $_this->db->update('usuarios', $gan);
 
 //  } else{
@@ -385,3 +399,26 @@ function EnviarEmail($para, $assunto, $mensagem)
   $_this->email->message($mensagem);
   $_this->email->send();
 }
+
+// INICIO CAMBIOS DIEGO  10-07-2022
+function verDatosUsuarios($id_usuario = 0){
+    
+  $fila_m = & get_instance();
+  $fila_m->load->model('admin/usuariosmodel');
+
+  if($id_usuario == 0)
+  {
+    $id_usuario = $_this->session->userdata('uid');
+  }
+  $filas = $fila_m->usuariosmodel->getUsuarios($id_usuario);
+
+  if($filas)
+  {
+    return $filas[0]->nome;
+  }
+  else
+  {
+    return "";  
+  }
+}
+//

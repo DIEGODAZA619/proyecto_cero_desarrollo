@@ -8,6 +8,7 @@ CREATE TABLE ganancias_rangos
   id_plan int,
   valor_plan double,
   porcentaje int,
+  nivel_ganancia int default 0,
   ganancia_diaria double,
   tipo_ganancia int,
   correlativo int,
@@ -15,37 +16,39 @@ CREATE TABLE ganancias_rangos
   id_rangos varchar(100),
   fecha_calculo date ,
   fecha_registro datetime,
-  fecha_recalculo datetime,
+  fecha_recalculo datetime,  
+  fecha_pago datetime,
   estado_ganancia int default 1,
   PRIMARY KEY (id)
 );
 
 ALTER TABLE plano_carreira ADD COLUMN bono int;
+ALTER TABLE plano_carreira ADD COLUMN requesitos int default 0;
+ALTER TABLE plano_carreira ADD COLUMN requesitos_planes varchar(30); 
+
 update plano_carreira set bono = 0 where id = 1;
 update plano_carreira set bono = 2 where id = 2;
 update plano_carreira set bono = 3 where id = 3;
 update plano_carreira set bono = 4 where id = 4;
 update plano_carreira set bono = 5 where id = 5;
-update plano_carreira set bono = 6 where id = 6;
-update plano_carreira set bono = 7 where id = 7;
-update plano_carreira set bono = 8 where id = 8;
-update plano_carreira set bono = 9 where id = 9;
-update plano_carreira set bono = 10 where id = 10;
+update plano_carreira set bono = 6, requesitos = 1, requesitos_planes = '3' where id = 6;
+update plano_carreira set bono = 7, requesitos = 1, requesitos_planes = '4' where id = 7;
+update plano_carreira set bono = 8, requesitos = 1, requesitos_planes = '5' where id = 8;
+update plano_carreira set bono = 9, requesitos = 1, requesitos_planes = '6' where id = 9;
+update plano_carreira set bono = 10, requesitos = 1, requesitos_planes = '7' where id = 10;
 update plano_carreira set bono = 1 where id = 11;
 
 
+INSERT INTO opciones(id,id_modulo, codigo_opciones, opcion, link, icono, nivel, orden, estado) 
+VALUES (23,0,13,'Calculation of ranges ','admin/rangos/calcular','',2,4,'AC');
 
----CONSULTAS DE PRUEBA
-select id_usuario, sum(pontos)as puntos
-                                     from rede_pontos_binario
-                                    group by id_usuario
-                                    order by sum(pontos) desc
-                                    
-                                    
-                                    
-                                    select *
-                                     from faturas
-                                    where id_usuario = 106
-                                    
-select *from ganancias_rangos
-order by id asc
+
+INSERT INTO usuarios_opciones(id_opcion, id_usuario) 
+VALUES (23,1);
+
+
+ALTER TABLE usuarios ADD COLUMN proft_plan_career decimal(10,2) default 0;
+ALTER TABLE usuarios ADD COLUMN cobrado_pagado decimal(10,2) default 0;
+
+
+

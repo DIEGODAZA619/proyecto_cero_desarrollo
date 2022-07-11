@@ -103,6 +103,19 @@ class Saquemodel extends CI_Model{
     $retirar_de = ($tipo_saque == 1) ? 'saldo_rendimentos' : 'saldo_indicacoes';
     $valor = str_replace(',', '.', $valor);
 
+
+
+
+
+
+    if($valor > InformacoesUsuario('saldo_rendimentos')){
+      return json_encode(array('status' => 5));
+    }
+    if($valor > InformacoesUsuario('saldo_indicacoes')){
+      return json_encode(array('status' => 5));
+    }
+
+
     if ($retirar_de == 'saldo_rendimentos' && $valor < ConfiguracoesSistema('valor_minimo_saque_rendimentos')) {
 
       return json_encode(array('status' => 4));
@@ -152,7 +165,7 @@ class Saquemodel extends CI_Model{
       'local_recebimento' => $local_recebimento,
       'valor' => $valor_desconto,
       'valor_solicitado' => $valor,
-	  'time_pay' => $timeText,	
+	    'time_pay' => $timeText,	
       'status' => 0,
       'data_pedido' => $fechaRetiroG
     );

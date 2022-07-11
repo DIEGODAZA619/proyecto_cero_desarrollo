@@ -5,7 +5,7 @@
             <div class="col-xl-10 p-3">
                 <div class="text-center position-relative d-flex align-items-center justify-content-center">
                     <img src="<?php echo base_url(); ?>/assets/template/images/arrow_orange.png" alt="flecha" class=" img-fluid position-absolute start-0" width="100">
-                    <h1 class="display-5 text-white fw-bold w-50">Career Plans</h1>
+                    <h1 class="display-5 text-white fw-bold w-50"><?php echo lang('career_plans')?><!--Career Plans--></h1>
                 </div>
                 <div class="content py-4 px-4 position-relative">
 
@@ -14,9 +14,9 @@
                             <thead class="">
                                 <tr>
 
-                                    <th class="text-nowrap">Career Plains</th>
-                                    <th>Points</th>
-                                    <th>Description</th>
+                                    <th class="text-nowrap"><?php echo lang('career_plains')?><!--Career Plains--></th>
+                                    <th><?php echo lang('points')?><!--Points--></th>
+                                    <th><?php echo lang('descrip')?><!-- Description --></th>
                                 </tr>
                             </thead>
                             <tbody>

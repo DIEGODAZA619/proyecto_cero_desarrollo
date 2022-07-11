@@ -61,6 +61,7 @@ class Usuarios extends CI_Controller {
                                       );
 
             $data['usuario'] = $this->UsuariosModel->DadosUsuario($id);
+            $data['gananciasNiveles'] = $this->UsuariosModel->GananciasNiveles($id);
             //recuperar roles desde la variable de session DIEGO
             $data['rolescero'] = $this->session->userdata('rolescero');
             $data['roles']     = $this->session->userdata('roles');

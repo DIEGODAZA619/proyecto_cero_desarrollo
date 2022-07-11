@@ -10,7 +10,7 @@ redirect('plans');
       <div class="col-xl-12 p-3">
         <div class="text-center position-relative d-flex align-items-center justify-content-center">
           <img src="<?php echo base_url(); ?>/assets/template/images/arrow_orange.png" alt="flecha" class=" img-fluid position-absolute start-0" width="100">
-          <h1 class="display-5 text-white fw-bold w-50">Invoices</h1>
+          <h1 class="display-5 text-white fw-bold w-50"><?php echo lang('invoices')?>Bills</h1>
         </div>
         <div id="msj" class="alert alert-bg-danger"></div>
         <div class="content py-4 px-4 position-relative">
@@ -19,12 +19,12 @@ redirect('plans');
             <table id="tblDateEx" width='100%' class="w-100">
               <thead class="">
                 <tr>
-                  <th># Invoices</th>
-                  <th>Plan</th>
-                  <th>Price (USD)</th>
-				  <th>Check on Etherscan</th>	
-                  <th>State</th>
-                  <th>Voucher</th>
+                  <th># <?php echo lang('invoices')?></th>
+                  <th><?php echo lang('plan')?><!-- Plan --></th>
+                  <th><?php echo lang('price')?><!-- Price --> (USD)</th>
+				          <th><?php echo lang('check')?><!-- Check on Etherscan --></th>	
+                  <th><?php echo lang('state')?><!-- State --></th>
+                  <th><?php echo lang('voucher')?><!-- Voucher --></th>
               
                 </tr>
               </thead>

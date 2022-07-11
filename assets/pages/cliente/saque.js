@@ -463,15 +463,22 @@ $(document).ready(function(){
                 }else if(callback.status == 2){
 
                     swal('Oppss...', 'But the withdrawal amount is higher than you take into account. Please check and try again. ', 'error');
-                
-                }else if(callback.status == 4){
+
+                } else if (callback.status == 4) {
 
                     swal('Erro!', 'The amount you are requesting is less than allowed. Please enter a higher value. ', 'error');
 
-                
-                }else{
 
-                    swal('Desculpe', 'But there was an error in the withdrawal request (erro: '+callback.error+').', 'error');
+                }
+                else if (callback.status == 5) {
+
+                    swal('Erro!', 'The amount you are requesting is more than you have. ', 'error');
+
+
+                }
+                else {
+
+                    swal('Desculpe', 'But there was an error in the withdrawal request (erro: ' + callback.error + ').', 'error');
                 }
             },
 

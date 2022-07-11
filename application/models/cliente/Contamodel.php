@@ -134,7 +134,7 @@ class Contamodel extends CI_Model{
 		
 		$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
  
-        $userIp=$this->input->ip_address();
+        $userIp= $this->input->ip_address();
      
         $secret = $this->config->item('google_secret');
    
@@ -179,14 +179,6 @@ class Contamodel extends CI_Model{
         }else{
             return '<div class="alert alert-danger text-center">Captcha invalid!</div>';
         }
-		
-		
-		
-		
-		
-		
-		
-
     }
 
     public function Cadastrar(){

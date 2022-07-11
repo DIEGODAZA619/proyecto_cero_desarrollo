@@ -139,10 +139,16 @@ class Cronmodel extends CI_Model{
                                     $totalPagamento = $row->teto_binario;
                                 }
 
-                                $novoRendimento = InformacoesUsuario('saldo_rendimentos', $ponto->id_usuario) + $totalPagamento;
+                                
+                                //DIEGO BEGIN 
+                                $ganancias = verificarLimiteGanancias($ponto->id_usuario, $totalPagamento,'REN');
+                                
+                                /*$novoRendimento = InformacoesUsuario('saldo_rendimentos', $ponto->id_usuario) + $totalPagamento;
 
                                 $this->db->where('id', $ponto->id_usuario);
                                 $updateSaldo = $this->db->update('usuarios', array('saldo_rendimentos'=>$novoRendimento));
+                                //END DIEGO**/
+
 
                                 if($updateSaldo){
 
@@ -194,11 +200,13 @@ class Cronmodel extends CI_Model{
                 if(date('Y-m-d') <= $expira){
 
                     $pagamento = ($porcentagem_dia/100) * $fatura->valor;
-
-                    $novo_saldo = InformacoesUsuario('saldo_rendimentos', $fatura->id_usuario) + $pagamento;
-
+                    //DIEGO BEGIN
+                    $ganancias = verificarLimiteGanancias($fatura->id_usuario, $pagamento,'REN');
+                    
+                    /*$novo_saldo = InformacoesUsuario('saldo_rendimentos', $fatura->id_usuario) + $pagamento;
                     $this->db->where('id', $fatura->id_usuario);
-                    $this->db->update('usuarios', array('saldo_rendimentos'=>$novo_saldo));
+                    $this->db->update('usuarios', array('saldo_rendimentos'=>$novo_saldo)); */
+                    //DIEGO END
 
                     GravaExtrato($fatura->id_usuario, $pagamento, 'Payment of plan income', 1);
                 
@@ -295,7 +303,6 @@ class Cronmodel extends CI_Model{
 
                                             $this->db->where('id', $ponto->id_usuario);
                                             $this->db->update('usuarios', array('plano_carreira'=>$id));
-
                                             $this->db->insert('usuarios_plano_carreira', $dadosPlanoCarreira);
 
 

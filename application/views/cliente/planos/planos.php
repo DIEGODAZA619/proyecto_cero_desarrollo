@@ -4,7 +4,7 @@
         <div class="row justify-content-center text-center planes">
             <div class="text-center position-relative d-flex align-items-center justify-content-center mb-4">
                 <img src="<?php echo base_url(); ?>assets/template/images/arrow_orange.png" alt="flecha" class=" img-fluid position-absolute start-0" width="100">
-                <h1 class="display-5 text-white fw-bold w-50">PLANS</h1>
+                <h1 class="display-5 text-white fw-bold w-50"><?php echo lang('plans')?><!--PLANS--></h1>
             </div>
 
 
@@ -37,14 +37,14 @@
                 ?>
                     <div class="col-md-6 col-xl-4 p-3 position-relative mt-4 mt-xl-0">
                     <?php echo ($plano->recomendado == 1) ? '<div class="resaltado d-flex align-items-center justify-content-center">
-                    <h1 class="h6 fw-bold m-0">RECOMMENDED</h1>
+                    <h1 class="h6 fw-bold m-0">'.lang('recommended').'</h1>
                     
                 </div>' : ''; ?>
                         <div class="content py-4 px-4 position-relative">
                             <div class="detalle w-100 position-relative <?php echo ($plano->recomendado == 1) ? 'plan' : ''; ?>">
 
                                
-                                <h2><?php echo $plano->nome; ?></h2>
+                                <h2><?php  $plano->nome; ?></h2>
 								
 								
 								<?php
@@ -71,10 +71,10 @@
                                 </h3>
                                 <ul class="list-unstyled">
                                 <div class="divider"></div>                                    
-                                    <li>- Binary <?php echo (is_null($plano->binario) || $plano->binario == 0) ? '<i class="fa fa-times text-danger"></i>' : ' = ' . $plano->binario . '%'; ?></li>
+                                    <li>- <?php echo lang('binary')?><?php echo (is_null($plano->binario) || $plano->binario == 0) ? '<i class="fa fa-times text-danger"></i>' : ' = ' . $plano->binario . '%'; ?></li>
                              
                                         <div class="divider"></div>                                    
-                                    <li>- Career Plan <?php echo (is_null($plano->plano_carreira) || $plano->plano_carreira == 0) ? '<i class="fa fa-times text-danger"></i>' : ' = ' . $plano->plano_carreira . ' points'; ?></li>
+                                    <li>- <?php echo lang('career_plan')?> <?php echo (is_null($plano->plano_carreira) || $plano->plano_carreira == 0) ? '<i class="fa fa-times text-danger"></i>' : ' = ' . $plano->plano_carreira  . lang('points'); ?></li>
 
 
                                     <div class="divider"></div>
@@ -82,11 +82,11 @@
                                     if($ocultar == 3)
                                     {
                                     ?>
-                                    <li>- Affiliate Network <?php echo ($plano->rede_afiliados == 1) ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'; ?></li>
+                                    <li>- <?php echo lang('affiliate_network')?><!--Affiliate Network--> <?php echo ($plano->rede_afiliados == 1) ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'; ?></li>
                                     <div class="divider"></div>
-                                    <li>- Binary Earnings <?php echo (is_null($plano->teto_binario) || $plano->teto_binario == 0) ? '<i class="fa fa-times text-danger"></i>' : ' = USD ' . number_format($plano->teto_binario, 2, ",", ".") . '/dia'; ?> </li>
+                                    <li>- <?php echo lang('binary_earnings')?><!--Binary Earnings--> <?php echo (is_null($plano->teto_binario) || $plano->teto_binario == 0) ? '<i class="fa fa-times text-danger"></i>' : ' = USD ' . number_format($plano->teto_binario, 2, ",", ".") . '/dia'; ?> </li>
                                     <div class="divider"></div>
-                                    <li>- Daily Earnings <?php echo (is_null($plano->ganhos_diarios) || $plano->ganhos_diarios == 0) ? '<i class="fa fa-times text-danger"></i>' : ' = USD ' . number_format($plano->ganhos_diarios, 2, ",", "."); ?> </li>
+                                    <li>- <?php echo lang('daily_earnings')?><!--Daily Earnings--> <?php echo (is_null($plano->ganhos_diarios) || $plano->ganhos_diarios == 0) ? '<i class="fa fa-times text-danger"></i>' : ' = USD ' . number_format($plano->ganhos_diarios, 2, ",", "."); ?> </li>
                                     <div class="divider"></div>
                                     <?php 
                                     }
@@ -104,7 +104,7 @@
 								if($redirPlan==2){
 								?>
 								
-                                <a href="javascript:void(0);" <?php echo $disabled; ?> class="btn btn-primario my-4 w-100 fw-bold <?php echo ($plano->recomendado == 1) ? 'btn-success' : 'btn-info'; ?> <?php echo $disabled; ?>" onclick="window.location.href='<?php echo $href; ?>'"><h5>PURCHASE</h5></a>
+                                <a href="javascript:void(0);" <?php echo $disabled; ?> class="btn btn-primario my-4 w-100 fw-bold <?php echo ($plano->recomendado == 1) ? 'btn-success' : 'btn-info'; ?> <?php echo $disabled; ?>" onclick="window.location.href='<?php echo $href; ?>'"><h5><?php echo lang('purchase')?><!-- PURCHASE --></h5></a>
 								
 								<?php
 								}

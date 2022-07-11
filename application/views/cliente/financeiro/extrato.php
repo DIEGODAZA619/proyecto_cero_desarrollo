@@ -5,7 +5,7 @@
             <div class="col-md-8 p-3">
                 <div class="text-center position-relative d-flex align-items-center justify-content-center">
                     <img src="<?php echo base_url(); ?>/assets/template/images/arrow_orange.png" alt="flecha" class=" img-fluid position-absolute start-0" width="100">
-                    <h1 class="display-5 text-white fw-bold w-50">Earnings Report </h1>
+                    <h1 class="display-5 text-white fw-bold w-50"><?php echo lang('earnings_report')?><!-- Earnings Report  --></h1>
                 </div>
                 <div id="msj" class="alert alert-bg-danger"></div>
                 <div class="content py-4 px-4 position-relative">
@@ -16,13 +16,13 @@
                 <tr>
      
                     <th>
-                      Description
+                    <?php echo lang('descrip')?><!-- Description -->
                     </th>
                     <th>
-                      Price
+                    <?php echo lang('price')?><!-- Price -->
                     </th>
                     <th>
-                      Date
+                    <?php echo lang('date')?><!-- Date -->
                     </th>
                 </tr>
               </thead>

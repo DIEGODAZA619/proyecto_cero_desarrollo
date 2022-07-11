@@ -15,8 +15,13 @@ class Dashboard extends CI_Controller {
         $this->load->helper('permisos_helper');
     }
 
-    public function index(){
-
+    public function index()
+    {
+        $idUsuario = $this->session->userdata('uid_admin');
+        $valorOpcionBD = 22;
+        $valorPermisoBD = 1;
+        $permiso = verificarPermisosUsuario($idUsuario,$valorOpcionBD,$valorPermisoBD);
+        
         $data['rendimentos_hoje'] = $this->DashboardModel->TotalRendimento(true);
         $data['total_usuarios'] = $this->UsuariosModel->TotalUsuarios();
         $data['planos_ativos'] = $this->FaturasModel->PlanosAtivos();
@@ -26,6 +31,13 @@ class Dashboard extends CI_Controller {
         //recuperar roles desde la variable de session DIEGO
         $data['rolescero'] = $this->session->userdata('rolescero');
         $data['roles']     = $this->session->userdata('roles');
-        $this->template->load('admin/templates/template', 'admin/dashboard/dashboard', $data);
+        if($permiso)
+        {
+            $this->template->load('admin/templates/template', 'admin/dashboard/dashboard', $data);
+        }
+        else
+        {
+            $this->template->load('admin/templates/template', 'admin/dashboard/dashboardBlanco', $data);
+        }
     }
 }

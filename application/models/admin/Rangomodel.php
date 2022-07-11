@@ -75,6 +75,7 @@ class Rangomodel extends CI_Model{
 
     function editarGananciaRango($id_registro,$data)
     {
+        $this->db->where('estado',1);
         $this->db->where('id',$id_registro);
         return $this->db->update('ganancias_rangos',$data);
     }
@@ -88,10 +89,41 @@ class Rangomodel extends CI_Model{
 
     function puntosRangosUsuario()
     {        
-         $query = $this->db->query("select *
+        $query = $this->db->query("select *
                                      from plano_carreira
                                     order by pontos asc"); 
         return $query->result();
+    }
+
+    function calculosFecha($fechaCalculo)
+    {
+        $fechaCalculo = "'".$fechaCalculo."'";
+        $query = $this->db->query("select case when estado_ganancia = 1 then 'PENDING PAYMENT' else 'PAYMENT MADE' end as                            estado, g.*
+                                     from ganancias_rangos g
+                                    where tipo_ganancia > 1
+                                      and fecha_calculo = ".$fechaCalculo."                                      
+                                    order by id_usuario, nivel_ganancia asc"); 
+        return $query->result();
+    }
+
+    function getUsuario()
+    {
+        $query = $this->db->query("select *
+                                     from usuarios
+                                     order by id asc"); 
+        return $query->result();
+    }
+    function getUsuarioId($id)
+    {
+        $query = $this->db->query("select *
+                                     from usuarios
+                                    where id = ".$id); 
+        return $query->result();
+    }
+    function editarGananciaUsuarios($id_registro,$data)
+    {
+        $this->db->where('id',$id_registro);
+        return $this->db->update('usuarios',$data);
     }
 
 }
