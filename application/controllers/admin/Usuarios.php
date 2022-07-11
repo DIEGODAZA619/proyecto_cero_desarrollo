@@ -76,7 +76,7 @@ class Usuarios extends CI_Controller {
     public function editar($id){
 
         $idUsuario = $this->session->userdata('uid_admin');
-        $data['isAdmin'] = $this->session->userdata('is_admin');        
+        $data['isAdmin'] = $this->session->userdata('is_admin');  //DIEGO      
         $valorOpcionBD = 2;
         $valorPermisoBD = 3;
         $permiso = verificarPermisosUsuario($idUsuario,$valorOpcionBD,$valorPermisoBD);
