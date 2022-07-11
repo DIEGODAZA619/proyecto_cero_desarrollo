@@ -9,6 +9,7 @@ class Faturas extends CI_Controller {
 
         $this->load->model('admin/faturasmodel', 'FaturasModel');
         $this->load->helper('permisos_helper');
+        $this->load->helper('rangos_helper');   //DIEGO
     }
 
     public function liberar($id = false){

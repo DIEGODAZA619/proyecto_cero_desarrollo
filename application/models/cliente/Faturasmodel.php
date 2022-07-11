@@ -254,7 +254,7 @@ class Faturasmodel extends CI_Model{
                     return json_encode(array('status'=>4));
                 }
 
-                $novo_saldo = $saldo-$fatura->valor_fatura;
+                $novo_saldo = $saldo - $fatura->valor_fatura;
 
                 $this->db->where('id', $this->userid);
                 $updateCash = $this->db->update('usuarios', array('saldo_rendimentos'=>$novo_saldo));
@@ -267,7 +267,7 @@ class Faturasmodel extends CI_Model{
                     return json_encode(array('status'=>4));
                 }
 
-                $novo_saldo = $saldo-$fatura->valor_fatura;
+                $novo_saldo = $saldo - $fatura->valor_fatura;
 
                 $this->db->where('id', $this->userid);
                 $updateCash = $this->db->update('usuarios', array('saldo_indicacoes'=>$novo_saldo));

@@ -275,7 +275,7 @@ function verificarLimiteGanancias($id_usuario, $datoganancia,$tipo)
     $datosUsuarios      = $fila_m->Rangomodel->getUsuarioId($id_usuario);
     $saldo_rendimentos  = $datosUsuarios[0]->saldo_rendimentos;
     $saldo_indicacoes   = $datosUsuarios[0]->saldo_indicacoes;
-    $ganancias          = $datosUsuarios[0]->ganancias;
+    $ganancias          = $saldo_rendimentos + $saldo_indicacoes; //$datosUsuarios[0]->ganancias;
 
     $totalGanancias     = $ganancias + $datoganancia;
 
