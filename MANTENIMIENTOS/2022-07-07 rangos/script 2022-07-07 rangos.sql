@@ -47,8 +47,6 @@ INSERT INTO usuarios_opciones(id_opcion, id_usuario)
 VALUES (23,1);
 
 
-ALTER TABLE usuarios ADD COLUMN proft_plan_career decimal(10,2) default 0;
-ALTER TABLE usuarios ADD COLUMN cobrado_pagado decimal(10,2) default 0;
 
 
 
