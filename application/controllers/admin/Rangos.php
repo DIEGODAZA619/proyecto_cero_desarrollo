@@ -440,7 +440,7 @@ class Rangos extends CI_Controller {
         }
         $tam = strlen($referencia) - 1;
         $referencia = substr($referencia, 0, $tam);
-        //echo $referencia;
+        
         $data = array(
             'id_usuario'        => $idUsuario,
             'mensagem'          => $referencia,
