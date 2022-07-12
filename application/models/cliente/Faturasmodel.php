@@ -11,6 +11,7 @@ class Faturasmodel extends CI_Model{
         parent::__construct();
 
         $this->userid = InformacoesUsuario('id');
+        $this->load->model('admin/Rangomodel', 'Rangomodel'); //DIEGO
     }
 
     public function ProcuraPatrocinador($id_usuario, $id_patrocinador, $chave_binaria){
@@ -254,20 +255,20 @@ class Faturasmodel extends CI_Model{
                     return json_encode(array('status'=>4));
                 }
 
-                $novo_saldo = $saldo - $fatura->valor_fatura;
+                $novo_saldo = $saldo - $fatura->valor_fatura; // RESTA RENDIMIENTO
 
                 $this->db->where('id', $this->userid);
                 $updateCash = $this->db->update('usuarios', array('saldo_rendimentos'=>$novo_saldo));
 
             }else{
 
-                $saldo = InformacoesUsuario('saldo_indicacoes');
+                $saldo = InformacoesUsuario('saldo_indicacoes'); 
 
                 if($saldo < $fatura->valor_fatura){
                     return json_encode(array('status'=>4));
                 }
 
-                $novo_saldo = $saldo - $fatura->valor_fatura;
+                $novo_saldo = $saldo - $fatura->valor_fatura; // RESTA INDICACIONES
 
                 $this->db->where('id', $this->userid);
                 $updateCash = $this->db->update('usuarios', array('saldo_indicacoes'=>$novo_saldo));
@@ -307,7 +308,7 @@ class Faturasmodel extends CI_Model{
                                     $bonusIndicacao = ($this->todos_niveis[$nivel+1]/100) * $rowFatura->valor;
 
                                     //DIEGO  BEGIN
-                                     $ganancias = verificarLimiteGanancias($patrocinador, $bonusIndicacao,'IND');
+                                     $ganancias = $this->verificarLimiteGanancias($patrocinador, $bonusIndicacao,'IND');
                                      /*
                                     $novoSaldoIndicacao = InformacoesUsuario('saldo_indicacoes', $patrocinador) + $bonusIndicacao;
 
@@ -438,5 +439,66 @@ class Faturasmodel extends CI_Model{
             return json_encode(array('status'=>3));
         }
     }
+
+    //DIEGO BEGIN
+    function verificarLimiteGanancias($id_usuario, $datoganancia,$tipo)
+    {
+        $valorpuntos     = $this->Rangomodel->comprasPaqueteFacturaUsuario($id_usuario); 
+        $idPaquete       = $valorpuntos[0]->id_plano;
+        $datosPaquete    = $this->Rangomodel->datosPaqueteUsuario($idPaquete);    
+        $valorPaquete    = $datosPaquete[0]->valor;
+        $valorMaximoGanancia     = $valorPaquete * 2.75;
+
+        $datosUsuarios      = $this->Rangomodel->getUsuarioId($id_usuario);
+        $saldo_rendimentos  = $datosUsuarios[0]->saldo_rendimentos;
+        $saldo_indicacoes   = $datosUsuarios[0]->saldo_indicacoes;
+        $ganancias          = $saldo_rendimentos + $saldo_indicacoes; //$datosUsuarios[0]->ganancias;
+
+        $totalGanancias     = $ganancias + $datoganancia;
+
+        if($totalGanancias <= $valorMaximoGanancia)
+        {
+          if ($tipo == 'REN' )
+          {
+              $saldo_rendimentos = $saldo_rendimentos + $datoganancia;
+          }
+          else
+          {
+              $saldo_indicacoes = $saldo_indicacoes + $datoganancia;
+          }
+          $ganancias = $ganancias + $datoganancia;
+        }
+        else
+        {
+          if($valorMaximoGanancia < $ganancias)
+          {
+            $datoganancia = 0;  
+          }
+          else
+          {
+            $datoganancia = $valorMaximoGanancia - $ganancias;
+          }
+
+          if ($tipo == 'REN' )
+          {
+              $saldo_rendimentos = $saldo_rendimentos + $datoganancia;
+          }
+          else
+          {
+              $saldo_indicacoes = $saldo_indicacoes + $datoganancia;
+          }
+          $ganancias = $ganancias + $datoganancia;     
+        }
+        $data = array(
+          'saldo_rendimentos' => $saldo_rendimentos,
+          'saldo_indicacoes'  => $saldo_indicacoes,
+          'ganancias'         => $ganancias
+        );
+
+        $this->db->where('id', $id_usuario);
+        $this->db->update('usuarios', $data);
+        return  $datoganancia;
+    }
+    //DIEGO END
 }
 ?>

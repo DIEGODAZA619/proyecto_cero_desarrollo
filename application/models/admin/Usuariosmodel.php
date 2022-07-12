@@ -177,7 +177,7 @@ class Usuariosmodel extends CI_Model{
         }
 
         $this->db->where('id', $id);
-        $update = $this->db->update('usuarios', $dados); //DIEGO
+        $update = $this->db->update('usuarios', $dados);
 
         if($update){
 

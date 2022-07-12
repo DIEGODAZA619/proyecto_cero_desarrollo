@@ -294,7 +294,13 @@ class Rangos extends CI_Controller {
       }  
       return 1;
     }
+    //Career plan bonus
+    //GravaExtrato($id_usuario, $monto, 'Career plan bonus'.InformacoesUsuario('login', $row->id_usuario), 1);
 
+    //GravaExtrato($id_usuario, $monto, 'Career plan bonus'.InformacoesUsuario('login', $id_usuario), 1);
+
+    //GravaExtrato($id_padre, $bonusIndicacao, 'Career plan bonus'.InformacoesUsuario('login', $id_hijo), 1);
+    
     function verificarLimiteGananciasPrevio($id_usuario, $datoganancia,$tipo)
     {        
         $valorpuntos     = $this->Rangomodel->comprasPaqueteFacturaUsuario($id_usuario); 
@@ -368,7 +374,14 @@ class Rangos extends CI_Controller {
         }
         else
         {
-          $datoganancia = $valorMaximoGanancia - $ganancias;
+          if($valorMaximoGanancia < $ganancias)
+          {
+            $datoganancia = 0;  
+          }
+          else
+          {
+            $datoganancia = $valorMaximoGanancia - $ganancias;
+          }
 
           if ($tipo == 'REN' )
           {
@@ -385,8 +398,6 @@ class Rangos extends CI_Controller {
           'saldo_indicacoes'  => $saldo_indicacoes,
           'ganancias'         => $ganancias
         );
-
-
         $editarGananciaUsuarios = $this->Rangomodel->editarGananciaUsuarios($id_usuario,$data);    
         return  $datoganancia;
     }

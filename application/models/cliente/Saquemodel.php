@@ -238,6 +238,9 @@ class Saquemodel extends CI_Model{
           $coluna = 'saldo_indicacoes';
         }
 
+
+
+
         $this->db->where('id', $row->id_usuario);
         $this->db->update('usuarios', array($coluna=>$novo_saldo));
 
