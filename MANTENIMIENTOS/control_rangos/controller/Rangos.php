@@ -151,9 +151,9 @@ class Rangos extends CI_Controller {
           $idPaquete       = $puntos->id_plano;
           $idFactura       = $puntos->id;
           $datosPaquete    = $this->Rangomodel->datosPaqueteUsuario($idPaquete);
-          $valorPaquete    = $datosPaquete[0]->valor;          
-          $porcentaje      = $porcentajeConfigurado;//$datosPaquete[0]->ganhos_diarios;
-          $gananciaDiaria  = $valorPaquete * $porcentaje ) / 100;
+          $valorPaquete    = $datosPaquete[0]->valor;
+          //$porcentaje      = $datosPaquete[0]->ganhos_diarios;
+          $gananciaDiaria  = $datosPaquete[0]->ganhos_diarios; //$valorPaquete * $porcentaje ) / 100;
           $sumaGanancias   = $sumaGanancias + $gananciaDiaria;          
           if($gananciaDiaria > 0)
           {

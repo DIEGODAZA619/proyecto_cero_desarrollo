@@ -255,20 +255,20 @@ class Faturasmodel extends CI_Model{
                     return json_encode(array('status'=>4));
                 }
 
-                $novo_saldo = $saldo - $fatura->valor_fatura; // RESTA RENDIMIENTO
+                $novo_saldo = $saldo-$fatura->valor_fatura;
 
                 $this->db->where('id', $this->userid);
                 $updateCash = $this->db->update('usuarios', array('saldo_rendimentos'=>$novo_saldo));
 
             }else{
 
-                $saldo = InformacoesUsuario('saldo_indicacoes'); 
+                $saldo = InformacoesUsuario('saldo_indicacoes');
 
                 if($saldo < $fatura->valor_fatura){
                     return json_encode(array('status'=>4));
                 }
 
-                $novo_saldo = $saldo - $fatura->valor_fatura; // RESTA INDICACIONES
+                $novo_saldo = $saldo-$fatura->valor_fatura;
 
                 $this->db->where('id', $this->userid);
                 $updateCash = $this->db->update('usuarios', array('saldo_indicacoes'=>$novo_saldo));

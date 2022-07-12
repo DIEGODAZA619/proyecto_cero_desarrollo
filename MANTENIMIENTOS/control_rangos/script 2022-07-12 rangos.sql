@@ -9,7 +9,7 @@ CREATE TABLE ganancias_rangos
   valor_plan double,
   porcentaje int,
   nivel_ganancia int default 0,
-  ganancia_diaria decimal(10,2),
+  ganancia_diaria double,
   tipo_ganancia int,
   correlativo int,
   correlativo_ganancia int,

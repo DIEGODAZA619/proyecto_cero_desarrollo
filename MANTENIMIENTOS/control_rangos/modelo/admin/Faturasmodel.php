@@ -1,17 +1,17 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Faturasmodel extends CI_Model{
 
-    protected $userid;
     protected $rede_total = array();
     protected $todos_niveis = array();
 
     public function __construct(){
         parent::__construct();
-
-        $this->userid = InformacoesUsuario('id');
-        $this->load->model('admin/Rangomodel', 'Rangomodel'); //DIEGO
+        $this->load->model('admin/Rangomodel', 'Rangomodel');  //DIEGO
     }
 
     public function ProcuraPatrocinador($id_usuario, $id_patrocinador, $chave_binaria){
@@ -189,102 +189,66 @@ class Faturasmodel extends CI_Model{
         
     }
 
-    public function MinhasFaturas(){
+    public function PlanosAtivos(){
 
-        $this->db->select('p.*, f.id AS id_fatura,  f.comprovante, f.status');
+        $this->db->where('status', !0);
+        $planos = $this->db->get('faturas');
+
+        return $planos->num_rows();
+    }      
+
+    public function TodasFaturas($status = false){
+
+        $this->db->select('f.comprovante, f.id, f.id_usuario, p.nome, p.valor');
         $this->db->from('faturas AS f');
         $this->db->join('planos AS p', 'p.id = f.id_plano', 'inner');
-        $this->db->where('f.id_usuario', $this->userid);
-        $faturas = $this->db->get();
+        $this->db->order_by('f.data_pagamento', 'ASC');
+        if($status === false){
+            $this->db->where('f.comprovante IS NOT NULL', null, false);
+            $this->db->where('f.data_pagamento IS NULL', null, false);
+            $this->db->where('f.status', 0);
+        }else{
+            $this->db->where('f.status', $status);
 
-        if($faturas->num_rows() > 0){
+            if($status === 0){
+                $this->db->where('f.comprovante IS NULL', null, false);
+                $this->db->where('f.data_pagamento IS NULL', null, false);
+            }
+        }
+        
+        $query = $this->db->get();
 
-            return $faturas->result();
+        if($query->num_rows() > 0){
+
+            return $query->result();
         }
 
         return false;
     }
 
-    public function FormasPagamento(){
+    public function LiberarFatura($id){
 
-        $pagamento = $this->db->get('contas_pagamento');
-
-        if($pagamento->num_rows() > 0){
-
-            return $pagamento->result();
-        }
-
-        return false;
-    }
-
-    public function ValorFatura($id_fatura){
-
-        $this->db->select('p.valor, f.status');
+        $this->db->select('f.id_usuario, p.valor, p.plano_carreira, p.binario');
         $this->db->from('faturas AS f');
         $this->db->join('planos AS p', 'p.id = f.id_plano', 'inner');
-        $this->db->where('f.id', $id_fatura);
+        $this->db->where('f.id', $id);
+        $this->db->where('f.status', 0);
         $fatura = $this->db->get();
 
         if($fatura->num_rows() > 0){
 
             $row = $fatura->row();
 
-            if($row->status == 0){
+            $this->db->where('id_usuario', $row->id_usuario);
+            $this->db->where('status', 0);
+            
 
-                return json_encode(array('status'=>1, 'valor_fatura'=>$row->valor));
+            $this->db->where('id', $id);
+            $update = $this->db->update('faturas', array('status'=>1, 'data_pagamento'=>date('Y-m-d H:i:s')));//edward
 
-            }
+            if($update){
 
-            return json_encode(array('status'=>2));
-        }
-
-        return json_encode(array('status'=>0));
-    }
-
-    public function PagarFatura($id_fatura, $pagamento){
-
-        $fatura = json_decode($this->ValorFatura($id_fatura));
-
-        if($fatura->status == 1){
-
-            if($pagamento == 1){
-
-                $saldo = InformacoesUsuario('saldo_rendimentos');
-
-                if($saldo < $fatura->valor_fatura){
-                    return json_encode(array('status'=>4));
-                }
-
-                $novo_saldo = $saldo - $fatura->valor_fatura; // RESTA RENDIMIENTO
-
-                $this->db->where('id', $this->userid);
-                $updateCash = $this->db->update('usuarios', array('saldo_rendimentos'=>$novo_saldo));
-
-            }else{
-
-                $saldo = InformacoesUsuario('saldo_indicacoes'); 
-
-                if($saldo < $fatura->valor_fatura){
-                    return json_encode(array('status'=>4));
-                }
-
-                $novo_saldo = $saldo - $fatura->valor_fatura; // RESTA INDICACIONES
-
-                $this->db->where('id', $this->userid);
-                $updateCash = $this->db->update('usuarios', array('saldo_indicacoes'=>$novo_saldo));
-            }
-
-            $this->db->select('p.plano_carreira, p.valor, p.binario, f.id_usuario');
-            $this->db->from('faturas AS f');
-            $this->db->join('planos AS p', 'p.id = f.id_plano', 'inner');
-            $this->db->where('f.id', $id_fatura);
-            $faturaQuery = $this->db->get();
-
-            if($faturaQuery->num_rows() > 0){
-
-                $rowFatura = $faturaQuery->row();
-
-                $this->db->where('id_usuario', $rowFatura->id_usuario);
+                $this->db->where('id_usuario', $row->id_usuario);
                 $redeAfiliado = $this->db->get('rede');
 
                 if($redeAfiliado->num_rows() > 0){
@@ -296,7 +260,7 @@ class Faturasmodel extends CI_Model{
                     if($conta_niveis->num_rows() > 0){
 
                         $this->rede_total = array();
-                        $this->LinhaIndicacao($rowFatura->id_usuario, $conta_niveis->num_rows(), true);
+                        $this->LinhaIndicacao($row->id_usuario, $conta_niveis->num_rows(), true);
                         $this->CriaTodosNiveis();
 
                         if(!empty($this->rede_total)){
@@ -305,41 +269,41 @@ class Faturasmodel extends CI_Model{
 
                                 if(isset($this->todos_niveis[$nivel+1])){
 
-                                    $bonusIndicacao = ($this->todos_niveis[$nivel+1]/100) * $rowFatura->valor;
+                                    $bonusIndicacao = ($this->todos_niveis[$nivel+1]/100) * $row->valor;
 
-                                    //DIEGO  BEGIN
-                                     $ganancias = $this->verificarLimiteGanancias($patrocinador, $bonusIndicacao,'IND');
-                                     /*
-                                    $novoSaldoIndicacao = InformacoesUsuario('saldo_indicacoes', $patrocinador) + $bonusIndicacao;
+                                    //DIEGO
+                                    $ganancias = $this->verificarLimiteGanancias($patrocinador, $bonusIndicacao,'IND');
+                                    /*$novoSaldoIndicacao = InformacoesUsuario('saldo_indicacoes', $patrocinador) + $bonusIndicacao;
                                     $this->db->where('id', $patrocinador);
                                     $this->db->update('usuarios', array('saldo_indicacoes'=>$novoSaldoIndicacao)); */
-                                    //DIEGO END
 
-									GravaExtrato($patrocinador, $bonusIndicacao, 'User Referral Bonus '.InformacoesUsuario('login',$rowFatura->id_usuario), 1);
-									 
+                                    //DIEGO
+
+                                    GravaExtrato($patrocinador, $bonusIndicacao, 'User Referral Bonus '.InformacoesUsuario('login', $row->id_usuario), 1);
 
                                 }
                             }
                         }
+					
+						
                     }
 
-                    
-                    $this->db->where('id_usuario', $rowFatura->id_usuario);
+                    $this->db->where('id_usuario', $row->id_usuario);
                     $this->db->where('plano_ativo', 1);
                     $redeCheck = $this->db->get('rede');
                     
                     if($redeCheck->num_rows() <= 0){
-                        
-                        $id_patrocinador = $this->AtualizaPatrocinador($rowFatura->id_usuario);
+                    
+                        $id_patrocinador = $this->AtualizaPatrocinador($row->id_usuario);
     
-                        $this->db->where('id_usuario', $rowFatura->id_usuario);
+                        $this->db->where('id_usuario', $row->id_usuario);
                         $this->db->update('rede', array('id_patrocinador'=>$id_patrocinador, 'plano_ativo'=>1));
                     
                     }
                 }
 
                 $this->rede_total = array();
-                $this->LinhaIndicacao($rowFatura->id_usuario, 1000000);
+                $this->LinhaIndicacao($row->id_usuario, 1000000);
 
                 if(!empty($this->rede_total)){
 
@@ -357,11 +321,10 @@ class Faturasmodel extends CI_Model{
                         if($rede->num_rows() > 0){
 
                             $rowRede = $rede->row();
-                            
 
                             $dadosBinario = array(
                                                   'id_usuario'=>$patrocinadores,
-                                                  'pontos'=>$rowFatura->plano_carreira,
+                                                  'pontos'=>$row->plano_carreira,
                                                   'chave_binaria'=>$LadoChaveBinaria,
                                                   'pago'=>0,
                                                   'data'=>date('Y-m-d H:i:s')
@@ -370,14 +333,12 @@ class Faturasmodel extends CI_Model{
                             $this->db->insert('rede_pontos_binario', $dadosBinario);
 
                             $LadoChaveBinaria = $rowRede->chave_binaria;
-
+                        
                         }else{
-
-                            /* Caso o patrocinador não estiver na rede de ninguém, coloca os pontos no lado esquerdo */
 
                             $dadosBinario = array(
                                                   'id_usuario'=>$patrocinadores,
-                                                  'pontos'=>$rowFatura->plano_carreira,
+                                                  'pontos'=>$row->plano_carreira,
                                                   'chave_binaria'=>1,
                                                   'pago'=>0,
                                                   'data'=>date('Y-m-d H:i:s')
@@ -387,55 +348,33 @@ class Faturasmodel extends CI_Model{
                         }
                     }
                 }
-            }
 
-            if($updateCash){
+                $this->db->where('id', $row->id_usuario);
+                $usuario = $this->db->get('usuarios');
 
-                $this->db->where('id', $id_fatura);
-                $this->db->update('faturas', array('status'=>1, 'comprovante'=>'fpagsaldo.jpg', 'data_pagamento'=>date('Y-m-d')));
+                if($usuario->num_rows() > 0){
 
-                $this->db->where('id', $rowFatura->id_usuario);
-                $usuarioQuery = $this->db->get('usuarios');
+                    $rowUser = $usuario->row();
 
-                if($usuarioQuery->num_rows() > 0){
+                    if($rowUser->quantidade_binario < $row->binario){
 
-                    $rowUser = $usuarioQuery->row();
-
-                    if($rowUser->quantidade_binario < $rowFatura->binario){
-
-                        $this->db->where('id', $rowFatura->id_usuario);
-                        $this->db->update('usuarios', array('quantidade_binario'=>$rowFatura->binario));
+                        $this->db->where('id', $row->id_usuario);
+                        $this->db->update('usuarios', array('quantidade_binario'=>$row->binario));
                     }
                 }
-                
-                $this->db->select('u.login');
-                $this->db->from('faturas AS f');
-                $this->db->join('usuarios AS u', 'u.id = f.id_usuario', 'inner');
-                $this->db->where('f.id', $id_fatura);
-                $userInvoice = $this->db->get();
 
-                if($userInvoice->num_rows() > 0){
-                    $InvoiceOwner = $userInvoice->row()->login;
-                }else{
-                    $InvoiceOwner = '(não identificado)';
-                }
+                EnviaNotificacao($row->id_usuario, 'Plan activated successfully!');
 
-                GravaExtrato($this->userid, $fatura->valor_fatura, 'User invoice payment <b>'.$InvoiceOwner.'</b> with balance', 2);
-                EnviaNotificacao($rowFatura->id_usuario, 'Invoice released successfully!');
+                $this->VerificaBinarioAtivo($id);
+				redirect('admin/faturas/liberar');
+                return '<div class="alert alert-success text-center">Invoice released successfully!</div>';
+            }else{
 
-                $this->VerificaBinarioAtivo($id_fatura);
-
-                return json_encode(array('status'=>1));
+                return '<div class="alert alert-danger text-center">Sorry, but there was an error releasing the invoice. Try again.</div>';
             }
-
-        }elseif($fatura->status == 2){
-
-            return json_encode(array('status'=>2));
-
-        }else{
-
-            return json_encode(array('status'=>3));
         }
+
+        return '<div class="alert alert-danger text-center">Sorry, but the invoice has already been released or does not exist. Try again.</div>';
     }
 
     //DIEGO BEGIN
@@ -468,6 +407,7 @@ class Faturasmodel extends CI_Model{
         }
         else
         {
+
           if($valorMaximoGanancia < $ganancias)
           {
             $datoganancia = 0;  
@@ -476,7 +416,7 @@ class Faturasmodel extends CI_Model{
           {
             $datoganancia = $valorMaximoGanancia - $ganancias;
           }
-
+          
           if ($tipo == 'REN' )
           {
               $saldo_rendimentos = $saldo_rendimentos + $datoganancia;
