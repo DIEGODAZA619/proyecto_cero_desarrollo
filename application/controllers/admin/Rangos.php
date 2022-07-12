@@ -139,6 +139,7 @@ class Rangos extends CI_Controller {
       $datoscorrelativo = $this->Rangomodel->correlativoMaximoGanancias();
       $correlativo      = $datoscorrelativo[0]->correlativo + 1;
       $id_rango_guardados = "";
+      $id_rango_usuarios = "";
       $tipo_ganancia = 1;
       //REGISTRO DE GANANCIAS POR PAQUETES
       
@@ -176,6 +177,7 @@ class Rangos extends CI_Controller {
               if($guardarGanancia)
               {
                 $id_rango_guardados = $id_rango_guardados.$guardarGanancia."|";
+                $id_rango_usuarios  = $id_rango_usuarios.$patrocinados->id_usuario."|";
               }          
             }
             else
@@ -196,7 +198,7 @@ class Rangos extends CI_Controller {
               );
               $editarGanancia = $this->Rangomodel->editarGananciaRango($idRegistro,$data);
               $id_rango_guardados = $id_rango_guardados.$idRegistro."|";
-
+              $id_rango_usuarios  = $id_rango_usuarios.$patrocinados->id_usuario."|";
             }
           }
         }
@@ -207,30 +209,37 @@ class Rangos extends CI_Controller {
         //echo $sumaGanancias."*-*-*-*<br>";
 
         $porcentaje = 2;
-        $gananciaBono = ($sumaGanancias * $porcentaje ) / 100;
+        $gananciaBonoDato = ($sumaGanancias * $porcentaje ) / 100;
         $tipo_ganancia = 2;
 
-        $gananciaBono = $this->verificarLimiteGananciasPrevio($idUsuario, $gananciaBono,'REN');
+        $$gananciaBonoDato = $this->verificarLimiteGananciasPrevio($idUsuario, $gananciaBonoDato,'REN');
         //echo $gananciaBono." - ".$idUsuario." - <br>";
-        if($gananciaBono > 0)
+        if($gananciaBonoDato > 0)
         {            
             $verificar = $this->Rangomodel->checkGananciasRangosDirecto($idUsuario,$fechaCalculo,$tipo_ganancia);
             if(!$verificar)
             {
-                $gananciaBono = $this->verificarLimiteGanancias($idUsuario, $gananciaBono,'REN');
-                $data = array(
-                    'id_usuario'            => $idUsuario,              
-                    'porcentaje'            => $bono,
-                    'valor_plan'            => $sumaGanancias,
-                    'ganancia_diaria'       => $gananciaBono,
-                    'tipo_ganancia'         => $tipo_ganancia,
-                    'correlativo_ganancia'  => $correlativo,
-                    'id_rangos'             => $id_rango_guardados,
-                    'fecha_calculo'         => $fechaCalculo,
-                    'fecha_registro'        => $fechaRegistro,
-                    'nivel_ganancia'        => 1
-                );
-                $guardarGanancia = $this->Rangomodel->guardarGananciaRango($data);      
+                $gananciaBono = $this->verificarLimiteGanancias($idUsuario, $gananciaBonoDato,'REN');
+                if($gananciaBono > 0)
+                {
+                    $data = array(
+                        'id_usuario'            => $idUsuario,              
+                        'porcentaje'            => $bono,
+                        'valor_plan'            => $sumaGanancias,
+                        'ganancia_diaria'       => $gananciaBono,
+                        'tipo_ganancia'         => $tipo_ganancia,
+                        'correlativo_ganancia'  => $correlativo,
+                        'id_rangos'             => $id_rango_guardados,
+                        'fecha_calculo'         => $fechaCalculo,
+                        'fecha_registro'        => $fechaRegistro,
+                        'nivel_ganancia'        => 1
+                    );
+                    $guardarGanancia = $this->Rangomodel->guardarGananciaRango($data);                
+                    if($guardarGanancia)
+                    {
+                        $guardarExtracto = $this->guardarExtratosGanancias($idUsuario, $gananciaBono,$id_rango_usuarios,$fechaRegistro,$guardarGanancia);  
+                    }
+                }   
             }
             else
             {
@@ -257,20 +266,28 @@ class Rangos extends CI_Controller {
                 if(!$verificar)
                 {                 
                     //echo $idUsarioPrincipal." entra".$gananciaBono." <br>";   
-                    $gananciaBono = $this->verificarLimiteGanancias($idUsarioPrincipal, $gananciaBono,'REN');                       
-                    $data = array(
-                      'id_usuario'            => $idUsarioPrincipal,              
-                      'porcentaje'            => $bonoUsarioPrincipal,
-                      'valor_plan'            => $sumaGanancias,
-                      'ganancia_diaria'       => $gananciaBono,
-                      'tipo_ganancia'         => $tipo_ganancia,
-                      'correlativo_ganancia'  => $correlativo,
-                      'id_rangos'             => $id_rango_guardados,
-                      'fecha_calculo'         => $fechaCalculo,
-                      'fecha_registro'        => $fechaRegistro,
-                      'nivel_ganancia'        => $nivel
-                  );
-                  $guardarGanancia = $this->Rangomodel->guardarGananciaRango($data);      
+                    $gananciaBono    = $this->verificarLimiteGanancias($idUsarioPrincipal, $gananciaBonoDato,'REN');
+                    if($gananciaBono > 0)
+                    {
+                        $data = array(
+                          'id_usuario'            => $idUsarioPrincipal,              
+                          'porcentaje'            => $bonoUsarioPrincipal,
+                          'valor_plan'            => $sumaGanancias,
+                          'ganancia_diaria'       => $gananciaBono,
+                          'tipo_ganancia'         => $tipo_ganancia,
+                          'correlativo_ganancia'  => $correlativo,
+                          'id_rangos'             => $id_rango_guardados,
+                          'fecha_calculo'         => $fechaCalculo,
+                          'fecha_registro'        => $fechaRegistro,
+                          'nivel_ganancia'        => $nivel
+                        );
+                        $guardarGanancia = $this->Rangomodel->guardarGananciaRango($data);                     
+                        if($guardarGanancia)
+                        {
+                        $guardarExtracto = $this->guardarExtratosGanancias($idUsarioPrincipal, $gananciaBono,$id_rango_usuarios,$fechaRegistro,$guardarGanancia);  
+                        }
+                    }
+                  
                 }
                 else
                 {
@@ -400,5 +417,40 @@ class Rangos extends CI_Controller {
         );
         $editarGananciaUsuarios = $this->Rangomodel->editarGananciaUsuarios($id_usuario,$data);    
         return  $datoganancia;
+    }
+
+    //Career plan bonus
+    //GravaExtrato($id_usuario, $monto, 'Career plan bonus'.InformacoesUsuario('login', $row->id_usuario), 1);
+
+    //GravaExtrato($id_usuario, $monto, 'Career plan bonus'.InformacoesUsuario('login', $id_usuario), 1);
+
+    //GravaExtrato($id_padre, $bonusIndicacao, 'Career plan bonus'.InformacoesUsuario('login', $id_hijo), 1);
+    function guardarExtratosGanancias($idUsuario, $bono, $rango_user,$fecha,$idregistro)    
+    {
+        $referencia = 'Career plan bonus - ';
+        //$rango_user = '3|21|';
+        $tam = strlen($rango_user) - 1;
+        $listado = substr($rango_user, 0, $tam);
+        $listadoArray = explode("|", $listado);        
+        foreach ($listadoArray as $id_user)
+        {
+            $usuario = $this->Rangomodel->getUsuarioId($id_user);
+            $nome    = $usuario[0]->nome;
+            $referencia = $referencia.$nome." |";            
+        }
+        $tam = strlen($referencia) - 1;
+        $referencia = substr($referencia, 0, $tam);
+        //echo $referencia;
+        $data = array(
+            'id_usuario'        => $idUsuario,
+            'mensagem'          => $referencia,
+            'valor'             => $bono,
+            'tipo'              => 1,
+            'data'              => $fecha,
+            'id_ganancia_rango' => $idregistro
+          );
+        //echo json_encode($data)."<br>";
+        $guardarExtratos = $this->Rangomodel->guardarExtractosCarrera($data);        
+        return $guardarExtratos;        
     }
 }

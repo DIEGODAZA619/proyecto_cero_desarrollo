@@ -125,6 +125,11 @@ class Rangomodel extends CI_Model{
         $this->db->where('id',$id_registro);
         return $this->db->update('usuarios',$data);
     }
+    function guardarExtractosCarrera($data)
+    {
+        $this->db->insert('extrato',$data);
+        return $this->db->insert_id();
+    }
 
 }
 ?>
