@@ -75,7 +75,7 @@ class Rangomodel extends CI_Model{
 
     function editarGananciaRango($id_registro,$data)
     {
-        $this->db->where('estado',1);
+        $this->db->where('estado_ganancia',1);
         $this->db->where('id',$id_registro);
         return $this->db->update('ganancias_rangos',$data);
     }
@@ -130,6 +130,25 @@ class Rangomodel extends CI_Model{
         $this->db->insert('extrato',$data);
         return $this->db->insert_id();
     }
+    function getConfiguraciones()
+    {
+        $query = $this->db->query("select *
+                                     from configuracao
+                                    where nome_site = 'Metabiz'"); 
+        return $query->result();
+    }
+    function getExtratoIdGanancia($id)
+    {
+        $query = $this->db->query("select *
+                                     from extrato 
+                                    where id_ganancia_rango = ".$id);
+        return $query->result();
+    }
 
+    function updateExtrato($id_registro, $data)
+    {
+        $this->db->where('id_ganancia_rango',$id_registro);
+        return $this->db->update('extrato',$data);
+    }
 }
 ?>
