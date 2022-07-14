@@ -14,7 +14,7 @@ class Usuarios extends CI_Controller {
 
     public function index(){
 
-        $idUsuario = $this->session->userdata('uid_admin');       
+        $idUsuario = $this->session->userdata('uid_admin');
         $valorOpcionBD = 2;
         $valorPermisoBD = 1;
         $permiso = verificarPermisosUsuario($idUsuario,$valorOpcionBD,$valorPermisoBD);
@@ -61,7 +61,6 @@ class Usuarios extends CI_Controller {
                                       );
 
             $data['usuario'] = $this->UsuariosModel->DadosUsuario($id);
-            $data['gananciasNiveles'] = $this->UsuariosModel->GananciasNiveles($id);
             //recuperar roles desde la variable de session DIEGO
             $data['rolescero'] = $this->session->userdata('rolescero');
             $data['roles']     = $this->session->userdata('roles');
@@ -76,7 +75,6 @@ class Usuarios extends CI_Controller {
     public function editar($id){
 
         $idUsuario = $this->session->userdata('uid_admin');
-        $data['isAdmin'] = $this->session->userdata('is_admin');  //DIEGO      
         $valorOpcionBD = 2;
         $valorPermisoBD = 3;
         $permiso = verificarPermisosUsuario($idUsuario,$valorOpcionBD,$valorPermisoBD);

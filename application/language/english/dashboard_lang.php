@@ -21,12 +21,12 @@
     $lang['title_dialog6']="Plan Time";
     $lang['expire']="Time to expire your plan";
     $lang['title_dialog7']="Direct Referrals";
-    $lang['ht_name']="Name";
+    $lang['ht_name']="Usernames";
     $lang['ht_email']="Email";
     $lang['ht_plan']="Plan";
     $lang['ht_phone']="Phone";
     $lang['ht_date']="Register Date";
-    $lang['title_dialog8']="Recommendation Link";
+    $lang['title_dialog8']="Referral Link";
     $lang['button1']="Copy Link";
     $lang['button2']="Change the binary key and control every user on your network";
     $lang['binary_key']="BINARY KEY";

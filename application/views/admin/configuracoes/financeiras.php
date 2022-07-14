@@ -57,6 +57,15 @@
                                     <input type="text" name="taxa_saque" class="form-control" value="<?php echo ConfiguracoesSistema('taxa_saque');?>" required>
                                  </div>
                               </div>
+							   
+							  <div class="form-group">
+                                 <label class="col-sm-3 control-label">BTC</label>
+                                 <div class="col-sm-6">
+                                    <input type="number" name="btc" class="form-control" value="<?php echo ConfiguracoesSistema('btc');?>" required>
+                                 </div>
+                              </div> 
+							   
+							   
                               <button type="button" class="btn btn-info pull-right" id="addHorario"><i class="fa fa-plus"></i> Adicionar</button>
                               <div class="clearfix"></div>
                               <table class="table table-striped" id="tabelaPagamentos">
@@ -108,7 +117,7 @@
                               <div class="form-group">
                                  <label class="col-sm-3 control-label">Porcentaje pagar por día</label>
                                  <div class="col-sm-6">
-                                    <input type="text" name="porcentagem_dia" class="form-control" value="<?php echo ConfiguracoesSistema('porcentagem_dia');?>" required>
+                                    <input type="number" step="0.01" name="porcentagem_dia" class="form-control" value="<?php echo ConfiguracoesSistema('porcentagem_dia');?>" required>
                                  </div>
                               </div>
 

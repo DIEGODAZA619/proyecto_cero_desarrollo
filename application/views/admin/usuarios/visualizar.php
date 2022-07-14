@@ -5,7 +5,7 @@
             <!--page title and breadcrumb start -->
             <div class="row">
                 <div class="col-md-8">
-                    <h1 class="page-title"> Visualizar Usuario
+                    <h1 class="page-title"> Visualizar Usuário
                         <small>visualizar usuário cadastrado</small>
                     </h1>
                 </div>
@@ -35,8 +35,6 @@
                               <li><a href="#binario" data-toggle="tab">Binário</a>
                               </li>
                               <li><a href="#extrato" data-toggle="tab">Extracto</a>
-                              </li>
-                              <li><a href="#ganancias" data-toggle="tab">Career</a>
                               </li>
                             </ul>
 
@@ -269,73 +267,6 @@
                                   <?php
                                   }else{
                                     echo '<div class="alert alert-danger text-center">Nenhuma movimentação de conta para esse usuário.</div>';
-                                  }
-                                  ?>
-                                </div>
-                                <div class="tab-pane" id="ganancias">
-                                  <?php
-                                  if($gananciasNiveles){
-                                  ?>
-                                  <table class="table responsive-data-table tableExtrato table-striped">
-                                      <thead>
-                                      <tr>
-                                          <th>
-                                              #
-                                          </th>
-                                          <th>
-                                              Gain Level
-                                          </th>
-                                          <th>
-                                              Profits
-                                          </th>
-                                          <th>
-                                              Data
-                                          </th>
-                                          <th>
-                                              Data payment
-                                          </th>
-                                          <th>
-                                              Status
-                                          </th>                                          
-                                      </tr>
-                                      </thead>
-                                      <tbody>
-                                      <?php
-                                        $con = 1;
-                                        foreach($gananciasNiveles as $fila){
-                                      ?>
-                                      <tr>
-                                          <td>
-                                              # <?php echo $con++;?>
-                                          </td>
-                                          <td>
-                                              <?php echo $fila->nivel_ganancia;?>
-                                          </td>
-                                          <td>
-                                              $ <?php echo $fila->ganancia_diaria;?>
-                                          </td>                                          
-                                          <td>
-                                              <?php echo date('d/m/Y', strtotime($fila->fecha_calculo));?>
-                                          </td>
-                                          <td>
-                                              <?php if(is_null($fila->fecha_pago))
-                                                      {$fecha = "";} 
-                                                  else{$fecha = date('d/m/Y', strtotime($fila->fecha_pago));} 
-                                                    echo $fecha;?>
-                                          </td>
-                                          <td>
-                                              <?php echo $fila->estado;?>
-                                          </td>
-
-                                      </tr>
-                                      <?php
-                                      }
-                                      ?>
-                                      </tbody>
-                                  </table>
-                                  <?php
-                                  }else{
-                                    echo '<div class="alert alert-danger text-center">There is no data.</div>';
                                   }
                                   ?>
                                 </div>

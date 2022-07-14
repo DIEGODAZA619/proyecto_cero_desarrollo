@@ -9,15 +9,15 @@
             <div class="col-xl-10 p-3">
                 <div class="text-center position-relative d-flex align-items-center justify-content-center">
                     <img src="<?php echo  base_url() ?>assets/template/images/arrow_orange.png" alt="flecha" class=" img-fluid position-absolute start-0" width="100">
-                    <h1 class="display-5 text-white fw-bold w-50"><?php echo lang('support')?><!-- Support --></h1>
+                    <h1 class="display-5 text-white fw-bold w-50">Support</h1>
                 </div>
                 <div class="content py-4 px-4 position-relative">
 
                     <div class="detalle w-100 position-relative ">
                         <!-- <button class="btn btn-primario btn-sm my-3">Crear
                                 Ticket</button> -->
-                        <a href="<?php echo base_url('ticket/abrir'); ?>" class="btn btn-primario btn-sm my-3"><?php echo lang('create')?><!-- Create
-                            Ticket --></a>
+                        <a href="<?php echo base_url('ticket/abrir'); ?>" class="btn btn-primario btn-sm my-3">Create
+                            Ticket</a>
                             <table id="tblDateEx" width='100%' class="w-100">
                             <thead class="">
                                 <tr>
@@ -25,13 +25,13 @@
                                         #
                                     </th>
                                     <th>
-                                    <?php echo lang('subject')?><!-- Subject -->
+                                    Subject
                                     </th>
                                     <th>
-                                    <?php echo lang('last_update')?><!-- Last update -->
+                                    Last update
                                     </th>
                                     <th>
-                                    <?php echo lang('status')?><!-- Status -->
+                                        Status
                                     </th>
                                     <th>&nbsp;</th>
                                 </tr>
@@ -69,10 +69,10 @@
                                                 ?>
                                             </td>
                                             <td>
-                                                <a class="btn btn-sm btn-primario" href="<?php echo base_url('ticket/visualizar/' . $ticket->id); ?>"><?php echo lang('toview')?><!-- To view --></a>
+                                                <a class="btn btn-sm btn-primario" href="<?php echo base_url('ticket/visualizar/' . $ticket->id); ?>">To view</a>
                                                 <?php
                                                 if ($ticket->status != 3) {
-                                                    echo ' | <a class="btn btn-sm btn-primario" href="' . base_url('ticket/fechar/' . $ticket->id) . '">'.lang('closed').'</a>';
+                                                    echo ' | <a class="btn btn-sm btn-primario" href="' . base_url('ticket/fechar/' . $ticket->id) . '">Closed Ticket</a>';
                                                 }
                                                 ?>
                                             </td>

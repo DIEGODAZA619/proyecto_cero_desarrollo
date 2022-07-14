@@ -134,7 +134,7 @@ class Contamodel extends CI_Model{
 		
 		$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
  
-        $userIp= $this->input->ip_address();
+        $userIp=$this->input->ip_address();
      
         $secret = $this->config->item('google_secret');
    
@@ -148,7 +148,7 @@ class Contamodel extends CI_Model{
          
         $status= json_decode($output, true);
 		
-	    if (1 == 1) {			
+	    if ($status['success']) {			
 			
         $this->db->where('login', $login);
         $this->db->where('senha', $senha);
@@ -166,8 +166,12 @@ class Contamodel extends CI_Model{
 
             $this->session->set_userdata('uid', $row->id);
 
+            //christopher flores
+            if($row->active_twofactor == 1){
+              redirect('two-factor-authentication');
+            }
             redirect('dashboard');
-
+            //christopher flores
             exit;
         }
 
@@ -179,6 +183,14 @@ class Contamodel extends CI_Model{
         }else{
             return '<div class="alert alert-danger text-center">Captcha invalid!</div>';
         }
+		
+		
+		
+		
+		
+		
+		
+
     }
 
     public function Cadastrar(){
@@ -186,7 +198,7 @@ class Contamodel extends CI_Model{
         $patrocinador = $this->input->post('patrocinador');
         $nome = $this->input->post('nome');
         $email = $this->input->post('email');
-$country = $this->input->post('country');
+        $country = $this->input->post('country');
         $celular = $this->input->post('celular');
         $login = strtolower(trim($this->input->post('login')));
         $senha = $this->input->post('senha');
@@ -299,6 +311,10 @@ $country = $this->input->post('country');
 
                 $this->db->insert('rede', $array_patrocinador);
             }
+			
+			
+			
+			
 
   $mensagem  = 'Hello <b>' . $nome . '</b>, Welcome to ' . ConfiguracoesSistema('nome_site') . ' you are now part of our affiliate group.<br />';
             $mensagem .= 'Below is the access data to your account on our website: <br /><br />';
@@ -794,7 +810,7 @@ style="width:100%;font-family:"Raleway", "helvetica neue", helvetica, arial, san
                                 <h1
                                   style="Margin:0;line-height:46px;mso-line-height-rule:exactly;font-family:"Raleway", "marker felt-thin", arial, sans-serif;font-size:30px;font-style:normal;font-weight:bold;color:white !important">';
 
-								$mensaje .= ' <span style="color:white !important">///WELCOME TO METABIZ///</span>';
+								$mensaje .= ' <span style="color:white !important">WELCOME TO METABIZ</span>';
 								$mensaje .= '</h1>';
 								$mensaje .= '</td>
                                   </tr>
@@ -834,24 +850,24 @@ style="width:100%;font-family:"Raleway", "helvetica neue", helvetica, arial, san
                                     <td align="left" class="es-m-p10t"
                                       style="padding:0;Margin:0;padding-bottom:10px;padding-top:30px">
                                       <h2
-                                        style="Margin:0;line-height:34px;mso-line-height-rule:exactly;font-family:"Raleway", "marker felt-thin", arial, sans-serif;font-size:28px;font-style:normal;font-weight:bold;color:white !important">';
+                                        style="margin:0;line-height:34px;mso-line-height-rule:exactly;font-family:Raleway, marker felt-thin, arial, sans-serif;font-size:28px;font-style:normal;font-weight:bold;color:white !important">';
 
             $mensaje .= 'Hello <b>' . $nome . '</b>, Welcome to ' . ConfiguracoesSistema('nome_site') . ' you are now part of our affiliate group.<br />';
-            $mensaje .= '</td>
+            $mensaje .= '</h2></td>
             </tr>
             <tr>
               <td align="left" class="es-m-txt-c" style="padding:0;Margin:0">
                 <p
-                  style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:"Raleway", "helvetica neue", helvetica, arial, sans-serif;line-height:24px;color:white !important;font-size:16px">';
+                  style="margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Raleway, helvetica neue, helvetica, arial, sans-serif;line-height:24px;color:white !important;font-size:16px">';
 
 
             $mensaje .= 'Below is the access data to your account on our website: <br /><br />';
             $mensaje .= '<b>Login:</b> ' . $login . ' <br />';
             //$mensaje .= '<b>Password:</b> ' . $senha . ' <br /><br />';
 			$mensaje .= '<b>Password:</b> **************** <br /><br />';
-            $mensaje .= '</td>
+            $mensaje .= '</p></td>
             </tr>
-          </table>
+          </table> 
         </td>
       </tr>
     </table>
@@ -866,15 +882,47 @@ style="width:100%;font-family:"Raleway", "helvetica neue", helvetica, arial, san
       <tr>
         <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
           <table cellpadding="0" cellspacing="0" width="100%" role="presentation"
-            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;color:white !important">
+            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;color:white !important">';
+			
+			
+			/*edward*/
+			$mensaje .= '
+			
+			<tr>
+				<td style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px;color:white!important;text-align: left;">
+			
+			';
+			######################### SEND ACTIVATION CODE #######################
+			  $fh = date("Y-m-d H:i");
+
+			  $codigo = $id_novo_usuario . "|" . $email . "|" . $senha . "|" . $fh;
+			  $codigo = base64_encode($codigo);
+			  $codigo = base64_encode($codigo);
+
+			  /*$codigoactiva = md5($this->input->post('clave'));
+			  $contenido = '<img src="' . base_url() . 'uploads/364fe484c644e6d6269f397796088ffa.png" alt="METABIZ" width="100px"><h1>ACTIVACIÓN DE CUENTA</h1><hr><p>Por favor haga clic en el enlace siguiente para activar su cuenta</p><a href="' . base_url() . 'activacion/?cod=' . $codigo . '">Activar Cuenta</a><br><p>En caso de tener problemas con el enlace, copiar la siguiente linea en su navegador</p><br>' . base_url() . 'activation?cod=' . $codigo . '<br>El enlace siguiente solo tiene validez de una 60 minutos, despues de este tiempo, el mismo sera invalido';*/
+			 
+
+			  ######################### SEND ACTIVATION CODE #######################
+			
+			/*edward*/
+			
+			$mensaje .= '<h3 style="color:white !important">ACCOUNT ACTIVATION</h3><hr><p style="color:white !important">Please click on the following link to activate your account</p><a href="' . base_url() . 'activation?cod=' . $codigo . '"  style="color:white !important;    text-decoration: underline;">Activate Account</a><br><p style="color:white !important;">In case you have problems with the link, copy the following line in your browser</p><span  style="color:white !important;" >' . base_url() . 'activation?cod=' . $codigo . '</span><br><br>The following link is only valid for 60 minutes, after this time, the same will be invalid';
+			
+			
+			$mensaje .= '
+			
+				</td>
+				
+			</tr>
             <tr>
               <td align="center" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px;color:white !important">
                 <h2
                   style="Margin:0;line-height:34px;mso-line-height-rule:exactly;font-family:"Raleway", "marker felt-thin", arial, sans-serif;font-size:28px;font-style:normal;font-weight:bold;color:white !important">';
 
-            $mensaje .= 'All your information is confidential, so do not share your login and password with anyone.<br />';
-            $mensaje .= 'If you need support, go to your backoffice and click on "Support" and open a ticket, we will respond as soon as possible.';
-            $mensaje .= '</td></tr>';
+            $mensaje .= 'All your information is confidential, so do not share your login and password with anyone.';
+             
+            $mensaje .= '</h2></td></tr>';
             $mensaje .= '<tr>
             <td align="center" class="es-m-txt-c"
               style="padding:0;Margin:0;padding-top:5px;padding-bottom:30px">
@@ -953,9 +1001,11 @@ style="width:100%;font-family:"Raleway", "helvetica neue", helvetica, arial, san
 
             EnviarEmail($email, 'Successfully registered!', $mensaje);
 
-     
-
-            return '<div class="alert alert-success text-center">Registration successful!</div>';
+			/*cuando se arregle el problema del mail*/
+		
+            //return '<div class="alert alert-success text-center">Pre Registration successful!<br><strong>Verify your email to activate your account</strong></div>';
+			
+			return '<div class="alert alert-success text-center">Successfully registered!</strong></div>';
         }
 
         return '<div class="alert alert-danger text-center">Error registering your account. Try again.</div>';

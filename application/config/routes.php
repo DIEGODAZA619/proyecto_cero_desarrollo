@@ -61,12 +61,22 @@ $route['comprovante'] = 'cliente/comprovante';
 $route['login'] = 'cliente/conta/login';
 $route['logout'] = 'cliente/conta/logout';
 $route['login/wallet-login'] = 'cliente/conta/mostrarcuentas';//beto
-$route['configuracoes'] = 'cliente/dashboard/configuracoes';
+$route['settings'] = 'cliente/dashboard/configuracoes';
 // $route['cadastrar/(:any)'] = 'cliente/conta/cadastrar/$1';
 // $route['cadastrar'] = 'cliente/conta/cadastrar';
 
 $route['register/(:any)'] = 'cliente/conta/cadastrar/$1'; //Pedro 02_07_2022
 $route['register'] = 'cliente/conta/cadastrar';  //Pedro 02_07_2022
+
+//Christopher Flores
+$route['two-factor-authentication'] = "website/twoFactor";
+$route['valid-twofactor'] = "website/validTwoFactor";
+$route['active-twofactor'] = "cliente/dashboard/activeTwoFactor";
+//Christopher Flores
+
+##### activacion #####
+$route['activation'] = 'cliente/conta/activation';  //Jimmy Villegas 08_07_2022
+##### activacion ##### 
 
 $route['recover/(:any)'] = 'cliente/conta/recuperar_senha/$1';//edward 2022-07-07
 $route['recover'] = 'cliente/conta/recuperar_senha';//edward 2022-07-07
@@ -136,7 +146,4 @@ $route['admin/uploadqr/excluir/(:num)'] = 'admin/uploadqr/excluir/$1';//diego
 
 $route['admin/addplan'] = 'admin/addplan';//diego
 $route['admin/addplan/adicionarPlan/(:num)'] = 'admin/addplan/adicionarPlan/$1';//diego
-
-
-$route['admin/rangos/calcular'] = 'admin/rangos/calcular';//diego
 

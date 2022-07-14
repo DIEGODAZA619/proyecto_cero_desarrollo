@@ -32,7 +32,7 @@ class Conta extends CI_Controller {
             $recaptchaResponse = $this->input->post('g-recaptcha-response');            
             
             //$secretKey = '6LeFAr8gAAAAAF5gsOyv_lDgOoAwQrHaiRnKJ55Q'; //KEY SECRET  THE RECAPTCHAT LOCAL
-            $secretKey =  $this->config->item('google_secret'); //KEY SECRET  THE RECAPTCHAT PRODUCCION
+            $secretKey = '6LfEiL8gAAAAAAh4r0uvJ-6ewyWXUFrC-Er1MALn'; //KEY SECRET  THE RECAPTCHAT PRODUCCION
             $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaResponse}&remoteip={$ip}");
 
             $atributos = json_decode($response, TRUE);

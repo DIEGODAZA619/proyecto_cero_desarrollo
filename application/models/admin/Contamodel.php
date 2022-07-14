@@ -33,7 +33,6 @@ class Contamodel extends CI_Model{
             $data = array(
                         'is_logued_in'  => TRUE,
                         'uid_admin' => $row->id,
-                        'is_admin' => $row->is_admin,   //DIEGO
                         'rolescero' => $rolescero,
                         'roles' => $roles,
                     );

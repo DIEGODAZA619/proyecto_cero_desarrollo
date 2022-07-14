@@ -9,5 +9,4 @@
 ?>
 
 
-
-<?php echo lang('plans')?>
+ 

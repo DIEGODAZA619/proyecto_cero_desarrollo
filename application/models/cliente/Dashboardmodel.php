@@ -18,6 +18,12 @@ class Dashboardmodel extends CI_Model{
         $cpf = $this->input->post('cpf');
         $celular = $this->input->post('celular');
         $nova_senha = $this->input->post('nova_senha');
+		$oldtf = InformacoesUsuario('active_twofactor');//Christopher Flores
+        $tf=0;//Christopher Flores
+        if($this->input->post('twofactor') == 1){
+            $tf=1;
+        }//Christopher Flores
+
 
         if(InformacoesUsuario('email') != $email){
 
@@ -50,7 +56,8 @@ class Dashboardmodel extends CI_Model{
                        'nome'=>$nome,
                        'email'=>$email,
                        'cpf'=>$cpf,
-                       'celular'=>$celular
+                       'celular'=>$celular,
+                       'active_twofactor' => $tf
                       );
 
         if(!empty($nova_senha)){
@@ -61,6 +68,11 @@ class Dashboardmodel extends CI_Model{
         $update = $this->db->update('usuarios', $dados);
 
         if($update){
+			
+			//christopher flores
+            if($tf == 1 && $oldtf == 0){
+                redirect('two-factor-authentication');
+            }//christopher flores
 
             return '<div class="alert alert-success text-center">Successfully changed data!</div>';
         }
