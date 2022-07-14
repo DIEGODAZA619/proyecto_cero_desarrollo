@@ -31,15 +31,20 @@ class Addplanmodel extends CI_Model{
     {
          $query = $this->db->query(" select *
                                       from planos
-                                 where id != 89327542
+                                 where valor != 0
                                      order by id  asc" ); 
         return $query->result();
     }
-    function getPlanesId($id)
-    {
+	
+	function getPlanesId($id){
          $query = $this->db->query(" select *
                                       from planos
                                  where id = ".$id); 
+        return $query->result();
+    }
+	
+	function getPlanesFree($nome){
+         $query = $this->db->query(" SELECT * FROM planos WHERE nome = '$nome' and valor = 0"); 
         return $query->result();
     }
 
@@ -47,18 +52,53 @@ class Addplanmodel extends CI_Model{
     {
         $iduser = $this->input->post('iduser');      
         $opcionPlan = $this->input->post('opcionPlan');
-        if($opcionPlan > 0)
-        {
-            $descripcionPlan = $this->getPlanesId($opcionPlan);
+		
+		$tipoPlan = $this->input->post('tipoPlan');
+		
+		
+        if($opcionPlan > 0){
+			
+			$descripcionPlan = $this->getPlanesId($opcionPlan);
             $nomePlan = $descripcionPlan[0]->nome;
-            $data = array(
-                           
-                           'id_usuario'     =>$iduser,
-                           'id_plano'       =>$opcionPlan,                      
-                           'comprovante'    =>$nomePlan,                                                 
-                           'status'         =>0,
-                           'data_pagamento' =>date('Y-m-d H:i:s'),                      
-                        );
+			
+			if($tipoPlan == 1){
+			
+				$data = array(                           
+							   'id_usuario'=>$iduser,
+							   'id_plano'=>$opcionPlan,
+							   'comprovante'=>$nomePlan, 	
+							   'status'=>0,
+							);
+				
+			}else{
+				
+				$descripcionPlan = $this->getPlanesId($opcionPlan);
+            	$nomePlan = $descripcionPlan[0]->nome;
+				
+				/*edward cuentas free SIN PAGOS*/
+				
+				$descripcionPlanFree = $this->getPlanesId($opcionPlan);
+				$nomePlanFree = $descripcionPlanFree[0]->nome;
+				
+				/*==*/
+				$descripcionPlanFreeResult = $this->getPlanesFree($nomePlanFree);
+				$nomePlanFreeResult = $descripcionPlanFreeResult[0]->nome;
+				$idPlanFreeResult = $descripcionPlanFreeResult[0]->id;
+				
+				/*==*/
+				
+				/*edward cuentas free SIN PAGOS*/
+				
+				
+				$data = array(                           
+							   'id_usuario'=>$iduser,
+							   'id_plano'=>$idPlanFreeResult,
+							   'comprovante'=>$nomePlanFreeResult,	
+							   'data_pagamento'=>date('Y-m-d H:i:s'),	
+							   'status'=>1,
+							);
+				
+			}	
             $insert = $this->db->insert('faturas', $data);
 
             if($insert){

@@ -20,7 +20,6 @@
             <!--page title and breadcrumb end -->
             
             <!-- page start-->
-
             <div class="row">
                 <div class="col-sm-12">
                     <section class="panel">
@@ -76,9 +75,11 @@
                                   <div class="form-group">
                                       <label class="col-sm-3 control-label">WALLET</label>
                                       <div class="col-sm-6">
-                                            <input class="form-control u-rounded" name="cpf" id="cpf" value="<?php echo $usuario['usuario']->cpf;?>" type="text" required>
+                                            <input  class="form-control u-rounded" name="cpf" value="<?php echo $usuario['usuario']->cpf;?>" type="text">
                                       </div>
                                   </div>
+									
+									
 
                                   <div class="form-group">
                                       <label class="col-sm-3 control-label">Celular</label>
@@ -93,6 +94,19 @@
                                             <input type="radio" name="is_admin" value="0" <?php echo ($usuario['usuario']->is_admin == 0) ? 'checked' : '';?>> Não
                                       </div>
                                   </div>
+									
+								  <!-- manuel -->
+								
+								  <div class="form-group">
+                                      <label class="col-sm-3 control-label">Two Factor</label>
+                                      <div class="col-sm-6">
+                                            <input type="checkbox" name="twofactor" value="1" <?php echo ($usuario['usuario']->active_twofactor == 1) ? 'checked' : '';?>> Active
+                                      </div>
+                                  </div>	
+									
+								  <!-- manuel --> 	
+									
+									
                                 </div>
 
                               </div>
@@ -129,14 +143,14 @@
                                   <h3 class="text-center">Financeiro</h3>
                                   
                                   <div class="form-group">
-                                      <label class="col-sm-3 control-label">Saldo Rendimentos</label>
+                                      <label class="col-sm-3 control-label">Bono diario/rango/binario</label>
                                       <div class="col-sm-6">
                                             <input class="form-control u-rounded" name="saldo_rendimentos" value="<?php echo $usuario['usuario']->saldo_rendimentos;?>" type="text" required>
                                       </div>
                                   </div>
 
                                   <div class="form-group">
-                                      <label class="col-sm-3 control-label">Saldo Indicações</label>
+                                      <label class="col-sm-3 control-label">Referral Bonus</label>
                                       <div class="col-sm-6">
                                             <input class="form-control u-rounded" name="saldo_indicacoes" value="<?php echo $usuario['usuario']->saldo_indicacoes;?>" type="text" required>
                                       </div>

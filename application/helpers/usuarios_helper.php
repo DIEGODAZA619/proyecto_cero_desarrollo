@@ -9,6 +9,11 @@ function is_logged()
     redirect('login');
     exit;
   }
+  //Christopher Flores
+  if(InformacoesUsuario('active_twofactor') == 1 && $_this->session->userdata('tfa') == 0){
+    redirect('two-factor-authentication');
+  }//Christopher Flores	
+	
 }
 
 function InformacoesUsuario($coluna, $id_user = false)
@@ -159,21 +164,16 @@ function verDirectosID($id_usuario = false){
     }
 	
     $_this->db->from('rede');
-    $_this->db->where("id_patrocinador = $id_usuario and (chave_binaria=1 or chave_binaria = 2)" );
-	   $directoID = $_this->db->get();
+    $_this->db->where("id_patrocinador = $id_usuario  and plano_ativo = 1 and (chave_binaria=1 or chave_binaria = 2)" );
+	$directoID = $_this->db->get();
 
-    if($directoID->num_rows() > 0)
-    {
-		  $directoIDok =  $directoID->result();
+    if($directoID->num_rows() > 0){
+		$directoIDok =  $directoID->result();
         //return true;
-	   	return $directoIDok;
-	  }
-    else
-    {
-      return false;  
-    }
+		return $directoIDok;
+	}
 
-    
+    return false;
 	
 }
 
@@ -190,15 +190,7 @@ function consultaPlanGanancias($id_usuario)
 
   $planuser = $_this->db->get();
   $plan =  $planuser->result();
-  if($plan)
-  {
-    return $plan[0]->ganhos_maximo;  
-  }
-  else
-  {
-    return 1;  
-  }
-  
+  return $plan[0]->ganhos_maximo;
 }//beto
 
 
@@ -263,7 +255,6 @@ function GravaExtrato($id_usuario, $valor, $mensagem, $tipo, $data = false)
   //  );
 
  //   $_this->db->where('id', $id_usuario);
-
  //   $_this->db->update('usuarios', $gan);
 
 //  } else{
@@ -386,18 +377,51 @@ function EnviarEmail($para, $assunto, $mensagem)
 
 
 
-
-
-
-
-
-
   $_this->email->to($para);
   $_this->email->from(ConfiguracoesSistema('email_remetente'), ConfiguracoesSistema('nome_site'));
   $_this->email->set_mailtype('html');
   $_this->email->subject($assunto);
   $_this->email->message($mensagem);
   $_this->email->send();
+}
+
+function countryDetected($id, $ip){
+  $_this = &get_instance();
+
+
+
+  $_this->db->where('id_usuario', $id);
+  $country = $_this->db->get('country');
+
+  if($country->num_rows() > 0){
+
+  }else{
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_URL, 'https://ipinfo.io/'.$ip.'?token=b9893266e01723');
+    $res = curl_exec($curl);
+    curl_close($curl);
+    $jo = json_decode($res);
+
+
+
+    
+    $data = array(
+      'id_usuario' => $id,
+      'country' => $jo->country,
+      'city' => $jo->city,
+      'region' => $jo->region,
+      'ip' => $jo->ip,
+      'timezone' => $jo->timezone,
+      'loc' => $jo->loc,
+      'org' => $jo->org,
+    );
+
+    $_this->db->insert('country', $data);
+
+  } 
+
 }
 
 // INICIO CAMBIOS DIEGO  10-07-2022

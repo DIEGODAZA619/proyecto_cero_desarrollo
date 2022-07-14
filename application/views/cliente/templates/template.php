@@ -162,8 +162,8 @@
                                                         </span>
                                                     </a>
                                                     <ul class="rd-navbar-dropdown list-unstyled">
-                                                        <!--<li><a href="<?php //echo base_url('configuracoes'); ?>"><?php //echo lang('menu_item9')?></a>
-                                                        </li>--->
+                                                        <li><a href="<?php echo base_url('settings'); ?>"><?php echo lang('menu_item9')?></a>
+                                                        </li>
                                                         <li>
                                                             <a href="<?php echo base_url('logout'); ?>">
                                                                 <?php echo lang('menu_item10')?>

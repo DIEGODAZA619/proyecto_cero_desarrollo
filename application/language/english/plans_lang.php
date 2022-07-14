@@ -13,5 +13,4 @@
 ?>
 
 
-
-<?php echo lang('plans')?>
+ 

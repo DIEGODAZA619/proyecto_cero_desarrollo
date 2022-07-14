@@ -3,26 +3,26 @@
 function diasSemana(){
 
     return array(
-                 0=>'Domingo',
-                 1=>'Segunda-Feira',
-                 2=>'Terça-Feira',
-                 3=>'Quarta-Feira',
-                 4=>'Quinta-Feira',
-                 5=>'Sexta-Feira',
-                 6=>'Sábado'
+                 0=>'Sunday',
+                 1=>'Monday',
+                 2=>'Tuesday',
+                 3=>'Wednesday',
+                 4=>'Thursday',
+                 5=>'Friday',
+                 6=>'Saturday'
                  );
 }
 
 function ExibeDiaSemanaById($id){
 
     $datas = array(
-                 0=>'Domingo',
-                 1=>'Segunda-Feira',
-                 2=>'Terça-Feira',
-                 3=>'Quarta-Feira',
-                 4=>'Quinta-Feira',
-                 5=>'Sexta-Feira',
-                 6=>'Sábado'
+                 0=>'Sunday',
+                 1=>'Monday',
+                 2=>'Tuesday',
+                 3=>'Wednesday',
+                 4=>'Thursday',
+                 5=>'Friday',
+                 6=>'Saturday'
                  );
 
     return $datas[$id];
@@ -61,19 +61,19 @@ function TempoAtras($timeBD) {
 
     // Agora
     if ($timeRes == 0){
-        $r = "agora";
+        $r = "now";
     } else
     // Segundos
     if ($timeRes > 0 and $timeRes < 60){
-        $r = $timeRes. " segundos atr&aacute;s";
+        $r = $timeRes. " seconds ago";
     } else
     // Minutos
     if (($timeRes > 59) and ($timeRes < 3599)){
         $timeRes = $timeRes / 60;
         if (round($timeRes,$nar) >= 1 and round($timeRes,$nar) < 2){
-            $r = round($timeRes,$nar). " minuto atr&aacute;s";
+            $r = round($timeRes,$nar). " minute ago";
         } else {
-            $r = round($timeRes,$nar). " minutos atr&aacute;s";
+            $r = round($timeRes,$nar). " minutes ago";
         }
     }
      else
@@ -83,10 +83,10 @@ function TempoAtras($timeBD) {
         $timeRes = $timeRes / 3600;
 
         if (round($timeRes,$nar) >= 1 and round($timeRes,$nar) < 2){
-            $r = round($timeRes,$nar). " hora atr&aacute;s";
+            $r = round($timeRes,$nar). " hour ago";
         }
         else {
-            $r = round($timeRes,$nar). " horas atr&aacute;s";
+            $r = round($timeRes,$nar). " hours ago";
         }
     } else
     // Dias
@@ -95,7 +95,7 @@ function TempoAtras($timeBD) {
 
         $timeRes = $timeRes / 86400;
         if (round($timeRes,$nar) >= 1 and round($timeRes,$nar) < 2){
-            $r = round($timeRes,$nar). " dia atr&aacute;s";
+            $r = round($timeRes,$nar). " day ago";
         } else {
 
             preg_match('/(\d*)\.(\d)/', $timeRes, $matches);
@@ -107,14 +107,14 @@ function TempoAtras($timeBD) {
                 $r = $ext;
 
                 // Formata o dia, singular ou plural
-                if ($ext >= 1 and $ext < 2){ $r.= " dia "; } else { $r.= " dias ";}
+                if ($ext >= 1 and $ext < 2){ $r.= " dia "; } else { $r.= " days ";}
 
                 // Imprime o final da data
-                $r.= "&frac12; atr&aacute;s";
+                $r.= "&frac12; ago";
 
 
             } else {
-                $r = round($timeRes,0) . " dias atr&aacute;s";
+                $r = round($timeRes,0) . " days ago";
             }
 
         }
@@ -125,7 +125,7 @@ function TempoAtras($timeBD) {
 
         $timeRes = $timeRes / 2592000;
         if (round($timeRes,$nar) >= 1 and round($timeRes,$nar) < 2){
-            $r = round($timeRes,$nar). " mes atr&aacute;s";
+            $r = round($timeRes,$nar). " month ago";
         } else {
 
             preg_match('/(\d*)\.(\d)/', $timeRes, $matches);
@@ -137,12 +137,12 @@ function TempoAtras($timeBD) {
                 $r.= $ext;
 
                 // Formata o mes, singular ou plural
-                if ($ext >= 1 and $ext < 2){ $r.= " mês "; } else { $r.= " meses ";}
+                if ($ext >= 1 and $ext < 2){ $r.= " month "; } else { $r.= " months ";}
 
                 // Imprime o final da data
-                $r.= "&frac12; atr&aacute;s";
+                $r.= "&frac12; ago";
             } else {
-                $r = round($timeRes,0) . " meses atr&aacute;s";
+                $r = round($timeRes,0) . " months ago";
             }
 
         }
@@ -152,9 +152,9 @@ function TempoAtras($timeBD) {
 
         $timeRes /= 31104000;
         if (round($timeRes,$nar) >= 1 and round($timeRes,$nar) < 2){
-            $r = round($timeRes,$nar). " ano atr&aacute;s";
+            $r = round($timeRes,$nar). " year ago";
         } else {
-            $r = round($timeRes,$nar). " anos atr&aacute;s";
+            $r = round($timeRes,$nar). " years ago";
         }
     } else
     // 5 anos, mostra data
@@ -168,7 +168,7 @@ function TempoAtras($timeBD) {
         $gmt['mes'] = $localTimeRes[4];
         $gmt['ano'] = round($localTimeNow[5] + 1900 - $timeRes,0);
 
-        $mon = array("Jan ","Fev ","Mar ","Abr ","Mai ","Jun ","Jul ","Ago ","Set ","Out ","Nov ","Dez ");
+        $mon = array("Jan ","Feb ","Mar ","Abr ","Mar ","Jun ","Jul ","Aug ","Sep ","Oct ","Nov ","Dec ");
 
         $r = $mon[$gmt['mes']] . $gmt['ano'];
     }

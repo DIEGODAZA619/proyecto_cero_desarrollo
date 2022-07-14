@@ -115,6 +115,7 @@ class Configuracoesmodel extends CI_Model{
         $quantidade_dias = $this->input->post('quantidade_dias');
         $paga_final_semana = $this->input->post('paga_final_semana');
         $taxa_saque = $this->input->post('taxa_saque');
+		$btc = $this->input->post('btc');
 
         $dias = $this->input->post('dias');
         $inicio = $this->input->post('inicio');
@@ -136,7 +137,7 @@ class Configuracoesmodel extends CI_Model{
                                     'porcentagem_dia'=>$porcentagem_dia,
                                     'quantidade_dias'=>$quantidade_dias,
                                     'paga_final_semana'=>$paga_final_semana,
-                                    'taxa_saque'=>$taxa_saque
+                                    'btc'=>$btc
                                     );
 
         $updateConfig = $this->db->update('configuracao', $dadosConfiguracoes);

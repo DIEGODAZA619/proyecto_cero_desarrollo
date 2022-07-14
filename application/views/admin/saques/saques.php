@@ -18,11 +18,19 @@
                 </div>
             </div>
             <!--page title and breadcrumb end -->
-
+<?php $valorBTc = ConfiguracoesSistema('btc');?>
             <div class="row">
+			
+		    	
+				
+				
+				
               <div class="col-sm-12">
                   <section class="panel">
                       <div class="panel-body">
+						  
+						  <a href="#0" id="payBlock" onClick="alert('Test mode \r\nWorking test mode block.io correctly')" class="btn btn-success pull-right "><i class="fas fa-dollar-sign"></i> Pay with Block.io</a>
+						  
                           <table class="table responsive-data-table table-striped">
                               <thead>
                               <tr>
@@ -39,6 +47,11 @@
                                   <th>
                                       Amount
                                   </th>
+								  
+								  <th>
+                                      BTC
+                                  </th>
+								  
                                   <th>
                                       Status
                                   </th>
@@ -85,6 +98,16 @@
                                   <td>
                                       USD <?php echo number_format($saque->valor, 2, ",", "."); ?>
                                   </td>
+								  
+								  
+								  <td>
+                                      <?php 
+										$saqueBTC = $saque->valor;
+										$amountBTC = $saque->valor / $valorBTc; 
+									    echo round($amountBTC, 8);
+									  ?>
+                                  </td>
+								  
                                   <td>
                                       <?php
                                       if($saque->status == 0){

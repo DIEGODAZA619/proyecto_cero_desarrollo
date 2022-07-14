@@ -9,7 +9,6 @@ class Faturas extends CI_Controller {
 
         $this->load->model('cliente/faturasmodel', 'FaturasModel');
         $this->load->helper('bancos');
-        $this->load->helper('rangos_helper'); // DIEGO
     }
 
     public function index(){

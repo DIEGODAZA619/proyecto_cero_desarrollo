@@ -271,15 +271,16 @@ class Faturasmodel extends CI_Model{
 
                                     $bonusIndicacao = ($this->todos_niveis[$nivel+1]/100) * $row->valor;
 
-                                    //DIEGO
-                                    $ganancias = $this->verificarLimiteGanancias($patrocinador, $bonusIndicacao,'IND');
-                                    /*$novoSaldoIndicacao = InformacoesUsuario('saldo_indicacoes', $patrocinador) + $bonusIndicacao;
+                                    //DIEGO  BEGIN
+                                     $ganancias = $this->verificarLimiteGanancias($patrocinador, $bonusIndicacao,'IND');
+                                     /*
+                                    $novoSaldoIndicacao = InformacoesUsuario('saldo_indicacoes', $patrocinador) + $bonusIndicacao;
                                     $this->db->where('id', $patrocinador);
                                     $this->db->update('usuarios', array('saldo_indicacoes'=>$novoSaldoIndicacao)); */
+                                    //DIEGO END
 
-                                    //DIEGO
-
-                                    GravaExtrato($patrocinador, $bonusIndicacao, 'User Referral Bonus '.InformacoesUsuario('login', $row->id_usuario), 1);
+									GravaExtrato($patrocinador, $bonusIndicacao, 'User Referral Bonus '.InformacoesUsuario('login',$rowFatura->id_usuario), 1);
+									 
 
                                 }
                             }

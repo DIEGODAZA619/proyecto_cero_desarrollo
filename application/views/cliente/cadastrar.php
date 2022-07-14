@@ -80,8 +80,8 @@
                                         <div class="mb-4 inputsito">
                                             <!-- <input type="text" class="form-control" required name="country" id="country" value="<?php echo set_value('country'); ?>" autocomplete="off"> -->
                                             <!-- <label for="celula" class="form-label">Country</label> -->
-                                            <select class="form-control"  id="country" name="country">
-                                                <option>Select Country</option>
+                                            <select class="form-control"  id="country" name="country" required>
+                                                <option></option>
                                                 <option value="AF">Afghanistan</option>
                                                 <option value="AX">Aland Islands</option>
                                                 <option value="AL">Albania</option>

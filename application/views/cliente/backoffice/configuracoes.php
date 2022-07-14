@@ -69,6 +69,22 @@
                   </div>
                 </div>
 				  
+			    <!--Christopher--> 
+				  <div class="col-md-12">
+					  <div class="mb-4 inputsito">
+							<input 
+							class="form-check form-check-input" 
+							name="twofactor" 
+							value="1"
+							<?php //echo InformacoesUsuario('active_twofactor') == 1 ? "checked" : "" ; ?>
+							type="checkbox" >
+							<label for="two-factor" class="form-label ms-4 mb-0">Activate Two Factor Authentication</label>
+					  </div>
+				  </div>
+				  <!--Christopher-->	  
+				 
+				    
+				  
 				<input class="form-control u-rounded" name="nova_senha" type="hidden" autocomplete="off">  
 
 

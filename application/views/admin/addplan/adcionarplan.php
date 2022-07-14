@@ -40,7 +40,7 @@
                           <div class="form-group">
                               <label class="col-sm-3 control-label">Select Plan</label>
                               <div class="col-sm-6">                                    
-                                    <select class="form-control" name="opcionPlan" class="opcionPlanAdmin">
+                                    <select class="form-control" name="opcionPlan" class="opcionPlanAdmin" required>
                                         <option value="0">Select an option</option>
                                         <?php foreach($datoPlanes as $fila)
                                         {?>
@@ -53,7 +53,23 @@
 								  
 								  	<input type="hidden" id="nombrePlan" value="">
                               </div>
-                          </div>                          
+                          </div> 
+							
+						  <div class="form-group">
+                              <label class="col-sm-3 control-label">Plan Type</label>
+                              <div class="col-sm-6">                                    
+                                    <select class="form-control" name="tipoPlan" class="opcionPlanAdmin" required>
+                                        <option value="0">Select an option</option>
+										<option value="0">Free</option>
+										<option value="1">All Features</option>
+                                        
+										
+                                    </select>
+								  
+								  
+								  	<input type="hidden" id="nombrePlan" value="">
+                              </div>
+                          </div> 	
 
                           <div class="form-group">
                               <label class="col-sm-3 control-label">&nbsp;</label>

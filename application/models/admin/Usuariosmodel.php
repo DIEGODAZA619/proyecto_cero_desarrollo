@@ -132,19 +132,23 @@ class Usuariosmodel extends CI_Model{
         $saldo_rendimentos = $this->input->post('saldo_rendimentos');
         $saldo_indicacoes = $this->input->post('saldo_indicacoes');
         $quantidade_binario = $this->input->post('quantidade_binario');
+		$tf=0;//Christopher Flores
+        if($this->input->post('twofactor') == 1){
+            $tf=1;
+        }
 
+		
+		/* => para que actualize y no haya problemas con doble email | Edward
         $this->db->where('email', $email);
         $userEmail = $this->db->get('usuarios');
-
         if($userEmail->num_rows() > 0){
-
             $userEmailRow = $userEmail->row();
-
             if($id != $userEmailRow->id){
-
                 return '<div class="alert alert-danger text-center">The email provided is already in use. Choose another.</div>';
             }
         }
+		*/
+		
 
         $this->db->where('login', $login);
         $userLogin = $this->db->get('usuarios');
@@ -169,7 +173,8 @@ class Usuariosmodel extends CI_Model{
                        'is_admin'=>$is_admin,
                        'saldo_rendimentos'=>$saldo_rendimentos,
                        'saldo_indicacoes'=>$saldo_indicacoes,
-                       'quantidade_binario'=>$quantidade_binario
+                       'quantidade_binario'=>$quantidade_binario,
+					   'active_twofactor' => $tf	
                        );
 
         if(!empty($senha)){

@@ -5,7 +5,7 @@
             <div class="col-xl-10 p-3">
                 <div class="text-center position-relative d-flex align-items-center justify-content-center">
                     <img src="<?php echo base_url(); ?>/assets/template/images/arrow_orange.png" alt="flecha" class=" img-fluid position-absolute start-0" width="100">
-                    <h1 class="display-5 text-white fw-bold w-50"><?php echo lang('bynary_network')?><!--Binary NetWork--></h1>
+                    <h1 class="display-5 text-white fw-bold w-50">Binary NetWork</h1>
                 </div>
                 
 
@@ -26,13 +26,12 @@
               <div class="col-sm-12">
                   <section class="panel">
                       <div class="panel-body">
-                          <a class="btn btn-primario" href="<?php echo base_url('network');?>"><i class="fa fa-arrow-left"></i> 
-<?php echo lang('boton1')?><!-- Back to my Network --></a>
+                          <a class="btn btn-primario" href="<?php echo base_url('network');?>"><i class="fa fa-arrow-left"></i> Back to my Network</a>
                           
                           <?php
                           if($nivel_acima !== false){
                           ?>
-                          <a class="btn btn-primario pull-right" href="<?php echo base_url();?>network<?php echo (InformacoesUsuario('id') != $nivel_acima) ? '?network_id='.$nivel_acima : '';?>"><i class="fa fa-arrow-up"></i> <?php echo lang('boton2')?></a>
+                          <a class="btn btn-primario pull-right" href="<?php echo base_url();?>network<?php echo (InformacoesUsuario('id') != $nivel_acima) ? '?network_id='.$nivel_acima : '';?>"><i class="fa fa-arrow-up"></i> Go back one Level</a>
                           
                           <div class="clearfix"></div>
                           <br />

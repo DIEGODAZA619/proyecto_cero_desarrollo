@@ -70,7 +70,7 @@
                                               # <?php echo $con++;?>
                                           </td>
                                           <td>
-                                              <?php echo verDatosUsuarios($fila->id_usuario);?>
+                                              <?php echo $fila->nome;?>
                                           </td>
                                           <td>
                                               <?php echo $fila->nivel_ganancia;?>

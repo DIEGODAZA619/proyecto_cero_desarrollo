@@ -67,9 +67,7 @@ class Cronmodel extends CI_Model{
 
         $UsuariosLadoMenor = array();
 
-        $pontos = $this->db->query("SELECT COALESCE(SUM(pontos), 0) as pontos, id_usuario, chave_binaria 
-                                    FROM rede_pontos_binario 
-                                    WHERE data <= '".date('Y-m-d')." 23:59:59' AND pago = 0 GROUP BY chave_binaria,id_usuario");
+        $pontos = $this->db->query("SELECT COALESCE(SUM(pontos), 0) as pontos, id_usuario, chave_binaria FROM rede_pontos_binario WHERE data <= '".date('Y-m-d')."' AND pago = '0' GROUP BY chave_binaria,id_usuario");
 
         if($pontos->num_rows() > 0){
 
@@ -80,13 +78,8 @@ class Cronmodel extends CI_Model{
                     /* Pega o lado menor e grava em um array */
                     if(!isset($UsuariosLadoMenor[$ponto->id_usuario])){
 
-                        $LadoEsquerdo = $this->db->query("SELECT COALESCE(SUM(pontos), 0) as pontos 
-                                                          FROM rede_pontos_binario 
-                                                          WHERE id_usuario = '".$ponto->id_usuario."' AND chave_binaria = 1 AND pago = 1");
-
-                        $LadoDireito = $this->db->query("SELECT COALESCE(SUM(pontos), 0) as pontos 
-                                                         FROM rede_pontos_binario 
-                                                         WHERE id_usuario = '".$ponto->id_usuario."' AND chave_binaria = 2 AND pago = 1");
+                        $LadoEsquerdo = $this->db->query("SELECT COALESCE(SUM(pontos), 0) as pontos FROM rede_pontos_binario WHERE id_usuario = '".$ponto->id_usuario."' AND chave_binaria = '1' AND pago = '1'");
+                        $LadoDireito = $this->db->query("SELECT COALESCE(SUM(pontos), 0) as pontos FROM rede_pontos_binario WHERE id_usuario = '".$ponto->id_usuario."' AND chave_binaria = '2' AND pago = '1'");
 
                         if($LadoEsquerdo->row()->pontos > $LadoDireito->row()->pontos){
                             $lado_menor = 2;
@@ -158,7 +151,7 @@ class Cronmodel extends CI_Model{
                                     $this->db->where('chave_binaria', $pagar_por);
                                     $this->db->update('rede_pontos_binario', array('pago'=>1));
 
-                                    GravaExtrato($ponto->id_usuario, $totalPagamento, 'Binary payout of the day', 1);
+                                    GravaExtrato($ponto->id_usuario, $totalPagamento, 'Pagamento do binário do dia', 1);
                                 }
                             }
                         }
@@ -209,14 +202,14 @@ class Cronmodel extends CI_Model{
                     $this->db->update('usuarios', array('saldo_rendimentos'=>$novo_saldo)); */
                     //DIEGO END
 
-                    GravaExtrato($fatura->id_usuario, $pagamento, 'Payment of plan income', 1);
+                    GravaExtrato($fatura->id_usuario, $pagamento, 'Pagamento do rendimento do plano', 1);
                 
                 }else{
 
                     $this->db->where('id', $fatura->id);
                     $this->db->update('faturas', array('status'=>0));
 
-                    EnviaNotificacao($fatura->id_usuario, 'Your plan has expired, to keep winning, buy another one now.');
+                    EnviaNotificacao($fatura->id_usuario, 'Seu plano expirou, para continuar ganhando, compre outro agora.');
                 }
             }
         }
@@ -304,6 +297,7 @@ class Cronmodel extends CI_Model{
 
                                             $this->db->where('id', $ponto->id_usuario);
                                             $this->db->update('usuarios', array('plano_carreira'=>$id));
+
                                             $this->db->insert('usuarios_plano_carreira', $dadosPlanoCarreira);
 
 
@@ -311,8 +305,8 @@ class Cronmodel extends CI_Model{
 
                                                 foreach($administradores as $administrador){
 
-                                                    EnviaNotificacao($administrador, 'The user '.InformacoesUsuario('login', $ponto->id_usuario).' entered the career plan: '.$quantidadePontos[$id]['plano'], 1);
-                                                    EnviaNotificacao($ponto->id_usuario, 'Congratulations, you have climbed your career ladder, now you are '.$quantidadePontos[$id]['plano']);
+                                                    EnviaNotificacao($administrador, 'O usuário '.InformacoesUsuario('login', $ponto->id_usuario).' entrou no plano de carreira: '.$quantidadePontos[$id]['plano'], 1);
+                                                    EnviaNotificacao($ponto->id_usuario, 'Parabéns, você subiu em seu plano de carreira, agora você é '.$quantidadePontos[$id]['plano']);
                                                 }
                                             }
                                         }

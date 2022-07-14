@@ -1,7 +1,7 @@
 <!--main content start-->
 
 <?php
-redirect('plans');
+//redirect('plans');
 ?>
 
 <section id="saque" class="d-flex justify-content-center align-items-center py-5 mt-3 my-auto">
@@ -10,7 +10,7 @@ redirect('plans');
       <div class="col-xl-12 p-3">
         <div class="text-center position-relative d-flex align-items-center justify-content-center">
           <img src="<?php echo base_url(); ?>/assets/template/images/arrow_orange.png" alt="flecha" class=" img-fluid position-absolute start-0" width="100">
-          <h1 class="display-5 text-white fw-bold w-50"><?php echo lang('invoices')?>Bills</h1>
+          <h1 class="display-5 text-white fw-bold w-50">Invoices</h1>
         </div>
         <div id="msj" class="alert alert-bg-danger"></div>
         <div class="content py-4 px-4 position-relative">
@@ -19,12 +19,12 @@ redirect('plans');
             <table id="tblDateEx" width='100%' class="w-100">
               <thead class="">
                 <tr>
-                  <th># <?php echo lang('invoices')?></th>
-                  <th><?php echo lang('plan')?><!-- Plan --></th>
-                  <th><?php echo lang('price')?><!-- Price --> (USD)</th>
-				          <th><?php echo lang('check')?><!-- Check on Etherscan --></th>	
-                  <th><?php echo lang('state')?><!-- State --></th>
-                  <th><?php echo lang('voucher')?><!-- Voucher --></th>
+                  <th># Invoices</th>
+                  <th>Plan</th>
+                  <th>Price (USD)</th>
+				  <!--<th>Check on Etherscan</th>-->
+                  <th>State</th>
+                  <th>Voucher</th>
               
                 </tr>
               </thead>
@@ -43,13 +43,13 @@ redirect('plans');
                         <p><?php echo $fatura->valor; ?></p>
                       </td>
 						
-					  <td id="comprobanteInvoice">
+					  <!--<td id="comprobanteInvoice">
 						  <?php $comprobante = $fatura->comprovante; ?>
 						  
-						  <a href="https://etherscan.io/tx/<?php echo $comprobante?>" target="_blank">
-						  	<?php echo $comprobante?>	
+						  <a href="https://etherscan.io/tx/<?php //echo $comprobante?>" target="_blank">
+						  	<?php //echo $comprobante?>	
 						  </a>	
-					   </td>	
+					   </td>-->	
 						
                       <td><span class="label v label-mini"><?php echo ($fatura->status == 0) ? 'Pending' : 'Released'; ?></span></td>
 
@@ -104,7 +104,6 @@ redirect('plans');
 
 <?php
 
-
 $url = "https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=ETH&api_key=2d7ace049cf4f13f3468b8e80e5b1ab8c7d7bf50abec7178570402e1e10445ba";
 $data = json_decode(file_get_contents($url), true);
 $latest_price = $data['ETH'];
@@ -120,6 +119,8 @@ $latest_price = $data['BNB'];
 <input type="hidden" id="latestPrice-BNB" value="<?php echo $latest_price; ?>">
 
 <script>
+/*	
+	
   async function connectWallet() {
     accounts = await window.ethereum.request({
       method: "eth_requestAccounts"
@@ -240,7 +241,7 @@ $latest_price = $data['BNB'];
 
         $.ajax({
           type: "post",
-          url: "<?php echo  base_url() ?>pay",
+          url: "<?php //echo  base_url() ?>pay",
           data: {
             "hash": txHash
           },
@@ -258,5 +259,5 @@ $latest_price = $data['BNB'];
       });
 
 
-  }
+  }*/
 </script>
