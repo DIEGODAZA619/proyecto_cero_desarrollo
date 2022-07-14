@@ -27,13 +27,13 @@ $config['security_key_system'] = '@Beto2020';
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://app.themetabiz.io/';
+$config['base_url'] = 'http://localhost/proyecto_cero_desarrollo';
 //$config['base_url'] = 'http://localhost/mmn_frontend/5/';
 
 
 
-$config['google_key'] = '6LfVOsggAAAAAI1QNEVjRSxYfQ25E2Kw2GBjxR89';
-$config['google_secret'] = '6LfVOsggAAAAAJjV1TqsZgF1n7cQa0leTq5lkGNE';
+$config['google_key'] = '6LeFAr8gAAAAAA2iOGC_fkzkkRxIS47ety0mKnY_';
+$config['google_secret'] = '6LeFAr8gAAAAAF5gsOyv_lDgOoAwQrHaiRnKJ55Q';
 
 
 
