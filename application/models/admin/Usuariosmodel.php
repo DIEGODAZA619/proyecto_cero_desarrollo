@@ -191,5 +191,26 @@ class Usuariosmodel extends CI_Model{
 
         return '<div class="alert alert-danger text-center">Error updating user. Try again.</div>';
     }
+
+    // INICIO CAMBIOS DIEGO
+    function GananciasNiveles($idUsuario)
+    {
+        $query = $this->db->query("select case when estado_ganancia = 1 then 'PENDING PAYMENT' else 'PAYMENT MADE' end as estado, g.*
+                                     from ganancias_rangos g
+                                    where id_usuario = ".$idUsuario."
+                                      and tipo_ganancia > 1
+                                      and estado_ganancia = 1
+                                    order by fecha_calculo asc"); 
+        return $query->result();
+    }
+
+    function getUsuarios($idUsuario)
+    {
+        $query = $this->db->query("select *
+                                     from usuarios
+                                    where id = ".$idUsuario);
+        return $query->result();
+    }
+    // FIN CAMBIOS DIEGO
 }
 ?>

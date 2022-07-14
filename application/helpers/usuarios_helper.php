@@ -423,3 +423,26 @@ function countryDetected($id, $ip){
   } 
 
 }
+
+// INICIO CAMBIOS DIEGO  10-07-2022
+function verDatosUsuarios($id_usuario = 0){
+    
+  $fila_m = & get_instance();
+  $fila_m->load->model('admin/usuariosmodel');
+
+  if($id_usuario == 0)
+  {
+    $id_usuario = $_this->session->userdata('uid');
+  }
+  $filas = $fila_m->usuariosmodel->getUsuarios($id_usuario);
+
+  if($filas)
+  {
+    return $filas[0]->nome;
+  }
+  else
+  {
+    return "";  
+  }
+}
+//
