@@ -199,7 +199,7 @@ class Faturasmodel extends CI_Model{
 
     public function TodasFaturas($status = false){
 
-        $this->db->select('f.comprovante, f.id, f.id_usuario, p.nome, p.valor');
+        $this->db->select('f.comprovante, f.id, f.id_usuario, p.nome, p.valor,f.data_pagamento'); //DIEGO
         $this->db->from('faturas AS f');
         $this->db->join('planos AS p', 'p.id = f.id_plano', 'inner');
         $this->db->order_by('f.data_pagamento', 'ASC');

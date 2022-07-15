@@ -39,6 +39,9 @@
                                       Valor
                                   </th>
                                   <th>
+                                      Date <!--DIEGO-->
+                                  </th>
+                                  <th>
                                       &nbsp;
                                   </th>
                                   
@@ -61,6 +64,9 @@
                                   </td>
                                   <td>
                                       <?php echo number_format($fatura->valor, 2, ",", "."); ?> USD
+                                  </td>
+                                  <td>
+                                      <?php echo $fatura->data_pagamento;//DIEGO?>
                                   </td>
                                   <td>
                                   <a class="btn btn-info" href="https://etherscan.io/tx/<?php echo $fatura->comprovante;?>" target="_blank"><i class="fa fa-picture"></i> Comprobante</a>
