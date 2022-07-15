@@ -98,9 +98,11 @@ class Rangomodel extends CI_Model{
     function calculosFecha($fechaCalculo)
     {
         $fechaCalculo = "'".$fechaCalculo."'";
-        $query = $this->db->query("select case when estado_ganancia = 1 then 'PENDING PAYMENT' else 'PAYMENT MADE' end as                            estado, g.*
-                                     from ganancias_rangos g
-                                    where tipo_ganancia > 1
+        $query = $this->db->query("select case when estado_ganancia = 1 then 'PENDING PAYMENT' else 'PAYMENT MADE' end as                            estado, g.*, u.nome
+                                     from usuarios u,
+                                          ganancias_rangos g
+                                    where u.id = g.id_usuario
+                                      and tipo_ganancia > 1
                                       and fecha_calculo = ".$fechaCalculo."                                      
                                     order by id_usuario, nivel_ganancia asc"); 
         return $query->result();

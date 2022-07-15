@@ -11,6 +11,7 @@ class Faturasmodel extends CI_Model{
 
     public function __construct(){
         parent::__construct();
+        $this->load->model('admin/Rangomodel', 'Rangomodel');  //DIEGO
     }
 
     public function ProcuraPatrocinador($id_usuario, $id_patrocinador, $chave_binaria){
@@ -270,14 +271,16 @@ class Faturasmodel extends CI_Model{
 
                                     $bonusIndicacao = ($this->todos_niveis[$nivel+1]/100) * $row->valor;
 
+                                    //DIEGO  BEGIN
+                                     $ganancias = $this->verificarLimiteGanancias($patrocinador, $bonusIndicacao,'IND');
+                                     /*
                                     $novoSaldoIndicacao = InformacoesUsuario('saldo_indicacoes', $patrocinador) + $bonusIndicacao;
-	
-
-
                                     $this->db->where('id', $patrocinador);
-                                    $this->db->update('usuarios', array('saldo_indicacoes'=>$novoSaldoIndicacao));
+                                    $this->db->update('usuarios', array('saldo_indicacoes'=>$novoSaldoIndicacao)); */
+                                    //DIEGO END
 
-                                    GravaExtrato($patrocinador, $bonusIndicacao, 'User Referral Bonus '.InformacoesUsuario('login', $row->id_usuario), 1);
+									GravaExtrato($patrocinador, $bonusIndicacao, 'User Referral Bonus '.InformacoesUsuario('login',$rowFatura->id_usuario), 1);
+									 
 
                                 }
                             }
@@ -364,7 +367,7 @@ class Faturasmodel extends CI_Model{
                 EnviaNotificacao($row->id_usuario, 'Plan activated successfully!');
 
                 $this->VerificaBinarioAtivo($id);
-				redirect('admin/faturas/liberar');
+redirect('admin/faturas/liberar');
                 return '<div class="alert alert-success text-center">Invoice released successfully!</div>';
             }else{
 
@@ -374,5 +377,67 @@ class Faturasmodel extends CI_Model{
 
         return '<div class="alert alert-danger text-center">Sorry, but the invoice has already been released or does not exist. Try again.</div>';
     }
+
+    //DIEGO BEGIN
+    function verificarLimiteGanancias($id_usuario, $datoganancia,$tipo)
+    {
+        $valorpuntos     = $this->Rangomodel->comprasPaqueteFacturaUsuario($id_usuario); 
+        $idPaquete       = $valorpuntos[0]->id_plano;
+        $datosPaquete    = $this->Rangomodel->datosPaqueteUsuario($idPaquete);    
+        $valorPaquete    = $datosPaquete[0]->valor;
+        $valorMaximoGanancia     = $valorPaquete * 2.75;
+
+        $datosUsuarios      = $this->Rangomodel->getUsuarioId($id_usuario);
+        $saldo_rendimentos  = $datosUsuarios[0]->saldo_rendimentos;
+        $saldo_indicacoes   = $datosUsuarios[0]->saldo_indicacoes;
+        $ganancias          = $saldo_rendimentos + $saldo_indicacoes; //$datosUsuarios[0]->ganancias;
+
+        $totalGanancias     = $ganancias + $datoganancia;
+
+        if($totalGanancias <= $valorMaximoGanancia)
+        {
+          if ($tipo == 'REN' )
+          {
+              $saldo_rendimentos = $saldo_rendimentos + $datoganancia;
+          }
+          else
+          {
+              $saldo_indicacoes = $saldo_indicacoes + $datoganancia;
+          }
+          $ganancias = $ganancias + $datoganancia;
+        }
+        else
+        {
+
+          if($valorMaximoGanancia < $ganancias)
+          {
+            $datoganancia = 0;  
+          }
+          else
+          {
+            $datoganancia = $valorMaximoGanancia - $ganancias;
+          }
+          
+          if ($tipo == 'REN' )
+          {
+              $saldo_rendimentos = $saldo_rendimentos + $datoganancia;
+          }
+          else
+          {
+              $saldo_indicacoes = $saldo_indicacoes + $datoganancia;
+          }
+          $ganancias = $ganancias + $datoganancia;     
+        }
+        $data = array(
+          'saldo_rendimentos' => $saldo_rendimentos,
+          'saldo_indicacoes'  => $saldo_indicacoes,
+          'ganancias'         => $ganancias
+        );
+
+        $this->db->where('id', $id_usuario);
+        $this->db->update('usuarios', $data);
+        return  $datoganancia;
+    }
+    //DIEGO END
 }
 ?>
