@@ -18,7 +18,6 @@ application\views\admin\usuarios\puntosusuarios.php
 js
 assets\pages\admin\rangos.js
 
-
 -----------------------------------
 
 
