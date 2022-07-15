@@ -1,0 +1,46 @@
+para los roles de usuario ejecutar el script
+
+script_2022-07-10.sql
+
+
+SUBIR LOS SIGUIENTES ARCHIVOS 
+
+application\config\routes.php
+controlador
+application\controllers\admin\Conta.php       linea 35
+application\controllers\admin\Rangos.php
+application\controllers\admin\Dashboard.php
+application\controllers\admin\Usuarios.php    linea 17, 64, 79
+
+helpers
+application\helpers\usuarios_helper.php       linea 403 en adelante
+
+modelo
+application\models\admin\Contamodel.php	      linea 36
+application\models\admin\Faturasmodel.php	  liena 14, 274 al 280, 380 en adelante
+application\models\admin\Rangomodel.php       //nuevo
+application\models\admin\Usuariosmodel.php	  linea 194 en adelante
+
+application\models\cliente\Faturasmodel.php   linea 14, 310 al 316, 401 en adelante
+
+application\models\Cronmodel.php			  linea 142 al 150   203 al 209
+
+
+vista
+application\views\admin\rangos
+application\views\admin\usuarios\editar.php   linea 39-42, 47 - 49
+application\views\admin\usuarios\visualizar.php linea 38,39,275-341
+application\views\admin\dashboard\dashboardBlanco.php
+application\views\admin\login.php  linea 46
+
+js
+assets\pages\admin\rangos.js
+
+
+
+
+
+-----------------------------------
+
+
+
