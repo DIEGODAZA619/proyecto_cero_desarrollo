@@ -41,11 +41,11 @@ update plano_carreira set bono = 1, requesitos_planes = 0 where id = 11;
 
 
 INSERT INTO opciones(id,id_modulo, codigo_opciones, opcion, link, icono, nivel, orden, estado) 
-VALUES (23,0,13,'Calculation of ranges ','admin/rangos/calcular','',2,4,'AC');
+VALUES (25,0,13,'Qualified binary','admin/qualified-binary','',2,6,'AC');
 
 
 INSERT INTO usuarios_opciones(id_opcion, id_usuario) 
-VALUES (23,1);
+VALUES (25,1);
 
 
 ALTER TABLE extrato ADD COLUMN id_ganancia_rango int default 0;

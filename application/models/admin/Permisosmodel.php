@@ -31,7 +31,7 @@ class Permisosmodel extends CI_Model{
     {
         $query = $this->db->query(" select *
                                       from usuarios u
-                                    where is_admin > 0
+                                    where is_admin = 0
                                      "); 
         return $query->result();
     }
@@ -99,11 +99,35 @@ class Permisosmodel extends CI_Model{
                                          (SELECT case when ISNULL(sum(pontos)) then 0 else sum(pontos) end
                                             FROM rede_pontos_binario 
                                            WHERE id_usuario = u.id
-                                             and chave_binaria = 1) as derecha,
+                                             and chave_binaria = 1) as izquierda,
                                         (SELECT case when ISNULL(sum(pontos)) then 0 else sum(pontos) end
                                            FROM rede_pontos_binario 
                                           WHERE id_usuario = u.id
-                                            and chave_binaria = 2) as izquierda
+                                            and chave_binaria = 2) as derecha,
+                                        (select count(*)
+                                             from rede r 
+                                            where r.id_patrocinador_direto = u.id
+                                              and r.chave_binaria = 1
+                                              and exists (select f.id_usuario 
+                                                            from faturas f, planos p
+                                                           where f.id_plano = p.id
+                                                             and f.id_usuario = r.id_usuario
+                                                             and f.status = 1
+                                                             and p.valor > 0
+                                                            )
+                                        )as cantidadizquierda,
+                                        (select count(*)
+                                             from rede r 
+                                            where r.id_patrocinador_direto = u.id
+                                              and r.chave_binaria = 2
+                                              and exists (select f.id_usuario 
+                                                            from faturas f, planos p
+                                                           where f.id_plano = p.id
+                                                             and f.id_usuario = r.id_usuario 
+                                                             and f.status = 1
+                                                             and p.valor > 0
+                                                            )
+                                        )as cantidadderecha
                                      from usuarios u
                                       order by u.id asc ");
         return $query->result();

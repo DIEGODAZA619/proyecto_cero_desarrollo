@@ -287,6 +287,7 @@ $(document).ready(function(){
 
     $(document).on('click', '#cadastrar_carteira_bitcoin', function(){
 
+        
         let carteira_bitcoin = $('#carteira_bitcoin_input').val();
 
         if(carteira_bitcoin == ''){
@@ -400,8 +401,7 @@ $(document).ready(function(){
 
         let valor_saque = $('#valor_saque').val();
         let tipo_saque = $('#tipo_saque:checked').val();
-        let local_recebimento = $('#local_recebimento:checked').val();
-		
+        let local_recebimento = $('#local_recebimento:checked').val();		
 		/*edward*/
 		let timeSaque = $('#timeSaque').val();
 		let timeText = $('#timeText').val();
@@ -469,7 +469,13 @@ $(document).ready(function(){
                     swal('Erro!', 'The amount you are requesting is less than allowed. Please enter a higher value. ', 'error');
 
                 
-                }else{
+                }else if(callback.status == 5){
+
+                    swal('Excuse me!', 'Not enabled to withdraw. ', 'error'); //DIEGO
+
+                
+                }                
+                else{
 
                     swal('Desculpe', 'But there was an error in the withdrawal request (erro: '+callback.error+').', 'error');
                 }

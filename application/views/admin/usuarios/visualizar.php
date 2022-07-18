@@ -1,4 +1,6 @@
 <!--main content start-->
+<script src="<?php echo  base_url() ?>assets/permisos/jquery.js"></script>
+<script type="text/javascript" src="<?php echo  base_url() ?>assets/permisos/permisos.js"></script>
 <div id="content" class="ui-content">
     <div class="ui-content-body">
         <div class="ui-container">
@@ -75,6 +77,10 @@
                                         <tr>
                                           <td>Membro desde</td>
                                           <td><?php echo date('d/m/Y H:i:s', strtotime($usuario['usuario']->data_cadastro));?></td>
+                                        </tr>
+                                        <tr>
+                                          <td>Patrocinador</td>
+                                          <td><?php echo $usuario['patrocinador'];?></td>
                                         </tr>
                                       </table>
 
@@ -177,7 +183,7 @@
                                   }
                                   ?>
                                 </div>
-                                  <div class="tab-pane" id="binario">
+                                <div class="tab-pane" id="binario">
                                   <div class="row">
                                     <div class="col-sm-6">
                                       <table class="table table-striped">
@@ -220,6 +226,65 @@
                                       ?>
                                     </div>
                                   </div>
+                                  <div class="row">
+                                    <div class="col-sm-6">
+                                      <table class="table table-striped">
+                                        <thead>
+                                          <tr>
+                                            <th>#</th>
+                                            <th>Left side points</th>
+                                            <th>Date</th>
+                                            <th>Options</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <?php 
+                                          $con = 1;
+                                          foreach($puntosizquierdo as $fila){
+                                          ?>
+                                          <tr>
+                                            <td><?php echo $con++;?></td>
+                                            <td><?php echo $fila->pontos;?></td>
+                                            <td><?php echo $fila->data;?></td>
+                                            <td><span class='d-inline-block' tabindex='0' data-toggle='tooltip' title='Editar'>
+                                                <button class='btn btn-success' onclick = editarPuntos(<?php echo $fila->id?>,<?php echo $fila->pontos?>,1)>Edit</button>
+                                                </span>
+                                              </td>
+                                          </tr>
+                                        <?php }?>
+                                        </tbody>
+                                      </table>  
+                                    </div>
+                                    <div class="col-sm-6">
+                                      <table class="table table-striped">
+                                        <thead>
+                                          <tr>
+                                            <th>#</th>
+                                            <th>Right side points</th>
+                                            <th>Date</th>
+                                            <th>Options</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <?php 
+                                          $con = 1;
+                                          foreach($puntosderecho as $fila){
+                                          ?>
+                                          <tr>
+                                            <td><?php echo $con++;?></td>
+                                            <td><?php echo $fila->pontos;?></td>
+                                            <td><?php echo $fila->data;?></td>
+                                            <td><span class='d-inline-block' tabindex='0' data-toggle='tooltip' title='Editar'>
+                                                <button class='btn btn-success' onclick = editarPuntos(<?php echo $fila->id?>,<?php echo $fila->pontos?>,2)>Edit</button>
+                                                </span>
+                                                </span></td>
+                                          </tr>
+                                        <?php }?>
+                                        </tbody>
+                                      </table>  
+                                    </div>
+                                  </div>
+
                                 </div>
                                 <div class="tab-pane" id="extrato">
                                   <?php
@@ -352,4 +417,39 @@
 
     </div>
 </div>
+
+<div class="modal fade" id="editarPuntos" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header navbar-inverse">
+                <h4 class="modal-title" id="exampleModalLabel">EDITAR PUNTOS</h4>
+            </div>
+            <div class="modal-body">
+              <h4 class="modal-title" id="exampleModalLabelText "><strong id="ladotxt">EDITAR PUNTOS </strong></h4>
+                <form id="formularioPuntos">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>PUNTOS</label>
+                                <input type="hidden" class="form-control" id="txtDato" name="txtDato">
+                                <input type="text" class="form-control" id="txtPunto" name="txtPunto">
+                            </div>
+                        </div>
+                    </div> 
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cerrar</button>
+                <button id="rechazar" type="button" class="btn btn-primary" onclick="guardarPuntosActualizados();"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var enlace = "<?php echo  base_url() ?>";
+        baseurl(enlace);                
+    });
+
+</script>
 <!--main content end-->

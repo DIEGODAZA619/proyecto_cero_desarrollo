@@ -3,6 +3,7 @@ $(document).ready(function(){
     $('.responsive-data-table').DataTable({
         "PaginationType": "bootstrap",
         "ordering": false,
+        "aLengthMenu": [[10, 15, 30, -1], [10, 30, 100, "Todos"]], //DIEGO
         responsive: true,
         dom: '<"tbl-top clearfix"lfr>,t,<"tbl-footer clearfix"<"tbl-info pull-left"i><"tbl-pagin pull-right"p>>',
         "language": {

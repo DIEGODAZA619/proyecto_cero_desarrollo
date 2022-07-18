@@ -1,0 +1,24 @@
+para los roles de usuario ejecutar el script
+
+script.sql
+
+
+SUBIR LOS SIGUIENTES ARCHIVOS 
+
+application\config\routes.php
+controlador
+application\controllers\admin\Puntos.php      
+
+modelo
+application\models\admin\Permisosmodel.php 		 linea 94 en adelante
+
+vista
+application\views\admin\usuarios\puntosusuarios.php
+
+js
+assets\pages\admin\rangos.js
+
+-----------------------------------
+
+
+

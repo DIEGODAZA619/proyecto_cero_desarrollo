@@ -85,7 +85,7 @@ class Saquemodel extends CI_Model{
                        'categoria_conta'=>2,
                        'carteira_bitcoin'=>$carteira
                        );
-
+ 
         $insert = $this->db->insert('usuarios_contas', $dados);
 
         if($insert){
@@ -116,7 +116,7 @@ class Saquemodel extends CI_Model{
     //$taxa_saque = (ConfiguracoesSistema('taxa_saque') / 100 * $valor);
 	
 	/*edward*/	 
-	$taxa_saque = ($timeSaque / 100 * $valor);
+	  $taxa_saque = ($timeSaque / 100 * $valor);
 		  
     $valor_desconto = $valor - $taxa_saque;
 
@@ -124,26 +124,26 @@ class Saquemodel extends CI_Model{
     $this->db->where('id_usuario', $this->userid);
     $contas = $this->db->get('usuarios_contas');
 	
-	$fechaRetiro = date('Y-m-d H:i:s');   
-	   
-	if($timeSaque==10){
-		$fechaRetiroG = date("Y-m-d H:i:s", strtotime($fechaRetiro. "+1 days" ));
-	} 
-	   
-	if($timeSaque==7){
-		$fechaRetiroG = date("Y-m-d H:i:s", strtotime($fechaRetiro. "+7 days" ));
-	} 
-	   
-	if($timeSaque==5){
-		$fechaRetiroG = date("Y-m-d H:i:s", strtotime($fechaRetiro. "+15 days" ));
-	} 
-	   
-	if($timeSaque==2){
-		$fechaRetiroG = date("Y-m-d H:i:s", strtotime($fechaRetiro. "+30 days" ));
-	}    
+  	$fechaRetiro = date('Y-m-d H:i:s');   
+  	   
+  	if($timeSaque==10){
+  		$fechaRetiroG = date("Y-m-d H:i:s", strtotime($fechaRetiro. "+1 days" ));
+  	} 
+  	   
+  	if($timeSaque==7){
+  		$fechaRetiroG = date("Y-m-d H:i:s", strtotime($fechaRetiro. "+7 days" ));
+  	} 
+  	   
+  	if($timeSaque==5){
+  		$fechaRetiroG = date("Y-m-d H:i:s", strtotime($fechaRetiro. "+15 days" ));
+  	} 
+  	   
+  	if($timeSaque==2){
+  		$fechaRetiroG = date("Y-m-d H:i:s", strtotime($fechaRetiro. "+30 days" ));
+  	}    
 	
 	
-	//$fechaRetiroG = date("Y-m-d H:i:s", strtotime($fechaRetiro. "+$timeText days" ));
+	 //$fechaRetiroG = date("Y-m-d H:i:s", strtotime($fechaRetiro. "+$timeText days" ));
 		  
     $dados = array(
       'id_usuario' => $this->userid,
@@ -156,27 +156,32 @@ class Saquemodel extends CI_Model{
       'status' => 0,
       'data_pedido' => $fechaRetiroG
     );
+    $userRetira = $this->verificarRetiraUsuari($this->userid);//DIEGO
+    if($userRetira)//DIEGO
+    {
+      $insere = $this->db->insert('saques', $dados);
+      if ($insere) {
+        $mensagem = 'Hello <b>' . InformacoesUsuario('nome') . '</b>, a request to withdraw <b> ' . number_format($valor_desconto, 2, ",", ".") . ' USD</b> has been made to your account.This amount will soon be available in  ' . (($local_recebimento == 1) ? 'Your wallet.' : 'Your wallet.');
 
-    $insere = $this->db->insert('saques', $dados);
+        $novo_saldo = InformacoesUsuario($retirar_de) - $valor;
 
-    if ($insere) {
+        $this->db->where('id', $this->userid);
+        $this->db->update('usuarios', array($retirar_de => $novo_saldo));
 
-      $mensagem = 'Hello <b>' . InformacoesUsuario('nome') . '</b>, a request to withdraw <b> ' . number_format($valor_desconto, 2, ",", ".") . ' USD</b> has been made to your account.This amount will soon be available in  ' . (($local_recebimento == 1) ? 'Your wallet.' : 'Your wallet.');
+        GravaExtrato($this->userid, $valor_desconto, 'Withdraw request', 2);
+        GravaExtrato($this->userid, $taxa_saque, 'Withdraw fee', 2);
 
-      $novo_saldo = InformacoesUsuario($retirar_de) - $valor;
+        EnviarEmail(InformacoesUsuario('email'), 'Withdraw request', $mensagem);
 
-      $this->db->where('id', $this->userid);
-      $this->db->update('usuarios', array($retirar_de => $novo_saldo));
+        return json_encode(array('status' => 1));
+      } else {
 
-      GravaExtrato($this->userid, $valor_desconto, 'Withdraw request', 2);
-      GravaExtrato($this->userid, $taxa_saque, 'Withdraw fee', 2);
-
-      EnviarEmail(InformacoesUsuario('email'), 'Withdraw request', $mensagem);
-
-      return json_encode(array('status' => 1));
-    } else {
-
-      return json_encode(array('status' => 3, 'error' => '0002'));
+        return json_encode(array('status' => 3, 'error' => '0002'));
+      }
+    } //DIEGO
+    else             
+    {
+      return json_encode(array('status' => 5)); //DIEGO
     }
   }
 
@@ -276,6 +281,15 @@ class Saquemodel extends CI_Model{
       }
 
       return false;
+    }
+    //DIEGO
+    function verificarRetiraUsuari($id)
+    {
+      $query = $this->db->query(" select *
+                                      from usuarios
+                                 where id = ".$id."
+                                   and retira = 'SI'" ); 
+        return $query->result();
     }
 }
 ?>

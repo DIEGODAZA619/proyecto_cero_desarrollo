@@ -14,6 +14,7 @@ class Dashboard extends CI_Controller
         $this->load->model('cliente/dashboardmodel', 'DashboardModel');
         $this->load->model('cliente/contamodel', 'ContaModel'); //beto
         $this->load->model('cliente/planosmodel', 'PlanosModel'); //beto
+        $this->load->model('admin/usuariosmodel', 'UsuariosModel'); // DIEGO
     }
 
     public function index()
@@ -29,12 +30,14 @@ class Dashboard extends CI_Controller
             'vendor/needim/noty/lib/noty.min.js', //edward
             'assets/pages/cliente/chave.js' //edward	
         );
-
+        $idUsuario = $this->session->userdata('uid');   //diego        
         $data['rede'] = $this->RedeModel->QuantidadeTodaRede();
         $data['pontos'] = $this->PontosModel->PontosBinario(); //edward
         $data['directuser'] = $this->DashboardModel->directReferrals(); //edward
         $data['userPlain'] = $this->ContaModel->calcularProfit(InformacoesUsuario('id')); //beto	
         $data['plain'] = $this->PlanosModel->TodosPlanos(); //beto
+        $data['usuario'] = $this->UsuariosModel->getUsuarios($idUsuario);//diego
+        $data['ladoinscripcion'] = $this->UsuariosModel->getLadoInscripcionId($idUsuario);//diego
 
 
         $this->template->load('cliente/templates/template', 'cliente/backoffice/backoffice', $data);

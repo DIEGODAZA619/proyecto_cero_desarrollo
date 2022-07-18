@@ -1,0 +1,24 @@
+MYSQL
+AGregar el campo concho 
+ALTER TABLE rede_pontos_binario ADD concho INT NOT NULL AFTER data;
+
+
+Archivo Backoffice.php
+Ruta: application/views/cliente/backoffice
+Lineas 144 a la 146
+Lineas 161 a la 167
+Lineas 190 a la 225
+Lineas 418 a la 428
+Lineas 460 a la 463
+
+Archivo Dashboard.php
+Ruta: application/controllers/cliente
+Linea 35
+
+Archivo Pontosmodel.php
+Ruta: application/models/cliente
+Lineas 66 a la 99
+
+Archivo Cronmodel.php
+Ruta: application/models
+Lineas 72 a la 243

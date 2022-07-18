@@ -35,4 +35,28 @@ class Cron extends CI_Controller {
 
         }
     }
+
+    function pago_binario_actual()
+    {        
+        $datos = $this->CronModel->TodosUsuarios();
+        ECHO "PROCESANDO....<BR><BR>";
+        foreach ($datos as $fila)
+        {            
+            
+            $this->CronModel->PagaBinarioDia($fila->id);            
+            
+        }
+        ECHO "PROCESO TERMINADO....";
+    }
+
+    function pruebasLimites()
+    {
+        $id_usuario = 4663;
+        $ganancias = 500;
+        $valorPlan = 3000;
+        $valor = $this->CronModel->obtenerPagosDiarios($id_usuario,$valorPlan, $ganancias);
+        echo $valor;
+    }
+
+
 }

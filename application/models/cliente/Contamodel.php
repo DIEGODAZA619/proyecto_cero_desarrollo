@@ -245,7 +245,7 @@ class Contamodel extends CI_Model{
                               'saldo_rendimentos'=>0,
                               'saldo_indicacoes'=>0,
                               'plano_carreira'=>1,
-                              'binario'=>0,
+                              'binario'=>1,
                               'chave_binaria'=>1,
                               'block'=>0,
                               'data_cadastro'=>date('Y-m-d H:i:s')

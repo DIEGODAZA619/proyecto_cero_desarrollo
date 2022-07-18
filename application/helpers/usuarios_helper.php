@@ -424,25 +424,59 @@ function countryDetected($id, $ip){
 
 }
 
-// INICIO CAMBIOS DIEGO  10-07-2022
-function verDatosUsuarios($id_usuario = 0){
+function misReferidosDirectosCalificadores($id_usuario = false){
     
-  $fila_m = & get_instance();
-  $fila_m->load->model('admin/usuariosmodel');
+    $_this =& get_instance();
 
-  if($id_usuario == 0)
-  {
-    $id_usuario = $_this->session->userdata('uid');
-  }
-  $filas = $fila_m->usuariosmodel->getUsuarios($id_usuario);
+    if($id_usuario === false){
+      $id_usuario = $_this->session->userdata('uid');
+    }
+  
+    $_this->db->from("rede as r
 
-  if($filas)
-  {
-    return $filas[0]->nome;
+          INNER JOIN faturas as f
+          ON r.id_usuario = f.id_usuario 
+
+          INNER JOIN planos as p 
+          ON f.id_plano = p.id
+          
+          WHERE r.id_patrocinador_direto  = $id_usuario AND f.status = 1 AND f.comprovante!='' AND f.data_pagamento!='' AND p.valor>0
+          GROUP BY (r.chave_binaria)
+          ORDER BY f.data_pagamento  DESC 
+  
+          ");
+  $refDirectos = $_this->db->get();
+  
+  
+    if($refDirectos->num_rows() > 0){
+    $refDirectosResult =  $refDirectos->result();
+        //return true;
+    return $refDirectosResult;
   }
-  else
-  {
-    return "";  
+
+    return false;
+  
+}
+
+function verLadoPatroDirecto($id_usuario = false){
+    
+    $_this =& get_instance();
+
+    if($id_usuario === false){
+      $id_usuario = $_this->session->userdata('uid');
+    }
+  
+    $_this->db->from('rede');
+    $_this->db->where("id_usuario = $id_usuario" );
+  $ladoInsPatDir = $_this->db->get();
+
+    if($ladoInsPatDir->num_rows() > 0){
+    $ladoInsPatDirResult =  $ladoInsPatDir->result();
+        //return true;
+    return $ladoInsPatDirResult;
   }
+
+    return false;
+  
 }
 //

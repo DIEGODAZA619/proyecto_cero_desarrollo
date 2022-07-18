@@ -1,0 +1,26 @@
+
+Ejecutar las siguientes lines instrucciones en sql 
+
+INSERT INTO opciones(id,id_modulo, codigo_opciones, opcion, link, icono, nivel, orden, estado) 
+VALUES (25,0,13,'Qualified binary','admin/qualified','',2,6,'AC');
+INSERT INTO usuarios_opciones(id_opcion, id_usuario) 
+VALUES (25,1);
+
+
+
+----router
+
+adicionar la siguiente linea
+
+$route['admin/qualified'] = 'admin/qualified';//diego
+
+--controller
+\application\controllers\admin
+
+Qualified.php
+
+--vistas
+
+\application\views\admin\configuracoes
+
+qualified-binary.php

@@ -25,8 +25,7 @@ class Permisos extends CI_Controller {
                                         'assets/bower_components/datatables-tabletools/js/dataTables.tableTools.js',
                                         'assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js',
                                         'assets/bower_components/datatables-colvis/js/dataTables.colVis.js',
-                                        'assets/bower_components/datatables-responsive/js/dataTables.responsive.js',
-                                        'assets/bower_components/datatables-scroller/js/dataTables.scroller.js'                                        
+                                        'assets/bower_components/datatables-responsive/js/dataTables.responsive.js'
                                       );
             $data['usuarios'] = $this->PermisosModel->getListaUsuarios();
             //recuperar roles desde la variable de session DIEGO

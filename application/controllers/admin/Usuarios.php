@@ -10,6 +10,7 @@ class Usuarios extends CI_Controller {
         $this->load->model('admin/usuariosmodel', 'UsuariosModel');
         $this->load->helper('bancos');
         $this->load->helper('permisos_helper');
+        $this->load->helper('usuarios_helper');
     }
 
     public function index(){
@@ -62,6 +63,8 @@ class Usuarios extends CI_Controller {
 
             $data['usuario'] = $this->UsuariosModel->DadosUsuario($id);
             $data['gananciasNiveles'] = $this->UsuariosModel->GananciasNiveles($id);
+            $data['puntosizquierdo'] = $this->UsuariosModel->getPuntosUsuarioId($id,1);
+            $data['puntosderecho'] = $this->UsuariosModel->getPuntosUsuarioId($id,2);            
             //recuperar roles desde la variable de session DIEGO
             $data['rolescero'] = $this->session->userdata('rolescero');
             $data['roles']     = $this->session->userdata('roles');
@@ -103,4 +106,111 @@ class Usuarios extends CI_Controller {
             redirect('admin/usuarios');
         }
     }
+
+    public function bloquear($id)
+    {
+
+        $idUsuario = $this->session->userdata('uid_admin');
+        $data['isAdmin'] = $this->session->userdata('is_admin'); 
+        $valorOpcionBD = 2;
+        $valorPermisoBD = 3;
+        $permiso = verificarPermisosUsuario($idUsuario,$valorOpcionBD,$valorPermisoBD);
+        if($permiso)
+        {            
+            $valor = 'NO';
+            $data['message'] = $this->UsuariosModel->actualizarRetiro($id,$valor); 
+        }
+        else
+        {
+            redirect('admin/usuarios');
+        }
+    }
+    public function desbloquear($id){
+
+        $idUsuario = $this->session->userdata('uid_admin');
+        $data['isAdmin'] = $this->session->userdata('is_admin');  //DIEGO      
+        $valorOpcionBD = 2;
+        $valorPermisoBD = 3;
+        $permiso = verificarPermisosUsuario($idUsuario,$valorOpcionBD,$valorPermisoBD);
+        if($permiso)
+        {            
+            $valor = 'SI';
+            $data['message'] = $this->UsuariosModel->actualizarRetiro($id,$valor); 
+        }
+        else
+        {
+            redirect('admin/usuarios');
+        }
+    }
+    function editarPuntosUsuario()
+    {
+        $idUsuario = $this->session->userdata('uid_admin');
+        $data['isAdmin'] = $this->session->userdata('is_admin');  //DIEGO      
+        $valorOpcionBD = 2;
+        $valorPermisoBD = 3;
+        $permiso = verificarPermisosUsuario($idUsuario,$valorOpcionBD,$valorPermisoBD);
+        if($permiso)
+        {            
+            $idpunto     = $this->input->post('txtDato');
+            $puntos     = $this->input->post('txtPunto');
+            $data = array(
+                'pontos' => $puntos
+                );
+            $updatePuntos = $this->UsuariosModel->updatePuntosUser($idpunto, $data);
+            $resul = 1;
+            $mensaje = "Points were updated successfully"; 
+        
+        }
+        else
+        {
+            $resul = 0;
+            $mensaje = "ACCESO DENEGADO";
+        }
+        $resultado ='[{                 
+                    "resultado":"'.$resul.'",
+                    "mensaje":"'.$mensaje.'"
+                    }]';
+        echo $resultado;
+    }
+    function editarVerPuntosUsuario()
+    {
+        $idUsuario = $this->session->userdata('uid_admin');
+        $data['isAdmin'] = $this->session->userdata('is_admin');  //DIEGO      
+        $valorOpcionBD = 24;
+        $valorPermisoBD = 1;
+        $permiso = verificarPermisosUsuario($idUsuario,$valorOpcionBD,$valorPermisoBD);
+        if($permiso)
+        {            
+            $idUser   = $this->input->post('idUser');
+            $tipo     = $this->input->post('ti');
+            if($tipo == 1)
+            { 
+                $tipo = "NO";
+            }
+            else
+            {
+                $tipo = "SI";
+            }
+            
+            $data = array(
+                'ver_puntos' => $tipo
+                );
+            $updatePuntos = $this->UsuariosModel->updateVerPuntosUser($idUser, $data);
+            
+            $resul = 1;
+            $mensaje = "Data updated successfully !!!";         
+        }
+        else
+        {
+            $resul = 0;
+            $mensaje = "ACCESO DENEGADO";
+        }
+        $resultado ='[{                 
+                    "resultado":"'.$resul.'",
+                    "mensaje":"'.$mensaje.'"
+                    }]';
+        echo $resultado;
+    }
+
+
 }

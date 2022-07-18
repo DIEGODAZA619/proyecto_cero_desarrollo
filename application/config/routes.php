@@ -148,5 +148,8 @@ $route['admin/addplan'] = 'admin/addplan';//diego
 $route['admin/addplan/adicionarPlan/(:num)'] = 'admin/addplan/adicionarPlan/$1';//diego
 $route['admin/rangos/calcular'] = 'admin/rangos/calcular';//diego
 $route['admin/puntos'] = 'admin/puntos';//diego
-
-
+$route['admin/usuarios/bloquear/(:num)'] = 'admin/usuarios/bloquear/$1'; //DIEGO 
+$route['admin/usuarios/desbloquear/(:num)'] = 'admin/usuarios/desbloquear/$1'; //DIEGO 
+$route['admin/qualified'] = 'admin/qualified';//diego
+$route['admin/qualified/editar/(:num)'] = 'admin/qualified/editar/$1';//diego
+$route['admin/puntos/verPuntosUsuario/(:num)'] = 'admin/puntos/verPuntosUsuario/$1';//diego

@@ -1,0 +1,22 @@
+AGREAR  LA RUTA
+
+$route['admin/qualified/editar/(:num)'] = 'admin/qualified/editar/$1';//PARA EDITAR
+
+SUBIR EL CONTROLADOR
+Qualified.php
+
+EN ESTA DIRECCION
+application\controllers\admin
+-------------------------------------application\controllers\admin
+SUBIR EL MODELO
+Qualifiedmodel.php
+
+EN ESTA DIRECCION
+application\models\admin
+-------------------------------------application\controllers\admin
+SUBIR LAS VISTAS 
+qualified-binary.php
+edit-qualified.php
+
+EN ESTA DIRECCION
+application\views\admin\configuracoes

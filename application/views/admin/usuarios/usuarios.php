@@ -42,7 +42,13 @@
                                       Plano de Carreira
                                   </th>
                                   <th>
-                                      &nbsp;
+                                      Tipo Plan
+                                  </th>
+                                  <th>
+                                      Retira
+                                  </th>
+                                  <th>&nbsp;
+                                      
                                   </th>
                                   
                               </tr>
@@ -69,8 +75,27 @@
                                       <?php echo PlanoCarreira($usuario->plano_carreira, 'nome'); ?>
                                   </td>
                                   <td>
+                                     <?php echo usersPlanActive($usuario->id); ?>
+                                  </td>
+                                  <td>
+                                     <?php echo $usuario->retira; ?>
+                                  </td>
+                                  <td>
                                     <a class="btn btn-success" href="<?php echo base_url('admin/usuarios/visualizar/'.$usuario->id);?>"><i class="fa fa-eye"></i> Visualizar</a>
                                     <a class="btn btn-info" href="<?php echo base_url('admin/usuarios/editar/'.$usuario->id);?>"><i class="fa fa-pencil"></i> Editar</a>
+
+                                    <?php if($usuario->retira == 'SI')
+                                    {?>
+                                      <a class="btn btn-danger" href="<?php echo base_url('admin/usuarios/bloquear/'.$usuario->id);?>"><i class="fa fa-pencil"></i> Bloquear Retiro</a>                                      
+                                    <?php }
+                                    else{
+                                      ?>
+                                      <a class="btn btn-warning" href="<?php echo base_url('admin/usuarios/desbloquear/'.$usuario->id);?>"><i class="fa fa-pencil"></i> Desbloquear Retiro</a>
+                                    
+                                    <?php
+                                    } ?>
+
+                                    
                                   </td>
                               </tr>
                               <?php

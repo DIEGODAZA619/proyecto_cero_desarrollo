@@ -64,12 +64,14 @@ class Usuariosmodel extends CI_Model{
             $this->db->from('rede_pontos_binario');
             $this->db->where('id_usuario', $id);
             $this->db->where('chave_binaria', 1);
+            $this->db->where('pago', 0);
             $queryBinarioEsquerdo = $this->db->get();
 
             $this->db->select_sum('pontos');
             $this->db->from('rede_pontos_binario');
             $this->db->where('id_usuario', $id);
             $this->db->where('chave_binaria', 2);
+            $this->db->where('pago', 0);
             $queryBinarioDireito = $this->db->get();
 
             if($queryBinarioEsquerdo->num_rows() > 0){
@@ -112,6 +114,7 @@ class Usuariosmodel extends CI_Model{
 
                 $dados['extrato'] = $extratos->result();
             }
+            $dados['patrocinador'] = $this->datosPatrocinador($id);
 
             return $dados;
         }
@@ -210,6 +213,96 @@ class Usuariosmodel extends CI_Model{
                                      from usuarios
                                     where id = ".$idUsuario);
         return $query->result();
+    }
+    // FIN CAMBIOS DIEGO
+
+    // INICIO CAMBIOS DIEGO
+
+    function actualizarRetiro($idUsuario, $valor)
+    {
+        $dados = array(
+                       'retira'=>$valor,                       
+                       );
+
+        $this->db->where('id', $idUsuario);
+        $update = $this->db->update('usuarios', $dados);
+
+        redirect('admin/usuarios');
+    }
+    function getVerificaPlan($idUsuario)
+    {
+        $query = $this->db->query("select p.valor
+                                     from faturas f, planos p
+                                    where f.id_plano = p.id 
+                                      and f.id_usuario = ".$idUsuario."
+                                    order by f.data_pagamento desc
+                                    limit 1");
+        return $query->result();
+    }
+    function getPuntosUsuarioId($idUsuario,$lado)
+    {
+        $query = $this->db->query("select *
+                                     from rede_pontos_binario p
+                                    where p.id_usuario = ".$idUsuario."
+                                      and p.chave_binaria = ".$lado."
+                                      and p.pago = 0
+                                    order by p.id asc");
+        return $query->result();
+    }
+    function updatePuntosUser($id,$data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('rede_pontos_binario', $data);
+    }
+    function datosPatrocinador($id)
+    {
+       $query = $this->db->query("select r.id_usuario, 
+                                         r.id_patrocinador, 
+                                         u.id, 
+                                         u.nome, 
+                                         u.login
+                                    from rede r, usuarios u
+                                   where r.id_patrocinador = u.id
+                                     and id_usuario = ".$id);
+        $result =  $query->result();
+        if($result)
+        {
+            return $result[0]->nome;
+        }
+        else
+        {
+            return "";
+        }
+    }
+    function patrocinadosDirectos($idUsuario, $lado)
+    {
+        $query = $this->db->query(" select u.id, u.nome,
+                                           (select data_pagamento 
+                                              from faturas 
+                                             where id_usuario = r.id_usuario
+                                             order by data_pagamento asc
+                                             limit 1)as fecha_factura 
+                                      from rede r, usuarios u 
+                                     where r.id_usuario = u.id
+                                       and r.id_patrocinador_direto = ".$idUsuario."
+                                       and r.chave_binaria = ".$lado."
+                                       and exists (select 1 
+                                                     from faturas 
+                                                    where id_usuario = r.id_usuario)");
+        return $query->result();
+    }
+    function getLadoInscripcionId($idUsuario)
+    {
+        $query = $this->db->query("select u.id, u.nome, u.login,u.ver_puntos,case when r.chave_binaria = 1 then 'LEFT' else 'RIGHT' end as lado_inscripcion
+                                     from rede r, usuarios u 
+                                    where r.id_usuario = u.id
+                                      and r.id_usuario = ".$idUsuario);
+        return $query->result();
+    }
+    function updateVerPuntosUser($id,$data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('usuarios', $data);
     }
     // FIN CAMBIOS DIEGO
 }

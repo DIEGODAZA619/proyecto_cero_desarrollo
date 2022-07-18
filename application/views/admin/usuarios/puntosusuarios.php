@@ -5,15 +5,15 @@
             <!--page title and breadcrumb start -->
             <div class="row">
                 <div class="col-md-8">
-                    <h1 class="page-title"> Usuários
-                        <small>todos usuários cadastrados</small>
+                    <h1 class="page-title"> Usuarios
+                        <small>view point user</small>
                     </h1>
                 </div>
                 <div class="col-md-4">
                     <ul class="breadcrumb pull-right">
                         <li>Home</li>
-                        <li>Usuários</li>
-                        <li><a href="<?php echo base_url('admin/usuarios');?>" class="active">Todos Usuários</a></li>
+                        <li>User</li>
+                        <li><a href="<?php echo base_url('admin/puntos');?>" class="active">Puntos Usuarios</a></li>
                     </ul>
                 </div>
             </div>
@@ -40,6 +40,12 @@
                                   </th>
                                   <th>
                                       Lado Derecho
+                                  </th>
+                                  <th>
+                                      Binary Compliant
+                                  </th> 
+                                  <th>
+                                      Options
                                   </th>                                  
                                                                                                     
                                   
@@ -63,8 +69,20 @@
                                    <td>
                                       <?php echo $usuario->izquierda; ?>
                                   </td>
-                                   <td>
+                                  <td>
                                       <?php echo $usuario->derecha;?>
+                                  </td>
+                                  <td>
+                                      <?php if($usuario->cantidadizquierda > 0 && $usuario->cantidadderecha > 0)
+                                            {echo "CHECK";}else{echo "NO";}?>
+                                  </td>
+                                  <td>
+                                      <?php if($usuario->cantidadizquierda > 0 && $usuario->cantidadderecha > 0)
+                                      {?>
+                                         <a class="btn btn-info" href="<?php echo base_url('admin/puntos/verPuntosUsuario/'.$usuario->id);?>" target= '_black'><i class="fa fa-pencil"></i> View Point</a>
+                                      <?php
+                                      }
+                                      ?>
                                   </td>
                                   
                               </tr>
