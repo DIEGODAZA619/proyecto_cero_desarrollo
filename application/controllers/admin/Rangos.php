@@ -375,7 +375,7 @@ class Rangos extends CI_Controller {
         $idPaquete       = $valorpuntos[0]->id_plano;
         $datosPaquete    = $this->Rangomodel->datosPaqueteUsuario($idPaquete);    
         $valorPaquete    = $datosPaquete[0]->valor;
-        $valorMaximoGanancia     = $valorPaquete * 2.75;
+        $valorMaximoGanancia = $valorPaquete * 2.75;
 
         $datosUsuarios      = $this->Rangomodel->getUsuarioId($id_usuario);
         $saldo_rendimentos  = $datosUsuarios[0]->saldo_rendimentos;

@@ -127,16 +127,27 @@ class Rangomodel extends CI_Model{
         $this->db->where('id',$id_registro);
         return $this->db->update('usuarios',$data);
     }
-    function guardarExtractosCarrera($data)
-    {
-        $this->db->insert('extrato',$data);
-        return $this->db->insert_id();
-    }
     function getConfiguraciones()
     {
         $query = $this->db->query("select *
                                      from configuracao
                                     where nome_site = 'Metabiz'"); 
+        return $query->result();
+    }
+
+    function guardarExtractosCarrera($data)
+    {
+        $this->db->insert('extrato',$data);
+        return $this->db->insert_id();
+    }
+    function getExtratoGananciaCheck($idUsuario,$valor,$fecha)
+    {
+        $fecha = "'".$fecha."'";
+        $query = $this->db->query("select *
+                                     from extrato
+                                    where id_usuario = ".$idUsuario."         
+                                      and DATE_FORMAT(data, '%Y-%m-%d') = ".$fecha."
+                                      and valor = ".$valor);
         return $query->result();
     }
     function getExtratoIdGanancia($id)
