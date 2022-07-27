@@ -52,6 +52,14 @@ class Masivosmodel extends CI_Model
         return $query->result();
     }
 
+    function datosPaqueteUsuario($paquete)
+    {
+        $query = $this->db->query("select *
+                                     from planos
+                                    where id =".$paquete ); 
+        return $query->result();
+    }
+
 
 
 

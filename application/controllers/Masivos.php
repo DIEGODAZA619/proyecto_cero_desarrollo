@@ -3,7 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Masivos extends CI_Controller {
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('admin/Rangomodel','Rangomodel');
         $this->load->model('masivosmodel','masivosmodel');
